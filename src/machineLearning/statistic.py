@@ -18,7 +18,6 @@ def get_median(numbers: List[Number]) -> float:
 
 def get_quartils(numbers: List[Number]) -> List[float]:
     median = get_median(numbers)
-    print(median)
     q1_numbers = []
     q3_numbers = []
     for number in numbers:
@@ -38,12 +37,17 @@ def get_whiskers(numbers: List[Number]) -> List[float]:
 
 
 def get_outliers_by_indicies(numbers: List[Number]) -> List[List[int]]:
-    lower_whisker, higher_whisker = get_whiskers(numbers)
+    if(len(numbers) < 3):
+        return [[], []]
+    values = numbers.copy()
+    lower_whisker, higher_whisker = get_whiskers(values)
     too_low = []
     too_high = []
     for i in range(len(numbers)):
         if(numbers[i] > higher_whisker):
+            print("ToHigh: " + str(i) + " " + str(numbers[i]))
             too_high.append(i)
         if(numbers[i] < lower_whisker):
+            print("toLow: " + str(i) + " " + str(numbers[i]))
             too_low.append(i)
     return [too_low, too_high]

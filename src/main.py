@@ -8,7 +8,7 @@ from classes.CarrierDataset import CarrierDataset
 
 while True:
     today_start = "2019-01-01T00:00:00Z"
-    today_end = "2019-01-01T23:59:59Z"
+    today_end = "2023-01-01T23:59:59Z"
     location_lat = "48.13"
     location_long = "11.57"
     carrier_ids = get_all_carrier_ids()
@@ -16,10 +16,10 @@ while True:
     carrier_datasets: List[CarrierDataset] = []
 
     for carrier_id in carrier_ids:
-        gps = get_gps(carrierId, today_start, today_end)
-        humidity = get_humidity(carrierId, today_start, today_end)
-        temperature = get_temperature(carrierId, today_start, today_end)
-        acceleration = get_acceleration(carrierId, today_start, today_end)
+        gps = get_gps(carrier_id, today_start, today_end)
+        humidity = get_humidity(carrier_id, today_start, today_end)
+        temperature = get_temperature(carrier_id, today_start, today_end)
+        acceleration = get_acceleration(carrier_id, today_start, today_end)
 
         carrier_datasets.append({
             "carrier_id": carrier_id,
@@ -31,10 +31,11 @@ while True:
 
     external_data = get_external_data(location_lat, location_long, today_start)
 
-    brokenCarrierIds = get_broken_carriers(carrier_datasets, external_data)
-    for carrierId in brokenCarrierIds:
-        create_maintance_order(carrierId)
-        set_carrier_state(carrierId, "broken")
+    brokenCarrier = get_broken_carriers(carrier_datasets, external_data)
+
+    for carrier in brokenCarrier:
+        create_maintance_order(carrier.id, carrier.assumption)
+        set_carrier_state(carrier.id, "broken")
 
     # wait 60 seconds before we do the next check
     time.sleep(60)

@@ -1,4 +1,7 @@
 
+from typing import List
+
+
 class GPSEntry:
     time: str
     lat: str
