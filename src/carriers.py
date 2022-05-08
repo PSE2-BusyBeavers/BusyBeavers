@@ -2,36 +2,7 @@ import json
 from typing import List
 from dateutil import parser
 
-
-class GPSEntry:
-    time: str
-    lat: str
-    long: str
-
-
-class TemperatureEntry:
-    time: str
-    value: float
-
-
-class HumidityEntry:
-    time: str
-    value: float
-
-
-class AccelerationEntry:
-    time: str
-    x: float
-    y: float
-    z: float
-
-
-class CarrierDataset:
-    carrierId: str
-    gps: List[GPSEntry]
-    temperature: List[TemperatureEntry]
-    humidity: List[HumidityEntry]
-    acceleration: List[AccelerationEntry]
+from classes.CarrierDataset import *
 
 
 def get_gps(carrier_id: str, start_time: str, end_time: str) -> List[GPSEntry]:
