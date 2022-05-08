@@ -45,9 +45,7 @@ def get_outliers_by_indicies(numbers: List[Number]) -> List[List[int]]:
     too_high = []
     for i in range(len(numbers)):
         if(numbers[i] > higher_whisker):
-            print("ToHigh: " + str(i) + " " + str(numbers[i]))
             too_high.append(i)
         if(numbers[i] < lower_whisker):
-            print("toLow: " + str(i) + " " + str(numbers[i]))
             too_low.append(i)
     return [too_low, too_high]
