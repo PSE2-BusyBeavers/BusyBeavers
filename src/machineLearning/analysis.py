@@ -11,9 +11,10 @@ from machineLearning.statistic import get_outliers_by_indicies
 def get_broken_carriers(carrier_datasets: List[CarrierDataset], external_data: ExternalData) -> List[BrokenCarrier]:
     broken_carriers: List[BrokenCarrier] = []
     interpret_external_data(external_data)
-    # broken_carriers = broken_carriers + get_invalid_gps(carrier_datasets)
+    broken_carriers = broken_carriers + get_invalid_gps(carrier_datasets)
     broken_carriers += get_invalid_temperature(carrier_datasets)
-
+    broken_carriers += get_invalid_accelleration(carrier_datasets)
+    broken_carriers += get_invalid_humidity(carrier_datasets)
     return broken_carriers
 
 
@@ -37,9 +38,17 @@ def deconstruct_dataset(carrier_datasets: List[CarrierDataset], variable: String
 
 def get_invalid_gps(carrier_datasets: List[CarrierDataset]):
     values, ids = deconstruct_dataset(carrier_datasets, "gps")
+    lat: List[float] = []
+    lon: List[float] = []
+    for gps in values:
+        lat.append(float(gps["lat"]))
+        lon.append(float(gps["lon"]))
 
-    outliners = get_outliers_by_indicies(values)
-    invalid_ids = outliners[0] + outliners[1]
+    outliners_lat = get_outliers_by_indicies(lat)
+    outliners_lon = get_outliers_by_indicies(lon)
+    invalid_ids_lan = outliners_lat[0] + outliners_lat[1]
+    invalid_ids_lon = outliners_lon[0] + outliners_lon[1]
+    invalid_ids = invalid_ids_lan + invalid_ids_lon
     carriers = []
     for invalid_id in invalid_ids:
         carriers.append(BrokenCarrier(ids[invalid_id], "GPS invalid"))
@@ -48,11 +57,35 @@ def get_invalid_gps(carrier_datasets: List[CarrierDataset]):
 
 def get_invalid_accelleration(carrier_datasets: List[CarrierDataset]):
     values, ids = deconstruct_dataset(carrier_datasets, "acceleration")
-    outliners = get_outliers_by_indicies(values)
-    invalid_ids = outliners[0] + outliners[1]
+    x: List[float] = []
+    y: List[float] = []
+    z: List[float] = []
+    for gps in values:
+        x.append(float(gps["x"]))
+        y.append(float(gps["y"]))
+        z.append(float(gps["z"]))
+
+    outliners_x = get_outliers_by_indicies(x)
+    outliners_y = get_outliers_by_indicies(y)
+    outliners_z = get_outliers_by_indicies(z)
+    invalid_ids_x = outliners_x[0] + outliners_x[1]
+    invalid_ids_y = outliners_y[0] + outliners_y[1]
+    invalid_ids_z = outliners_z[0] + outliners_z[1]
+    invalid_ids = invalid_ids_x + invalid_ids_y + invalid_ids_z
     carriers = []
     for invalid_id in invalid_ids:
         carriers.append(BrokenCarrier(ids[invalid_id], "Acceleration invalid"))
+    return carriers
+
+
+def get_invalid_humidity(carrier_datasets: List[CarrierDataset]):
+    values, ids = deconstruct_dataset(carrier_datasets, "humidity")
+    humidity = list(map(lambda x: float(x["HUMID"]), values))
+    outliners = get_outliers_by_indicies(humidity)
+    invalid_ids = outliners[0] + outliners[1]
+    carriers = []
+    for invalid_id in invalid_ids:
+        carriers.append(BrokenCarrier(ids[invalid_id], "Humidity invalid"))
     return carriers
 
 
