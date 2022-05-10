@@ -1,5 +1,3 @@
-
-
 from math import ceil, floor
 from numbers import Number
 from typing import List, Tuple
