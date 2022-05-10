@@ -3,7 +3,7 @@ from typing import List
 from carriers import get_acceleration, get_gps, get_humidity, get_temperature, get_all_carrier_ids, set_carrier_state
 from external_data import get_external_data
 from machineLearning.analysis import get_broken_carriers
-from maintance_orders import create_maintance_order
+from maintenance_orders import create_maintenance_order
 from classes.CarrierDataset import CarrierDataset
 
 while True:
@@ -34,7 +34,7 @@ while True:
     brokenCarrier = get_broken_carriers(carrier_datasets, external_data)
 
     for carrier in brokenCarrier:
-        create_maintance_order(carrier.id, carrier.assumption)
+        create_maintenance_order(carrier.id, carrier.assumption)
         set_carrier_state(carrier.id, "broken")
 
     # wait 60 seconds before we do the next check
