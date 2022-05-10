@@ -18,7 +18,6 @@ def get_gps(carrier_id: str, start_time: str, end_time: str) -> List[GPSEntry]:
         if (parsed_start_time <= parser.parse(x["time"]) <= parsed_end_time) and carrier_id == x["id"]:
             gps_data.append(x)
 
-    print(gps_data)
     return gps_data
 
 
@@ -35,7 +34,6 @@ def get_temperature(carrier_id: str, start_time: str, end_time: str) -> List[Tem
         if (parsed_start_time <= parser.parse(x["time"]) <= parsed_end_time) and carrier_id == x["id"]:
             temp_data.append(x)
 
-    print(temp_data)
     return temp_data
 
 
@@ -52,7 +50,6 @@ def get_humidity(carrier_id: str, start_time: str, end_time: str) -> List[Humidi
         if (parsed_start_time <= parser.parse(x["time"]) <= parsed_end_time) and carrier_id == x["id"]:
             humidity_data.append(x)
 
-    print(humidity_data)
     return humidity_data
 
 
@@ -69,7 +66,6 @@ def get_acceleration(carrier_id: str, start_time: str, end_time: str) -> List[Ac
         if (parsed_start_time <= parser.parse(x["time"]) <= parsed_end_time) and carrier_id == x["id"]:
             acceleration_data.append(x)
 
-    print(acceleration_data)
     return acceleration_data
 
 
@@ -84,7 +80,6 @@ def get_all_carrier_ids() -> List[str]:
         if x["id"] not in carrier_ids:
             carrier_ids.append(x["id"])
     carrier_ids.sort(key=int)
-    print(carrier_ids)
     return carrier_ids
 
 
