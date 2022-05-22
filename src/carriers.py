@@ -21,37 +21,8 @@ def get_gps(carrier_id: str, start_time: str, end_time: str) -> List[GPSEntry]:
     return gps_data
 
 
-def get_temperature(carrier_id: str, start_time: str, end_time: str) -> List[TemperatureEntry]:
-    parsed_start_time = parser.parse(start_time)
-    parsed_end_time = parser.parse(end_time)
-    temp_data = []
-
-    with open("JSON_Data/temp_data.json", "r") as j:
-        data = json.load(j)
-        j.close()
-
-    for x in data:
-        if (parsed_start_time <= parser.parse(x["time"]) <= parsed_end_time) and carrier_id == x["id"]:
-            temp_data.append(x)
-
-    return temp_data
-
-
-def get_humidity(carrier_id: str, start_time: str, end_time: str) -> List[HumidityEntry]:
-    parsed_start_time = parser.parse(start_time)
-    parsed_end_time = parser.parse(end_time)
-    humidity_data = []
-
-    with open("JSON_Data/humidity_data.json", "r") as j:
-        data = json.load(j)
-        j.close()
-
-    for x in data:
-        if (parsed_start_time <= parser.parse(x["time"]) <= parsed_end_time) and carrier_id == x["id"]:
-            humidity_data.append(x)
-
-    return humidity_data
-
+def get_location(carrier_id: str) -> str:
+    return "Mannheim"
 
 def get_acceleration(carrier_id: str, start_time: str, end_time: str) -> List[AccelerationEntry]:
     parsed_start_time = parser.parse(start_time)

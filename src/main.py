@@ -1,10 +1,11 @@
 import time
 from typing import List
-from carriers import get_acceleration, get_gps, get_humidity, get_temperature, get_all_carrier_ids, set_carrier_state
+from carriers import get_acceleration, get_gps,  get_all_carrier_ids, set_carrier_state, get_location
 from external_data import get_external_data
 from machineLearning.analysis import get_broken_carriers
 from maintenance_orders import create_maintenance_order
 from classes.CarrierDataset import CarrierDataset
+from src.weather import get_weather
 
 while True:
     today_start = "2019-01-01T00:00:00Z"
@@ -13,13 +14,19 @@ while True:
     location_long = "11.57"
     carrier_ids = get_all_carrier_ids()
 
+
     carrier_datasets: List[CarrierDataset] = []
 
     for carrier_id in carrier_ids:
         gps = get_gps(carrier_id, today_start, today_end)
-        humidity = get_humidity(carrier_id, today_start, today_end)
-        temperature = get_temperature(carrier_id, today_start, today_end)
+        locations = get_location(carrier_id)
+        weather = get_weather(locations)
+
+        humidity = weather.humitnity
+        temperature = weather.temp
         acceleration = get_acceleration(carrier_id, today_start, today_end)
+
+        print(weather)
 
         carrier_datasets.append({
             "carrier_id": carrier_id,

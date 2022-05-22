@@ -6,16 +6,10 @@ class GPSEntry:
     lat: str
     long: str
 
-
-class TemperatureEntry:
+class WeatherEntry:
     time: str
-    value: float
-
-
-class HumidityEntry:
-    time: str
-    value: float
-
+    temp: float
+    humitnity: float
 
 class AccelerationEntry:
     time: str
@@ -27,6 +21,6 @@ class AccelerationEntry:
 class CarrierDataset:
     carrierId: str
     gps: List[GPSEntry]
-    temperature: List[TemperatureEntry]
-    humidity: List[HumidityEntry]
+    temperature: float
+    humidity: float
     acceleration: List[AccelerationEntry]
