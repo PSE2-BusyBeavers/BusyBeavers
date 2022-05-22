@@ -5,7 +5,7 @@ from external_data import get_external_data
 from machineLearning.analysis import get_broken_carriers
 from maintenance_orders import create_maintenance_order
 from classes.CarrierDataset import CarrierDataset
-from src.weather import get_weather
+from weather import get_weather
 
 while True:
     today_start = "2019-01-01T00:00:00Z"
@@ -14,7 +14,6 @@ while True:
     location_long = "11.57"
     carrier_ids = get_all_carrier_ids()
 
-
     carrier_datasets: List[CarrierDataset] = []
 
     for carrier_id in carrier_ids:
@@ -22,7 +21,7 @@ while True:
         locations = get_location(carrier_id)
         weather = get_weather(locations)
 
-        humidity = weather.humitnity
+        humidity = weather.humidity
         temperature = weather.temp
         acceleration = get_acceleration(carrier_id, today_start, today_end)
 
