@@ -6,7 +6,7 @@ const pages = ['Ausstehend', 'In Reperatur', 'History'];
 
 const Navigation = () => {
   const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('xs'));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -17,8 +17,21 @@ const Navigation = () => {
     setAnchorElNav(null);
   };
 
+  if (isLargeScreen)
+    return (
+      <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+      {pages.map((page) => (
+        <Button
+          key={page}
+          onClick={handleCloseNavMenu}
+          sx={{ my: 2, color: 'white', display: 'block' }}
+        >
+          {page}
+        </Button>
+      ))}
+      </Box>
+    )
   return (
-    !isLargeScreen ? 
     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
       <IconButton
         size="large"
@@ -55,18 +68,6 @@ const Navigation = () => {
         ))}
       </Menu>
     </Box>
-      :
-    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-      {pages.map((page) => (
-        <Button
-          key={page}
-          onClick={handleCloseNavMenu}
-          sx={{ my: 2, color: 'white', display: 'block' }}
-        >
-          {page}
-        </Button>
-      ))}
-      </Box>
   )
 }
 

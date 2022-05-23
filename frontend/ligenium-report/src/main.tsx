@@ -9,7 +9,7 @@ import { Box } from '@mui/material';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MuiThemeProvider theme={brandingDarkTheme}>
-      <Box  sx={{ background: brandingDarkTheme.palette.background.default, width: "100vw", height: "100vh" }}>
+      <Box  sx={{ background: brandingDarkTheme.palette.background.default, width: "100vw", height: "100vh", overflow: "hidden" }}>
         <App />
       </Box>
     </MuiThemeProvider>
