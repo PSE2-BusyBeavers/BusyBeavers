@@ -1,0 +1,7 @@
+subscription SubscribeMaintenanceOrders {
+  maintenance_orders {
+    id
+    carrier_id
+    assumption
+  }
+}

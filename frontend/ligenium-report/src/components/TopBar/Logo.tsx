@@ -9,7 +9,7 @@ const Logo = () => {
       </Avatar>
       <Typography>
         Ligenium Praedictius
-        </Typography>
+      </Typography>
     </Stack>
   )
 }
