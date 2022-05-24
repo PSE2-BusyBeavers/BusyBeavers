@@ -10,7 +10,7 @@ services:
   graphql-engine:
     image: hasura/graphql-engine:v2.6.1.cli-migrations-v3
     ports:
-      - "8123:8080"
+      - "8124:8080"
     depends_on:
       - "postgres"
     restart: always
@@ -27,7 +27,7 @@ services:
       ## uncomment next line to set an admin secret
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
     volumes:
-      - ./hasura/metadata:/hasura-metadata
-      - ./hasura/migrations:/hasura-migrations
+      - ./metadata:/hasura-metadata
+      - ./migrations:/hasura-migrations
 volumes:
   db_data:
