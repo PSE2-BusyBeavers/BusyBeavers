@@ -84,10 +84,7 @@ def get_all_carrier_ids() -> List[str]:
 
 
 def set_carrier_state(carrier_id: str, state: str) -> None:
-    print("set_carrier_state")
-    print(carrier_id)
-    print(state)
-
+    print("set_carrier_state", carrier_id, 'to', state)
 
 # TESTING
 # get_gps("10", "2022-02-19T13:39:07Z", "2022-05-10T09:27:05Z")
