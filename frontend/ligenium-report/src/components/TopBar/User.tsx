@@ -18,7 +18,7 @@ const User = () => {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-        <Avatar alt="Remy Sharp" src="https://www.himalmag.com/wp-content/uploads/2019/07/sample-profile-picture.png" />
+        <Avatar alt="Remy Sharp" src="https://www.informatik.hs-mannheim.de/fileadmin/user_upload/fakultaeten/fakultaet_i/neue_webseite/Professoren_und_Mitarbeiter/peter-knauber-300px.jpg" />
       </IconButton>
       <Menu
         sx={{ mt: '45px' }}
