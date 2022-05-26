@@ -6,3 +6,5 @@ Start Frontend & Hasura:
 
 1. Go to ./scripts/
 2. Run `python run.py`
+
+Adming Secret Hasura: `myadminsecretkey`

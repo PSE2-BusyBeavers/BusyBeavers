@@ -1,26 +1,22 @@
 import TopBar from './../components/TopBar'
-import CarrierTable from './../components/CarrierTable'
-import { useMemo } from 'react'
-import { Box } from '@mui/material'
+import { useRef } from 'react'
+import { Grid } from '@mui/material'
 import useMaintanceOrders from '@src/hooks/useMaintanceOrders'
+import MenuDrawer from '@src/components/MenuDrawer'
+import CarrierContent from '@src/components/CarrierContent'
 
-
-
-function App() {
-  const [isLoading, carrier] = useMaintanceOrders();
-  
-  if(isLoading)
-    return (
-      <>
-        <TopBar />
-        <p>No carrier</p>;
-      </>
-    )
-
+function App () {
   return (
     <>
       <TopBar />
-      <CarrierTable carrier={carrier} />
+      <Grid container height='100%'>
+        <Grid item xs={2}>
+          <MenuDrawer />
+        </Grid>
+        <Grid item xs={10}>
+          <CarrierContent />
+        </Grid>
+      </Grid>
     </>
   )
 }
