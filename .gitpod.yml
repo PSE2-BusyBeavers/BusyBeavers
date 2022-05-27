@@ -4,14 +4,12 @@ tasks:
       cd backend/hasura
       docker-compose pull
     command: |
-      cd backend/hasura
       docker-compose up -d
   - name: Frontend
     init: |
       cd frontend/
       npm install
     command: |
-      cd frontend/
       npm start
 
 vscode:
