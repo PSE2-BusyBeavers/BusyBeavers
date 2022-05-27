@@ -58,7 +58,7 @@ const CarrierTable = ({ carrier }: Props) => {
   const columns: GridColumns = useMemo(
     () => [
       {
-        field: 'id',
+        field: 'carrier_id',
         headerName: 'Id',
         flex: 0.3
       },
