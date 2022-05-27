@@ -5,7 +5,9 @@ from external_data import get_external_data
 from machineLearning.analysis import get_broken_carriers
 from maintenance_orders import create_maintenance_order
 from classes.CarrierDataset import CarrierDataset
-from weather import get_weather
+# from weather import get_weather
+
+print("ligenium-praedictus starting ...")
 
 while True:
     today_start = "2019-01-01T00:00:00Z"
@@ -39,4 +41,4 @@ while True:
         set_carrier_state(carrier.id, "broken")
 
     # wait 60 seconds before we do the next check
-    time.sleep(60)
+    time.sleep(10)
