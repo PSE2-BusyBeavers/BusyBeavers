@@ -14,8 +14,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider value={client}>
       <AuthProvider>
-        <MuiThemeProvider theme={brandingDarkTheme}>
-          <Box sx={{ background: brandingDarkTheme.palette.background.default, width: "100vw", height: "100vh", overflow: "hidden" }}>
+        <MuiThemeProvider theme={brandingLightTheme}>
+          <Box sx={{ background: brandingLightTheme.palette.background.default, width: "100vw", height: "100vh", overflow: "hidden" }}>
             <App />
           </Box>
         </MuiThemeProvider>
