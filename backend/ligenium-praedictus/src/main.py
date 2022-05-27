@@ -5,6 +5,7 @@ from external_data import get_external_data
 from machineLearning.analysis import get_broken_carriers
 from maintenance_orders import create_maintenance_order
 from classes.CarrierDataset import CarrierDataset
+from weather import get_weather
 
 while True:
     today_start = "2019-01-01T00:00:00Z"
