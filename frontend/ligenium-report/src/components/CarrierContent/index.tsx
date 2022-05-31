@@ -4,12 +4,14 @@ import ControlBar from './ControlBar'
 import CarrierTable from './CarrierTable'
 import TabPanel from './TabPanel'
 import useMaintanceOrders from '@src/hooks/useMaintanceOrders'
+import Map from './Map'
 
 const CarrierContent = () => {
   const [selectedTab, setSelectedTab] = useState(0)
   const [isLoading, carrier] = useMaintanceOrders()
 
   const tabs = ['Übersicht', 'Heatmap']
+
   return (
     <Container sx={{ height: '100%', pt: 2 }}>
       <Box sx={{ width: '100%', height: '80%' }}>
@@ -31,9 +33,7 @@ const CarrierContent = () => {
           )}
         </TabPanel>
         <TabPanel value={selectedTab} index={1}>
-          <Typography variant='h5' color='HighlightText'>
-            Coming Soon
-          </Typography>
+          <Map />
         </TabPanel>
       </Box>
     </Container>

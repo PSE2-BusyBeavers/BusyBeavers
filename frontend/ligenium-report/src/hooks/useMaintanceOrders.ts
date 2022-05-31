@@ -3,7 +3,7 @@ import {
   SubscribeMaintenanceOrdersSubscription as MaintenanceOrdersSub,
   Maintenance_Orders
 
-} from './../api/client';
+} from '../api/client';
 
 const  handleSubscription = (oldResponse: MaintenanceOrdersSub | undefined, response: MaintenanceOrdersSub) => {
   const newIds = response.maintenance_orders.map((order) => order.id as string);
