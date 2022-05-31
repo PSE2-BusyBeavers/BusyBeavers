@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import ReactMapGL, { ViewStateChangeEvent } from 'react-map-gl'
+import MapGL, { ViewStateChangeEvent, Source, Layer } from 'react-map-gl'
+import { heatmapLayer } from './heatmapLayer'
+import testdata from './testdata'
 
 type Props = {}
 
-const Map = (props: Props) => {
+const Map = (_props: Props) => {
   const [mapViewport, setMapViewport] = useState({
     height: '100vh',
     width: '100wh',
@@ -21,16 +23,23 @@ const Map = (props: Props) => {
       zoom: state.zoom
     })
   }
+  const data = { type: 'FeatureCollection', features: testdata } as any
 
   return (
-    <ReactMapGL
+    <MapGL
       {...mapViewport}
       mapboxAccessToken={import.meta.env.VITE_MAPBOX_API}
       mapStyle={`https://api.maptiler.com/maps/streets/style.json?key=${
         import.meta.env.VITE_MAPTILER_API
       }`}
       onMove={handleViewportChange}
-    ></ReactMapGL>
+    >
+      {data && (
+        <Source type='geojson' data={data}>
+          <Layer {...heatmapLayer} />
+        </Source>
+      )}
+    </MapGL>
   )
 }
 
