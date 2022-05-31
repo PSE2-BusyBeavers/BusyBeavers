@@ -1,4 +1,5 @@
 import { DataGrid, GridColumns, GridInitialState } from '@mui/x-data-grid'
+import formatTableDate from '@src/utils/formatTableDate'
 import { useMemo } from 'react'
 type Props = {
   maintenances: {
@@ -40,12 +41,14 @@ const MaintenancesTable = ({ maintenances }: Props) => {
       {
         field: 'createdAt',
         headerName: 'Erstellunsdatum',
-        flex: 0.5
+        flex: 0.5,
+        valueGetter: formatTableDate
       },
       {
         field: 'lastUpdate',
         headerName: 'Letzte Änderung',
-        flex: 0.5
+        flex: 0.5,
+        valueGetter: formatTableDate
       },
       {
         field: 'status',
