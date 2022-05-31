@@ -2,23 +2,23 @@ import {
   List,
   ListItem,
   Toolbar,
-  styled,
   Paper,
   Container,
   ListItemButton,
   ListItemText
 } from '@mui/material'
 
-const pages = ['Kundenübersicht', 'Ladungsträger', 'Reparaturaufträge']
+const pages = ['Kundenübersicht', 'Ladungsträger', 'Reparaturaufträge'] as const
+export type Pages = typeof pages[number]
+interface Props {
+  selectedTab: Pages
+  onChangeTab: (tab: Pages) => void
+}
 
-const Content = styled('div')({
-  overflow: 'hidden',
-  height: '100%',
-  position: 'relative',
-  marginTop: 5
-})
-
-const MenuDrawer = () => {
+const MenuDrawer = ({ selectedTab, onChangeTab }: Props) => {
+  const handleTabClick = (tab: Pages) => () => {
+    onChangeTab(tab)
+  }
   return (
     <Paper
       sx={{ width: '100%', height: '100%', overflowY: 'auto', borderRadius: 0 }}
@@ -28,7 +28,10 @@ const MenuDrawer = () => {
         <List>
           {pages.map(page => (
             <ListItem key={page}>
-              <ListItemButton>
+              <ListItemButton
+                selected={selectedTab === page}
+                onClick={handleTabClick(page)}
+              >
                 <ListItemText>{page}</ListItemText>
               </ListItemButton>
             </ListItem>

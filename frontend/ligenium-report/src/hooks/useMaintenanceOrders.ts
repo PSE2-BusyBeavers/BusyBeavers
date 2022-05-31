@@ -14,7 +14,7 @@ const  handleSubscription = (oldResponse: MaintenanceOrdersSub | undefined, resp
   return { ...response, appointments };
 };
 
-const useMaintanceOrders = (): [boolean, Maintenance_Orders[]] => {
+const useMaintenanceOrders = (): [boolean, Maintenance_Orders[]] => {
   const [res] = useSubscribeMaintenanceOrdersSubscription({}, handleSubscription);
   if (!res.data)
     return [true, []]
@@ -25,4 +25,4 @@ const useMaintanceOrders = (): [boolean, Maintenance_Orders[]] => {
 }
 
 
-export default useMaintanceOrders;
+export default useMaintenanceOrders;

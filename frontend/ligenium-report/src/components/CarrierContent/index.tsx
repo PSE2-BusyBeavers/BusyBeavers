@@ -3,12 +3,12 @@ import { useState } from 'react'
 import ControlBar from './ControlBar'
 import CarrierTable from './CarrierTable'
 import TabPanel from './TabPanel'
-import useMaintanceOrders from '@src/hooks/useMaintanceOrders'
+import useMaintenanceOrders from '@src/hooks/useMaintenanceOrders'
 import Map from './Map'
 
 const CarrierContent = () => {
   const [selectedTab, setSelectedTab] = useState(0)
-  const [isLoading, carrier] = useMaintanceOrders()
+  const [isLoading, carrier] = useMaintenanceOrders()
 
   const tabs = ['Übersicht', 'Heatmap']
 
