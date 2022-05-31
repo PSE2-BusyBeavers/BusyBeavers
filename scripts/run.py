@@ -13,4 +13,4 @@ elif platform == "win32":
     os.system("start \"\" http://localhost:8124/")
     os.system("start \"\" http://localhost:3000/")
 
-os.system('cd ./../frontend && npm install && npm start')
+os.system('cd ./../frontend/ligenium-report && npm install && npm start')
