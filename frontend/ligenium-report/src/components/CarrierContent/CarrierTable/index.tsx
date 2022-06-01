@@ -11,10 +11,10 @@ import {
 import { useMemo } from 'react'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import SearchIcon from '@mui/icons-material/Search'
-import { Maintenance_Orders } from '../../../api/client'
+import { Order } from '../../../api/client'
 
 type Props = {
-  carrier: Maintenance_Orders[]
+  carrier: Order[]
 }
 
 const getColor = (status: string) => {
@@ -62,6 +62,11 @@ const CarrierTable = ({ carrier }: Props) => {
         headerName: 'Id',
         flex: 0.3
       },
+      {
+        field: 'carrier_id',
+        headerName: 'Carrier Id',
+        flex: 0.3
+      },
       // { field: 'name', headerName: 'Name', flex: 0.3 },
       {
         field: 'assumption',
@@ -74,6 +79,12 @@ const CarrierTable = ({ carrier }: Props) => {
       //     <Chip label={params.value} color={getColor(params.value as any)} variant="outlined" />
       //   )
       // },
+      {
+        field: 'status',
+        headerName: 'Status',
+        flex: 0.5
+        // field: 'error', headerName: 'Error', flex: 0.5, valueGetter: getErrorMessage
+      },
       {
         field: 'actions',
         type: 'actions',

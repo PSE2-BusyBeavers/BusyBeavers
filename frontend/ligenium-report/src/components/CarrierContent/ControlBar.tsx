@@ -28,7 +28,7 @@ function ControlBar ({ value, onChange, tabs }: Props) {
         aria-label='carrier-tab-navigation'
       >
         {tabs.map((label, index) => (
-          <Tab label={label} {...a11yProps(index)} />
+          <Tab label={label} {...a11yProps(index)} key={index} />
         ))}
       </Tabs>
     </Box>

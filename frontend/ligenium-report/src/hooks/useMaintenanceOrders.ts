@@ -1,28 +1,27 @@
 import {
-  useSubscribeMaintenanceOrdersSubscription,
-  SubscribeMaintenanceOrdersSubscription as MaintenanceOrdersSub,
-  Maintenance_Orders
+  useSubscribeOrdersSubscription,
+  SubscribeOrdersSubscription as OrdersSub,
+  Order,
+} from "./../api/client";
 
-} from '../api/client';
-
-const  handleSubscription = (oldResponse: MaintenanceOrdersSub | undefined, response: MaintenanceOrdersSub) => {
-  const newIds = response.maintenance_orders.map((order) => order.id as string);
+const handleSubscription = (
+  oldResponse: OrdersSub | undefined,
+  response: OrdersSub
+) => {
+  const newIds = response.order.map((order) => order.id);
   const appointments = [
-    ...(oldResponse?.maintenance_orders || []).filter((order) => !newIds.includes(order.id)),
-    ...response.maintenance_orders,
+    ...(oldResponse?.order || []).filter((order) => !newIds.includes(order.id)),
+    ...response.order,
   ];
   return { ...response, appointments };
 };
 
-const useMaintenanceOrders = (): [boolean, Maintenance_Orders[]] => {
-  const [res] = useSubscribeMaintenanceOrdersSubscription({}, handleSubscription);
-  if (!res.data)
-    return [true, []]
+const useMaintenanceOrders = (): [boolean, Order[]] => {
+  const [res] = useSubscribeOrdersSubscription({}, handleSubscription);
+  if (!res.data) return [true, []];
 
-    
-  const data = res.data.maintenance_orders;
-  return [false, data];
-}
-
+  const data = res.data.order;
+  return [false, data as Order[]];
+};
 
 export default useMaintenanceOrders;

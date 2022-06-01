@@ -1,7 +1,41 @@
-subscription SubscribeMaintenanceOrders {
-  maintenance_orders {
+subscription SubscribeOrders {
+  order {
     id
     carrier_id
+    carrier {
+      status
+      customer
+    }
     assumption
+    status
+    created_at
+    updated_at
+  }
+}
+
+subscription SubscribeCarriers {
+  carrier {
+    id
+    status
+    customer
+    created_at
+    updated_at
+  }
+}
+
+subscription SubscribeCarrier {
+  carrier {
+    id
+    status
+    customer
+    created_at
+    updated_at
+    orders {
+      id
+      status
+      assumption
+      created_at
+      updated_at
+    }
   }
 }
