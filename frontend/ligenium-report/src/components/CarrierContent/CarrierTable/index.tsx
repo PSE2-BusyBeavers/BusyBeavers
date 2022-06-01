@@ -1,4 +1,4 @@
-import { Container } from '@mui/material'
+import { Container, Chip, Tooltip } from '@mui/material'
 import {
   DataGrid,
   GridActionsCellItem,
@@ -11,16 +11,17 @@ import {
 import { useMemo } from 'react'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import SearchIcon from '@mui/icons-material/Search'
-import { Order } from '../../../api/client'
+import Carrier from '@src/types/Carrier'
+import getCarrierStatusLabel from '@src/utils/getCarrierStatusLabel'
 
 type Props = {
-  carrier: Order[]
+  carrier: Required<Carrier>[]
 }
 
 const getColor = (status: string) => {
-  if (status === 'In Repair') return 'warning'
-  if (status === 'Unobserved') return 'error'
-  if (status === 'Ready') return 'success'
+  if (status === 'locked') return 'warning'
+  if (status === 'active') return 'error'
+  if (status === 'in repair') return 'success'
   else return 'primary'
 }
 
@@ -29,32 +30,6 @@ const CarrierTable = ({ carrier }: Props) => {
     return params.row.error.message
   }
 
-  // TODO: extend carrier data
-  //  {
-  //     id: m.id,
-  //     name: "Lig-1 V2",
-  //     error: {
-  //       message: m.assumption,
-  //       value: '10 m/s^2 behind avarage',
-  //       code: "20",
-  //       origin: "accelerator"
-  //     },
-  //     status: "Unobserved",
-  //     lastUpdate: new Date(2022, 1, 20, 13, 54, 1)
-  //   })), [])
-  // {
-  //   id: "jfg8-325h-t32b-435f-k0a2",
-  //   name: "Lig-2 V2",
-  //   error: {
-  //     message: "Humidity is too high",
-  //     value: '20g/kg too high',
-  //     code: "42",
-  //     origin: "humidity"
-  //   },
-  //   status: "In Repair",
-  //   lastUpdate: new Date(2022, 2, 18, 13, 44, 32)
-  // }
-
   const columns: GridColumns = useMemo(
     () => [
       {
@@ -62,28 +37,25 @@ const CarrierTable = ({ carrier }: Props) => {
         headerName: 'Id',
         flex: 0.3
       },
-      {
-        field: 'carrier_id',
-        headerName: 'Carrier Id',
-        flex: 0.3
-      },
       // { field: 'name', headerName: 'Name', flex: 0.3 },
       {
         field: 'assumption',
-        headerName: 'Error',
+        headerName: 'Fehler',
         flex: 0.5
         // field: 'error', headerName: 'Error', flex: 0.5, valueGetter: getErrorMessage
       },
-      // {
-      //   field: 'status', headerName: 'Status', flex: 0.5, renderCell: (params: GridRenderCellParams<string[]>) => (
-      //     <Chip label={params.value} color={getColor(params.value as any)} variant="outlined" />
-      //   )
-      // },
+      //
       {
         field: 'status',
         headerName: 'Status',
-        flex: 0.5
-        // field: 'error', headerName: 'Error', flex: 0.5, valueGetter: getErrorMessage
+        flex: 0.5,
+        renderCell: (params: GridRenderCellParams<string>) => (
+          <Chip
+            label={getCarrierStatusLabel(params.value!)}
+            color={getColor(params.value as any)}
+            variant='outlined'
+          />
+        )
       },
       {
         field: 'actions',
@@ -95,12 +67,13 @@ const CarrierTable = ({ carrier }: Props) => {
             onClick={() => {}}
             disabled
           />,
-          <GridActionsCellItem
-            label='Report'
-            icon={<ReportGmailerrorredIcon />}
-            onClick={() => {}}
-            disabled
-          />
+          <Tooltip title='Report'>
+            <GridActionsCellItem
+              label='Report'
+              icon={<ReportGmailerrorredIcon />}
+              onClick={() => {}}
+            />
+          </Tooltip>
         ]
       }
     ],

@@ -5,7 +5,7 @@ import CarrierContent from '@src/components/CarrierContent'
 import { useState } from 'react'
 import { NavigationContext, Tab } from '@src/components/NavigationContext'
 import CustomerOverview from '@src/components/CustomerOverview'
-import MaintenanceOrders from '@src/components/MaintananceOrders'
+import MaintenanceOrders from '@src/components/MaintenanceOrders'
 
 function App () {
   const [selectedTab, setSelectedTab] = useState<Pages>('Kundenübersicht')

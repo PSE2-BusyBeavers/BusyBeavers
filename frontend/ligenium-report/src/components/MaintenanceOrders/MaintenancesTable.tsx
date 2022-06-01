@@ -1,5 +1,12 @@
-import { DataGrid, GridColumns, GridInitialState } from '@mui/x-data-grid'
+import { Chip } from '@mui/material'
+import {
+  DataGrid,
+  GridColumns,
+  GridInitialState,
+  GridRenderCellParams
+} from '@mui/x-data-grid'
 import formatTableDate from '@src/utils/formatTableDate'
+import getOrderStatusLabel from '@src/utils/getOrderStatusLabel'
 import { useMemo } from 'react'
 type Props = {
   maintenances: {
@@ -9,6 +16,13 @@ type Props = {
     lastUpdate: Date
     status: string
   }[]
+}
+
+const getColor = (status: string) => {
+  if (status === 'in_process') return 'warning'
+  if (status === 'error_detected') return 'error'
+  if (status === 'closed') return 'success'
+  else return 'primary'
 }
 
 const MaintenancesTable = ({ maintenances }: Props) => {
@@ -35,7 +49,7 @@ const MaintenancesTable = ({ maintenances }: Props) => {
       },
       {
         field: 'customer',
-        headerName: 'string',
+        headerName: 'Kunde',
         flex: 0.5
       },
       {
@@ -53,7 +67,14 @@ const MaintenancesTable = ({ maintenances }: Props) => {
       {
         field: 'status',
         headerName: 'Status',
-        flex: 0.5
+        flex: 0.5,
+        renderCell: (params: GridRenderCellParams<string>) => (
+          <Chip
+            label={getOrderStatusLabel(params.value!)}
+            color={getColor(params.value as any)}
+            variant='outlined'
+          />
+        )
       }
     ],
     []
