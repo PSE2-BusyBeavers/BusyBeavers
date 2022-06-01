@@ -16,6 +16,7 @@ import getCarrierStatusLabel from '@src/utils/getCarrierStatusLabel'
 
 type Props = {
   carrier: Required<Carrier>[]
+  onReport: (id: string) => void
 }
 
 const getColor = (status: string) => {
@@ -25,9 +26,13 @@ const getColor = (status: string) => {
   else return 'primary'
 }
 
-const CarrierTable = ({ carrier }: Props) => {
+const CarrierTable = ({ carrier, onReport }: Props) => {
   const getErrorMessage = (params: GridValueGetterParams) => {
     return params.row.error.message
+  }
+
+  const handleReport = (id: string) => () => {
+    onReport(id)
   }
 
   const columns: GridColumns = useMemo(
@@ -71,7 +76,7 @@ const CarrierTable = ({ carrier }: Props) => {
             <GridActionsCellItem
               label='Report'
               icon={<ReportGmailerrorredIcon />}
-              onClick={() => {}}
+              onClick={handleReport(params.row.carrier_id)}
             />
           </Tooltip>
         ]

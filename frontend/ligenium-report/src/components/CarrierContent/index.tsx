@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Container, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import ControlBar from './ControlBar'
 import CarrierTable from './CarrierTable'
 import TabPanel from './TabPanel'
@@ -13,16 +13,25 @@ const CarrierContent = () => {
 
   const tabs = ['Übersicht', 'Heatmap']
 
-  console.log(orders)
-  const carrier = orders.map(
-    order =>
-      ({
-        ...order.carrier,
-        id: order.carrier_id.toString() + '-' + order.id.toString(),
-        assumption: order.assumption,
-        carrier_id: order.carrier_id.toString()
-      } as Required<Carrier>)
+  const carrier = useMemo(
+    () =>
+      orders.map(
+        order =>
+          ({
+            ...order.carrier,
+            id: order.carrier_id.toString() + '-' + order.id.toString(),
+            assumption: order.assumption,
+            carrier_id: order.carrier_id.toString()
+          } as Required<Carrier>)
+      ),
+    [orders]
   )
+
+  const handleReportCarrier = (id: string) => {
+    const index = orders.findIndex(order => order.carrier_id.toString() === id)
+    if (index === -1) return
+    orders[index].status = 'locked'
+  }
 
   return (
     <Container sx={{ height: '100%', pt: 2 }}>
@@ -41,7 +50,7 @@ const CarrierContent = () => {
               <CircularProgress />
             </Box>
           ) : (
-            <CarrierTable carrier={carrier} />
+            <CarrierTable carrier={carrier} onReport={handleReportCarrier} />
           )}
         </TabPanel>
         <TabPanel value={selectedTab} index={1}>
