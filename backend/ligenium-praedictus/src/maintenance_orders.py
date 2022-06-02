@@ -11,7 +11,7 @@ def create_carrier(carrier_id: str):
     addCarrierQuery = gql(
     """
     mutation MyQuery($carrier_id: Int!, $customer: String!, $status: String!) {
-        insert_carrier_one(object: {id: $carrier_id, customer: $customer, status: $status}, on_conflict: { constraint: carrier_pkey, update_columns: [customer, status] }) {
+        insert_carrier_one(object: {id: $carrier_id, customer: $customer, status: $status}, on_conflict: { constraint: carrier_pkey, update_columns: [] }) {
             id
         }
     }
