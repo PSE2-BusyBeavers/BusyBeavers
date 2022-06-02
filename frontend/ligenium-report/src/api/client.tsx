@@ -914,6 +914,14 @@ export type UpdateCarrierMutationVariables = Exact<{
 
 export type UpdateCarrierMutation = { __typename?: 'mutation_root', update_carrier?: { __typename?: 'carrier_mutation_response', affected_rows: number } | null };
 
+export type UpdateOrderMutationVariables = Exact<{
+  id: Scalars['Int'];
+  status: Scalars['String'];
+}>;
+
+
+export type UpdateOrderMutation = { __typename?: 'mutation_root', update_order?: { __typename?: 'order_mutation_response', affected_rows: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
     subscription SubscribeOrders {
@@ -982,4 +990,15 @@ export const UpdateCarrierDocument = gql`
 
 export function useUpdateCarrierMutation() {
   return Urql.useMutation<UpdateCarrierMutation, UpdateCarrierMutationVariables>(UpdateCarrierDocument);
+};
+export const UpdateOrderDocument = gql`
+    mutation UpdateOrder($id: Int!, $status: String!) {
+  update_order(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
+  }
+}
+    `;
+
+export function useUpdateOrderMutation() {
+  return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
 };

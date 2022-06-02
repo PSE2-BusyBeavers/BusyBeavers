@@ -21,7 +21,8 @@ const MaintenanceOrders = (_props: Props) => {
     customer: order.carrier.customer,
     createdAt: new Date(order.created_at),
     lastUpdate: new Date(order.updated_at),
-    status: order.status
+    status: order.status,
+    carrierId: order.carrier_id.toString(),
   }))
 
   return (

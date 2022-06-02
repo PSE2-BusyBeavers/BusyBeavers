@@ -41,7 +41,13 @@ subscription SubscribeCarrier {
 }
 
 mutation UpdateCarrier($id: Int!, $status: String!) {
-  update_carrier(where: {id: {_eq: $id}}, _set: {status: $status}) {  
-    affected_rows 
+  update_carrier(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
+  }
+}
+
+mutation UpdateOrder($id: Int!, $status: String!) {
+  update_order(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
   }
 }
