@@ -906,6 +906,14 @@ export type SubscribeCarrierSubscriptionVariables = Exact<{ [key: string]: never
 
 export type SubscribeCarrierSubscription = { __typename?: 'subscription_root', carrier: Array<{ __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any, orders: Array<{ __typename?: 'order', id: number, status: string, assumption: string, created_at: any, updated_at: any }> }> };
 
+export type UpdateCarrierMutationVariables = Exact<{
+  id: Scalars['Int'];
+  status: Scalars['String'];
+}>;
+
+
+export type UpdateCarrierMutation = { __typename?: 'mutation_root', update_carrier?: { __typename?: 'carrier_mutation_response', affected_rows: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
     subscription SubscribeOrders {
@@ -963,4 +971,15 @@ export const SubscribeCarrierDocument = gql`
 
 export function useSubscribeCarrierSubscription<TData = SubscribeCarrierSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeCarrierSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeCarrierSubscription, TData>) {
   return Urql.useSubscription<SubscribeCarrierSubscription, TData, SubscribeCarrierSubscriptionVariables>({ query: SubscribeCarrierDocument, ...options }, handler);
+};
+export const UpdateCarrierDocument = gql`
+    mutation UpdateCarrier($id: Int!, $status: String!) {
+  update_carrier(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
+  }
+}
+    `;
+
+export function useUpdateCarrierMutation() {
+  return Urql.useMutation<UpdateCarrierMutation, UpdateCarrierMutationVariables>(UpdateCarrierDocument);
 };

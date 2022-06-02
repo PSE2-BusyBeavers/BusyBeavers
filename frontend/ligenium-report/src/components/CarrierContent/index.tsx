@@ -6,10 +6,12 @@ import TabPanel from './TabPanel'
 import useMaintenanceOrders from '@src/hooks/useMaintenanceOrders'
 import Map from './Map'
 import Carrier from '@src/types/Carrier'
+import { useUpdateCarrierMutation } from '@src/api/client'
 
 const CarrierContent = () => {
   const [selectedTab, setSelectedTab] = useState(0)
   const [isLoading, orders] = useMaintenanceOrders()
+  const [result, updateCarrier] = useUpdateCarrierMutation(); 
 
   const tabs = ['Übersicht', 'Heatmap']
 
@@ -28,9 +30,17 @@ const CarrierContent = () => {
   )
 
   const handleReportCarrier = (id: string) => {
-    const index = orders.findIndex(order => order.carrier_id.toString() === id)
+    const index = carrier.findIndex(c => c.carrier_id.toString() === id)
+    console.log(index)
     if (index === -1) return
-    orders[index].status = 'locked'
+    console.log({
+      carrier_id: parseInt(carrier[index].carrier_id),
+      status: "locked",
+    })
+    updateCarrier({
+      id: parseInt(carrier[index].carrier_id),
+      status: "locked",
+    })
   }
 
   return (
