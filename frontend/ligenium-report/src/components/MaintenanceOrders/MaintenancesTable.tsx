@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Chip } from '@mui/material'
+import { Button, ButtonGroup, Chip, Tooltip } from '@mui/material'
 import {
   DataGrid,
   GridActionsCellItem,
@@ -10,20 +10,13 @@ import {
 import formatTableDate from '@src/utils/formatTableDate'
 import getOrderStatusLabel from '@src/utils/getOrderStatusLabel'
 import { useMemo } from 'react'
-import FaceIcon from '@mui/icons-material/Face';
-import CheckIcon from '@mui/icons-material/Check'
-import PlumbingIcon from '@mui/icons-material/Plumbing';
 import { useUpdateOrderMutation } from '@src/api/client'
+import { Search } from '@mui/icons-material'
+import Order from '@src/types/Order'
 
 type Props = {
-  maintenances: {
-    id: string
-    customer: string
-    createdAt: Date
-    lastUpdate: Date
-    status: string
-    carrierId: string
-  }[]
+  maintenances: Order[]
+  onSelect?: (id: string) => void
 }
 
 const getColor = (status: string) => {
@@ -34,9 +27,7 @@ const getColor = (status: string) => {
   else return 'primary'
 }
 
-const MaintenancesTable = ({ maintenances }: Props) => {
-  const [ , updateOrder ] = useUpdateOrderMutation();
-
+const MaintenancesTable = ({ maintenances, onSelect }: Props) => {
   const initialState = useMemo<GridInitialState>(
     () => ({
       sorting: {
@@ -51,11 +42,8 @@ const MaintenancesTable = ({ maintenances }: Props) => {
     []
   )
 
-  const updateOrderStatus = (id: string, status: string) => () => {
-    updateOrder({
-      id: parseInt(id),
-      status,
-    })
+  const handleViewReport = (id: string) => () => {
+    onSelect && onSelect(id)
   }
 
   const columns: GridColumns = useMemo(
@@ -65,11 +53,11 @@ const MaintenancesTable = ({ maintenances }: Props) => {
         headerName: 'Auftragsnummer',
         flex: 0.3
       },
-      // {
-      //   field: 'customer',
-      //   headerName: 'Kunde',
-      //   flex: 0.5
-      // },
+      {
+        field: 'customer',
+        headerName: 'Kunde',
+        flex: 0.5
+      },
       {
         field: 'carrierId',
         headerName: 'Ladungsträger Id',
@@ -102,25 +90,15 @@ const MaintenancesTable = ({ maintenances }: Props) => {
       {
         field: 'actions',
         type: 'actions',
-        flex: 1.5,
+        flex: 0.2,
         getActions: (params: GridRowParams) => [
-          <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button
-              startIcon={<FaceIcon />}
-              onClick={updateOrderStatus(params.row.id, 'error_confirmed')}
-              disabled={params.row.status !== 'error_detected'}
-            >Confirm Issue</Button>
-            <Button
-              startIcon={<PlumbingIcon />}
-              onClick={updateOrderStatus(params.row.id, 'in_maintenance')}
-              disabled={params.row.status !== 'error_confirmed'}
-            >Start maintenance</Button>
-            <Button
-              startIcon={<CheckIcon />}
-              onClick={updateOrderStatus(params.row.id, 'close')}
-              disabled={params.row.status !== 'in_maintenance'}
-            >Close</Button>
-          </ButtonGroup>
+          <Tooltip title='View'>
+            <GridActionsCellItem
+              label='Report'
+              icon={<Search />}
+              onClick={handleViewReport(params.row.id)}
+            />
+          </Tooltip>
         ]
       }
     ],

@@ -239,6 +239,7 @@ export const getDesignTokens = (mode: 'light' | 'dark') =>
       fontSize: defaultTheme.typography.pxToRem(20),
       lineHeight: 30 / 20,
       letterSpacing: 0,
+      color: mode === 'dark' ? grey[200] : blueDark[700],
     },
     button: {
       textTransform: 'initial',

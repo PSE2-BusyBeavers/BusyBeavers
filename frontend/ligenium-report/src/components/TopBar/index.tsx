@@ -10,10 +10,10 @@ const PaperBar = styled(Paper)(({ theme }) => ({
 }))
 
 const TopBar = () => {
-  const [search, setSearch] = useState('')
-
+  const [search, _setSearch] = useState('')
   const handleSearch = () => {}
   const handleResetSearch = () => {}
+
   return (
     <AppBar position='static'>
       <PaperBar square>

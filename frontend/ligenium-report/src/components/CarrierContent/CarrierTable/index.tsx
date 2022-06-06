@@ -69,7 +69,6 @@ const CarrierTable = ({ carrier, onReport }: Props) => {
           <GridActionsCellItem
             label='Investigate'
             icon={<SearchIcon />}
-            onClick={() => {}}
             disabled
           />,
           <Tooltip title='Report'>
