@@ -1,30 +1,28 @@
-import { Box, CircularProgress, Container } from '@mui/material';
-import { DataGrid, GridColumns, GridInitialState } from '@mui/x-data-grid';
-import { useMemo } from 'react';
+import { Box, Button, CircularProgress, Container } from '@mui/material';
+import { DataGrid, GridColumns, GridInitialState, GridSelectionModel } from '@mui/x-data-grid';
+import { useMemo, useState } from 'react';
 import ControlBar from '@src/components/Incidents/ControlBar';
-import { useUpdateCarrierMutation } from '@src/api/client';
+import { useUpdateCarrierMutation, useCreateOrderMutation } from '@src/api/client';
 import useIncidents from '@src/hooks/useIncidents';
 import { useNavigate } from 'react-router-dom';
+import { Add } from '@mui/icons-material';
 
 const CarrierContent = () => {
   const [isLoading, incidents] = useIncidents();
-  const [result, updateCarrier] = useUpdateCarrierMutation();
   const navigate = useNavigate();
 
   const tabs = ['Übersicht', 'Heatmap'];
 
-  const handleReportCarrier = (id: string) => {
-    // const index = carrier.findIndex((c) => c.carrier_id.toString() === id);
-    // console.log(index);
-    // if (index === -1) return;
-    // console.log({
-    //   carrier_id: parseInt(carrier[index].carrier_id),
-    //   status: 'locked',
-    // });
-    // updateCarrier({
-    //   id: parseInt(carrier[index].carrier_id),
-    //   status: 'locked',
-    // });
+  const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
+
+  const [_, createOrder] = useCreateOrderMutation();
+
+  const createIncident = async () => {
+    const incidentIds = selectionModel as number[];
+    const result = await createOrder({
+      incidents: incidentIds.map((i) => ({ incident_id: i })),
+    });
+    navigate(`./../orders/${result.data?.insert_order_one?.id}`);
   };
 
   const columns: GridColumns = useMemo(
@@ -40,20 +38,6 @@ const CarrierContent = () => {
         flex: 0.5,
       },
     ],
-    [],
-  );
-
-  const initialState = useMemo<GridInitialState>(
-    () => ({
-      sorting: {
-        sortModel: [
-          {
-            field: 'id',
-            sort: 'asc',
-          },
-        ],
-      },
-    }),
     [],
   );
 
@@ -73,8 +57,26 @@ const CarrierContent = () => {
             <CircularProgress />
           </Box>
         ) : (
-          <Container sx={{ height: '100%', pt: 2 }}>
-            <DataGrid columns={columns} rows={incidents} initialState={initialState} checkboxSelection />
+          <Container sx={{ height: '100%', pt: 2, display: 'flex', flexDirection: 'column' }}>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              disabled={selectionModel.length < 1}
+              sx={{ ml: 'auto', mb: 2 }}
+              onClick={createIncident}
+            >
+              Auftrag erstellen
+            </Button>
+            <DataGrid
+              columns={columns}
+              rows={incidents}
+              checkboxSelection
+              className="w-full"
+              onSelectionModelChange={(newSelectionModel) => {
+                setSelectionModel(newSelectionModel);
+              }}
+              selectionModel={selectionModel}
+            />
           </Container>
         )}
       </Box>

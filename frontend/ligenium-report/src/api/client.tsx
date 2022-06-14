@@ -72,10 +72,6 @@ export type Carrier = {
   incidents: Array<Incident>;
   /** An aggregate relationship */
   incidents_aggregate: Incident_Aggregate;
-  /** An array relationship */
-  orders: Array<Order_Carriers>;
-  /** An aggregate relationship */
-  orders_aggregate: Order_Carriers_Aggregate;
   status: Scalars['String'];
   updated_at: Scalars['timestamptz'];
 };
@@ -98,26 +94,6 @@ export type CarrierIncidents_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Incident_Order_By>>;
   where?: InputMaybe<Incident_Bool_Exp>;
-};
-
-
-/** columns and relationships of "carrier" */
-export type CarrierOrdersArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
-};
-
-
-/** columns and relationships of "carrier" */
-export type CarrierOrders_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
 };
 
 /** aggregated selection of "carrier" */
@@ -165,7 +141,6 @@ export type Carrier_Bool_Exp = {
   customer?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   incidents?: InputMaybe<Incident_Bool_Exp>;
-  orders?: InputMaybe<Order_Carriers_Bool_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -187,7 +162,6 @@ export type Carrier_Insert_Input = {
   customer?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   incidents?: InputMaybe<Incident_Arr_Rel_Insert_Input>;
-  orders?: InputMaybe<Order_Carriers_Arr_Rel_Insert_Input>;
   status?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -241,7 +215,6 @@ export type Carrier_Order_By = {
   customer?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   incidents_aggregate?: InputMaybe<Incident_Aggregate_Order_By>;
-  orders_aggregate?: InputMaybe<Order_Carriers_Aggregate_Order_By>;
   status?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -339,8 +312,32 @@ export type Incident = {
   carrier_id: Scalars['Int'];
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
+  /** An array relationship */
+  orders: Array<Order_Incidents>;
+  /** An aggregate relationship */
+  orders_aggregate: Order_Incidents_Aggregate;
   status: Scalars['String'];
   updated_at: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "incident" */
+export type IncidentOrdersArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
+};
+
+
+/** columns and relationships of "incident" */
+export type IncidentOrders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 /** aggregated selection of "incident" */
@@ -418,6 +415,7 @@ export type Incident_Bool_Exp = {
   carrier_id?: InputMaybe<Int_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  orders?: InputMaybe<Order_Incidents_Bool_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -441,6 +439,7 @@ export type Incident_Insert_Input = {
   carrier_id?: InputMaybe<Scalars['Int']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
+  orders?: InputMaybe<Order_Incidents_Arr_Rel_Insert_Input>;
   status?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -496,6 +495,13 @@ export type Incident_Mutation_Response = {
   returning: Array<Incident>;
 };
 
+/** input type for inserting object relation for remote table "incident" */
+export type Incident_Obj_Rel_Insert_Input = {
+  data: Incident_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Incident_On_Conflict>;
+};
+
 /** on_conflict condition type for table "incident" */
 export type Incident_On_Conflict = {
   constraint: Incident_Constraint;
@@ -510,6 +516,7 @@ export type Incident_Order_By = {
   carrier_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  orders_aggregate?: InputMaybe<Order_Incidents_Aggregate_Order_By>;
   status?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -667,10 +674,10 @@ export type Mutation_Root = {
   delete_order?: Maybe<Order_Mutation_Response>;
   /** delete single row from the table: "order" */
   delete_order_by_pk?: Maybe<Order>;
-  /** delete data from the table: "order_carriers" */
-  delete_order_carriers?: Maybe<Order_Carriers_Mutation_Response>;
-  /** delete single row from the table: "order_carriers" */
-  delete_order_carriers_by_pk?: Maybe<Order_Carriers>;
+  /** delete data from the table: "order_incidents" */
+  delete_order_incidents?: Maybe<Order_Incidents_Mutation_Response>;
+  /** delete single row from the table: "order_incidents" */
+  delete_order_incidents_by_pk?: Maybe<Order_Incidents>;
   /** delete data from the table: "protocol" */
   delete_protocol?: Maybe<Protocol_Mutation_Response>;
   /** delete single row from the table: "protocol" */
@@ -685,10 +692,10 @@ export type Mutation_Root = {
   insert_incident_one?: Maybe<Incident>;
   /** insert data into the table: "order" */
   insert_order?: Maybe<Order_Mutation_Response>;
-  /** insert data into the table: "order_carriers" */
-  insert_order_carriers?: Maybe<Order_Carriers_Mutation_Response>;
-  /** insert a single row into the table: "order_carriers" */
-  insert_order_carriers_one?: Maybe<Order_Carriers>;
+  /** insert data into the table: "order_incidents" */
+  insert_order_incidents?: Maybe<Order_Incidents_Mutation_Response>;
+  /** insert a single row into the table: "order_incidents" */
+  insert_order_incidents_one?: Maybe<Order_Incidents>;
   /** insert a single row into the table: "order" */
   insert_order_one?: Maybe<Order>;
   /** insert data into the table: "protocol" */
@@ -707,10 +714,10 @@ export type Mutation_Root = {
   update_order?: Maybe<Order_Mutation_Response>;
   /** update single row of the table: "order" */
   update_order_by_pk?: Maybe<Order>;
-  /** update data of the table: "order_carriers" */
-  update_order_carriers?: Maybe<Order_Carriers_Mutation_Response>;
-  /** update single row of the table: "order_carriers" */
-  update_order_carriers_by_pk?: Maybe<Order_Carriers>;
+  /** update data of the table: "order_incidents" */
+  update_order_incidents?: Maybe<Order_Incidents_Mutation_Response>;
+  /** update single row of the table: "order_incidents" */
+  update_order_incidents_by_pk?: Maybe<Order_Incidents>;
   /** update data of the table: "protocol" */
   update_protocol?: Maybe<Protocol_Mutation_Response>;
   /** update single row of the table: "protocol" */
@@ -755,13 +762,13 @@ export type Mutation_RootDelete_Order_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootDelete_Order_CarriersArgs = {
-  where: Order_Carriers_Bool_Exp;
+export type Mutation_RootDelete_Order_IncidentsArgs = {
+  where: Order_Incidents_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootDelete_Order_Carriers_By_PkArgs = {
+export type Mutation_RootDelete_Order_Incidents_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -814,16 +821,16 @@ export type Mutation_RootInsert_OrderArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsert_Order_CarriersArgs = {
-  objects: Array<Order_Carriers_Insert_Input>;
-  on_conflict?: InputMaybe<Order_Carriers_On_Conflict>;
+export type Mutation_RootInsert_Order_IncidentsArgs = {
+  objects: Array<Order_Incidents_Insert_Input>;
+  on_conflict?: InputMaybe<Order_Incidents_On_Conflict>;
 };
 
 
 /** mutation root */
-export type Mutation_RootInsert_Order_Carriers_OneArgs = {
-  object: Order_Carriers_Insert_Input;
-  on_conflict?: InputMaybe<Order_Carriers_On_Conflict>;
+export type Mutation_RootInsert_Order_Incidents_OneArgs = {
+  object: Order_Incidents_Insert_Input;
+  on_conflict?: InputMaybe<Order_Incidents_On_Conflict>;
 };
 
 
@@ -897,18 +904,18 @@ export type Mutation_RootUpdate_Order_By_PkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Order_CarriersArgs = {
-  _inc?: InputMaybe<Order_Carriers_Inc_Input>;
-  _set?: InputMaybe<Order_Carriers_Set_Input>;
-  where: Order_Carriers_Bool_Exp;
+export type Mutation_RootUpdate_Order_IncidentsArgs = {
+  _inc?: InputMaybe<Order_Incidents_Inc_Input>;
+  _set?: InputMaybe<Order_Incidents_Set_Input>;
+  where: Order_Incidents_Bool_Exp;
 };
 
 
 /** mutation root */
-export type Mutation_RootUpdate_Order_Carriers_By_PkArgs = {
-  _inc?: InputMaybe<Order_Carriers_Inc_Input>;
-  _set?: InputMaybe<Order_Carriers_Set_Input>;
-  pk_columns: Order_Carriers_Pk_Columns_Input;
+export type Mutation_RootUpdate_Order_Incidents_By_PkArgs = {
+  _inc?: InputMaybe<Order_Incidents_Inc_Input>;
+  _set?: InputMaybe<Order_Incidents_Set_Input>;
+  pk_columns: Order_Incidents_Pk_Columns_Input;
 };
 
 
@@ -930,12 +937,12 @@ export type Mutation_RootUpdate_Protocol_By_PkArgs = {
 /** columns and relationships of "order" */
 export type Order = {
   __typename?: 'order';
-  /** An array relationship */
-  carriers: Array<Order_Carriers>;
-  /** An aggregate relationship */
-  carriers_aggregate: Order_Carriers_Aggregate;
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
+  /** An array relationship */
+  incidents: Array<Order_Incidents>;
+  /** An aggregate relationship */
+  incidents_aggregate: Order_Incidents_Aggregate;
   /** An array relationship */
   protocols: Array<Protocol>;
   /** An aggregate relationship */
@@ -946,22 +953,22 @@ export type Order = {
 
 
 /** columns and relationships of "order" */
-export type OrderCarriersArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
+export type OrderIncidentsArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 
 /** columns and relationships of "order" */
-export type OrderCarriers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
+export type OrderIncidents_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 
@@ -1025,9 +1032,9 @@ export type Order_Bool_Exp = {
   _and?: InputMaybe<Array<Order_Bool_Exp>>;
   _not?: InputMaybe<Order_Bool_Exp>;
   _or?: InputMaybe<Array<Order_Bool_Exp>>;
-  carriers?: InputMaybe<Order_Carriers_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  incidents?: InputMaybe<Order_Incidents_Bool_Exp>;
   protocols?: InputMaybe<Protocol_Bool_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -1049,311 +1056,6 @@ export enum Order_By {
   DescNullsLast = 'desc_nulls_last'
 }
 
-/** columns and relationships of "order_carriers" */
-export type Order_Carriers = {
-  __typename?: 'order_carriers';
-  /** An object relationship */
-  carrier: Carrier;
-  carrier_id: Scalars['Int'];
-  id: Scalars['Int'];
-  /** An object relationship */
-  order: Order;
-  order_id: Scalars['Int'];
-};
-
-/** aggregated selection of "order_carriers" */
-export type Order_Carriers_Aggregate = {
-  __typename?: 'order_carriers_aggregate';
-  aggregate?: Maybe<Order_Carriers_Aggregate_Fields>;
-  nodes: Array<Order_Carriers>;
-};
-
-/** aggregate fields of "order_carriers" */
-export type Order_Carriers_Aggregate_Fields = {
-  __typename?: 'order_carriers_aggregate_fields';
-  avg?: Maybe<Order_Carriers_Avg_Fields>;
-  count: Scalars['Int'];
-  max?: Maybe<Order_Carriers_Max_Fields>;
-  min?: Maybe<Order_Carriers_Min_Fields>;
-  stddev?: Maybe<Order_Carriers_Stddev_Fields>;
-  stddev_pop?: Maybe<Order_Carriers_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Order_Carriers_Stddev_Samp_Fields>;
-  sum?: Maybe<Order_Carriers_Sum_Fields>;
-  var_pop?: Maybe<Order_Carriers_Var_Pop_Fields>;
-  var_samp?: Maybe<Order_Carriers_Var_Samp_Fields>;
-  variance?: Maybe<Order_Carriers_Variance_Fields>;
-};
-
-
-/** aggregate fields of "order_carriers" */
-export type Order_Carriers_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Order_Carriers_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "order_carriers" */
-export type Order_Carriers_Aggregate_Order_By = {
-  avg?: InputMaybe<Order_Carriers_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Order_Carriers_Max_Order_By>;
-  min?: InputMaybe<Order_Carriers_Min_Order_By>;
-  stddev?: InputMaybe<Order_Carriers_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Order_Carriers_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Order_Carriers_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Order_Carriers_Sum_Order_By>;
-  var_pop?: InputMaybe<Order_Carriers_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Order_Carriers_Var_Samp_Order_By>;
-  variance?: InputMaybe<Order_Carriers_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "order_carriers" */
-export type Order_Carriers_Arr_Rel_Insert_Input = {
-  data: Array<Order_Carriers_Insert_Input>;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Order_Carriers_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Order_Carriers_Avg_Fields = {
-  __typename?: 'order_carriers_avg_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by avg() on columns of table "order_carriers" */
-export type Order_Carriers_Avg_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "order_carriers". All fields are combined with a logical 'AND'. */
-export type Order_Carriers_Bool_Exp = {
-  _and?: InputMaybe<Array<Order_Carriers_Bool_Exp>>;
-  _not?: InputMaybe<Order_Carriers_Bool_Exp>;
-  _or?: InputMaybe<Array<Order_Carriers_Bool_Exp>>;
-  carrier?: InputMaybe<Carrier_Bool_Exp>;
-  carrier_id?: InputMaybe<Int_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  order?: InputMaybe<Order_Bool_Exp>;
-  order_id?: InputMaybe<Int_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "order_carriers" */
-export enum Order_Carriers_Constraint {
-  /** unique or primary key constraint */
-  OrderCarriersPkey = 'order_carriers_pkey'
-}
-
-/** input type for incrementing numeric columns in table "order_carriers" */
-export type Order_Carriers_Inc_Input = {
-  carrier_id?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['Int']>;
-  order_id?: InputMaybe<Scalars['Int']>;
-};
-
-/** input type for inserting data into table "order_carriers" */
-export type Order_Carriers_Insert_Input = {
-  carrier?: InputMaybe<Carrier_Obj_Rel_Insert_Input>;
-  carrier_id?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['Int']>;
-  order?: InputMaybe<Order_Obj_Rel_Insert_Input>;
-  order_id?: InputMaybe<Scalars['Int']>;
-};
-
-/** aggregate max on columns */
-export type Order_Carriers_Max_Fields = {
-  __typename?: 'order_carriers_max_fields';
-  carrier_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  order_id?: Maybe<Scalars['Int']>;
-};
-
-/** order by max() on columns of table "order_carriers" */
-export type Order_Carriers_Max_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Order_Carriers_Min_Fields = {
-  __typename?: 'order_carriers_min_fields';
-  carrier_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  order_id?: Maybe<Scalars['Int']>;
-};
-
-/** order by min() on columns of table "order_carriers" */
-export type Order_Carriers_Min_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "order_carriers" */
-export type Order_Carriers_Mutation_Response = {
-  __typename?: 'order_carriers_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Order_Carriers>;
-};
-
-/** on_conflict condition type for table "order_carriers" */
-export type Order_Carriers_On_Conflict = {
-  constraint: Order_Carriers_Constraint;
-  update_columns?: Array<Order_Carriers_Update_Column>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "order_carriers". */
-export type Order_Carriers_Order_By = {
-  carrier?: InputMaybe<Carrier_Order_By>;
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order?: InputMaybe<Order_Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: order_carriers */
-export type Order_Carriers_Pk_Columns_Input = {
-  id: Scalars['Int'];
-};
-
-/** select columns of table "order_carriers" */
-export enum Order_Carriers_Select_Column {
-  /** column name */
-  CarrierId = 'carrier_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  OrderId = 'order_id'
-}
-
-/** input type for updating data in table "order_carriers" */
-export type Order_Carriers_Set_Input = {
-  carrier_id?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['Int']>;
-  order_id?: InputMaybe<Scalars['Int']>;
-};
-
-/** aggregate stddev on columns */
-export type Order_Carriers_Stddev_Fields = {
-  __typename?: 'order_carriers_stddev_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev() on columns of table "order_carriers" */
-export type Order_Carriers_Stddev_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Order_Carriers_Stddev_Pop_Fields = {
-  __typename?: 'order_carriers_stddev_pop_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_pop() on columns of table "order_carriers" */
-export type Order_Carriers_Stddev_Pop_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Order_Carriers_Stddev_Samp_Fields = {
-  __typename?: 'order_carriers_stddev_samp_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_samp() on columns of table "order_carriers" */
-export type Order_Carriers_Stddev_Samp_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Order_Carriers_Sum_Fields = {
-  __typename?: 'order_carriers_sum_fields';
-  carrier_id?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['Int']>;
-  order_id?: Maybe<Scalars['Int']>;
-};
-
-/** order by sum() on columns of table "order_carriers" */
-export type Order_Carriers_Sum_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "order_carriers" */
-export enum Order_Carriers_Update_Column {
-  /** column name */
-  CarrierId = 'carrier_id',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  OrderId = 'order_id'
-}
-
-/** aggregate var_pop on columns */
-export type Order_Carriers_Var_Pop_Fields = {
-  __typename?: 'order_carriers_var_pop_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_pop() on columns of table "order_carriers" */
-export type Order_Carriers_Var_Pop_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Order_Carriers_Var_Samp_Fields = {
-  __typename?: 'order_carriers_var_samp_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_samp() on columns of table "order_carriers" */
-export type Order_Carriers_Var_Samp_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Order_Carriers_Variance_Fields = {
-  __typename?: 'order_carriers_variance_fields';
-  carrier_id?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  order_id?: Maybe<Scalars['Float']>;
-};
-
-/** order by variance() on columns of table "order_carriers" */
-export type Order_Carriers_Variance_Order_By = {
-  carrier_id?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  order_id?: InputMaybe<Order_By>;
-};
-
 /** unique or primary key constraints on table "order" */
 export enum Order_Constraint {
   /** unique or primary key constraint */
@@ -1365,11 +1067,316 @@ export type Order_Inc_Input = {
   id?: InputMaybe<Scalars['Int']>;
 };
 
+/** columns and relationships of "order_incidents" */
+export type Order_Incidents = {
+  __typename?: 'order_incidents';
+  id: Scalars['Int'];
+  /** An object relationship */
+  incident: Incident;
+  incident_id: Scalars['Int'];
+  /** An object relationship */
+  order: Order;
+  order_id: Scalars['Int'];
+};
+
+/** aggregated selection of "order_incidents" */
+export type Order_Incidents_Aggregate = {
+  __typename?: 'order_incidents_aggregate';
+  aggregate?: Maybe<Order_Incidents_Aggregate_Fields>;
+  nodes: Array<Order_Incidents>;
+};
+
+/** aggregate fields of "order_incidents" */
+export type Order_Incidents_Aggregate_Fields = {
+  __typename?: 'order_incidents_aggregate_fields';
+  avg?: Maybe<Order_Incidents_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Order_Incidents_Max_Fields>;
+  min?: Maybe<Order_Incidents_Min_Fields>;
+  stddev?: Maybe<Order_Incidents_Stddev_Fields>;
+  stddev_pop?: Maybe<Order_Incidents_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Order_Incidents_Stddev_Samp_Fields>;
+  sum?: Maybe<Order_Incidents_Sum_Fields>;
+  var_pop?: Maybe<Order_Incidents_Var_Pop_Fields>;
+  var_samp?: Maybe<Order_Incidents_Var_Samp_Fields>;
+  variance?: Maybe<Order_Incidents_Variance_Fields>;
+};
+
+
+/** aggregate fields of "order_incidents" */
+export type Order_Incidents_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Order_Incidents_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "order_incidents" */
+export type Order_Incidents_Aggregate_Order_By = {
+  avg?: InputMaybe<Order_Incidents_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Order_Incidents_Max_Order_By>;
+  min?: InputMaybe<Order_Incidents_Min_Order_By>;
+  stddev?: InputMaybe<Order_Incidents_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Order_Incidents_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Order_Incidents_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Order_Incidents_Sum_Order_By>;
+  var_pop?: InputMaybe<Order_Incidents_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Order_Incidents_Var_Samp_Order_By>;
+  variance?: InputMaybe<Order_Incidents_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "order_incidents" */
+export type Order_Incidents_Arr_Rel_Insert_Input = {
+  data: Array<Order_Incidents_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Order_Incidents_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Order_Incidents_Avg_Fields = {
+  __typename?: 'order_incidents_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "order_incidents" */
+export type Order_Incidents_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "order_incidents". All fields are combined with a logical 'AND'. */
+export type Order_Incidents_Bool_Exp = {
+  _and?: InputMaybe<Array<Order_Incidents_Bool_Exp>>;
+  _not?: InputMaybe<Order_Incidents_Bool_Exp>;
+  _or?: InputMaybe<Array<Order_Incidents_Bool_Exp>>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  incident?: InputMaybe<Incident_Bool_Exp>;
+  incident_id?: InputMaybe<Int_Comparison_Exp>;
+  order?: InputMaybe<Order_Bool_Exp>;
+  order_id?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "order_incidents" */
+export enum Order_Incidents_Constraint {
+  /** unique or primary key constraint */
+  OrderCarriersPkey = 'order_carriers_pkey'
+}
+
+/** input type for incrementing numeric columns in table "order_incidents" */
+export type Order_Incidents_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  incident_id?: InputMaybe<Scalars['Int']>;
+  order_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "order_incidents" */
+export type Order_Incidents_Insert_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  incident?: InputMaybe<Incident_Obj_Rel_Insert_Input>;
+  incident_id?: InputMaybe<Scalars['Int']>;
+  order?: InputMaybe<Order_Obj_Rel_Insert_Input>;
+  order_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Order_Incidents_Max_Fields = {
+  __typename?: 'order_incidents_max_fields';
+  id?: Maybe<Scalars['Int']>;
+  incident_id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "order_incidents" */
+export type Order_Incidents_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Order_Incidents_Min_Fields = {
+  __typename?: 'order_incidents_min_fields';
+  id?: Maybe<Scalars['Int']>;
+  incident_id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "order_incidents" */
+export type Order_Incidents_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "order_incidents" */
+export type Order_Incidents_Mutation_Response = {
+  __typename?: 'order_incidents_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Order_Incidents>;
+};
+
+/** on_conflict condition type for table "order_incidents" */
+export type Order_Incidents_On_Conflict = {
+  constraint: Order_Incidents_Constraint;
+  update_columns?: Array<Order_Incidents_Update_Column>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "order_incidents". */
+export type Order_Incidents_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident?: InputMaybe<Incident_Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: order_incidents */
+export type Order_Incidents_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "order_incidents" */
+export enum Order_Incidents_Select_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IncidentId = 'incident_id',
+  /** column name */
+  OrderId = 'order_id'
+}
+
+/** input type for updating data in table "order_incidents" */
+export type Order_Incidents_Set_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  incident_id?: InputMaybe<Scalars['Int']>;
+  order_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Order_Incidents_Stddev_Fields = {
+  __typename?: 'order_incidents_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "order_incidents" */
+export type Order_Incidents_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Order_Incidents_Stddev_Pop_Fields = {
+  __typename?: 'order_incidents_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "order_incidents" */
+export type Order_Incidents_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Order_Incidents_Stddev_Samp_Fields = {
+  __typename?: 'order_incidents_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "order_incidents" */
+export type Order_Incidents_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Order_Incidents_Sum_Fields = {
+  __typename?: 'order_incidents_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  incident_id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "order_incidents" */
+export type Order_Incidents_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "order_incidents" */
+export enum Order_Incidents_Update_Column {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IncidentId = 'incident_id',
+  /** column name */
+  OrderId = 'order_id'
+}
+
+/** aggregate var_pop on columns */
+export type Order_Incidents_Var_Pop_Fields = {
+  __typename?: 'order_incidents_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "order_incidents" */
+export type Order_Incidents_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Order_Incidents_Var_Samp_Fields = {
+  __typename?: 'order_incidents_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "order_incidents" */
+export type Order_Incidents_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Order_Incidents_Variance_Fields = {
+  __typename?: 'order_incidents_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  incident_id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "order_incidents" */
+export type Order_Incidents_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+  incident_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
 /** input type for inserting data into table "order" */
 export type Order_Insert_Input = {
-  carriers?: InputMaybe<Order_Carriers_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
+  incidents?: InputMaybe<Order_Incidents_Arr_Rel_Insert_Input>;
   protocols?: InputMaybe<Protocol_Arr_Rel_Insert_Input>;
   status?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
@@ -1418,9 +1425,9 @@ export type Order_On_Conflict = {
 
 /** Ordering options when selecting data from "order". */
 export type Order_Order_By = {
-  carriers_aggregate?: InputMaybe<Order_Carriers_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  incidents_aggregate?: InputMaybe<Order_Incidents_Aggregate_Order_By>;
   protocols_aggregate?: InputMaybe<Protocol_Aggregate_Order_By>;
   status?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -1847,12 +1854,12 @@ export type Query_Root = {
   order_aggregate: Order_Aggregate;
   /** fetch data from the table: "order" using primary key columns */
   order_by_pk?: Maybe<Order>;
-  /** fetch data from the table: "order_carriers" */
-  order_carriers: Array<Order_Carriers>;
-  /** fetch aggregated fields from the table: "order_carriers" */
-  order_carriers_aggregate: Order_Carriers_Aggregate;
-  /** fetch data from the table: "order_carriers" using primary key columns */
-  order_carriers_by_pk?: Maybe<Order_Carriers>;
+  /** fetch data from the table: "order_incidents" */
+  order_incidents: Array<Order_Incidents>;
+  /** fetch aggregated fields from the table: "order_incidents" */
+  order_incidents_aggregate: Order_Incidents_Aggregate;
+  /** fetch data from the table: "order_incidents" using primary key columns */
+  order_incidents_by_pk?: Maybe<Order_Incidents>;
   /** fetch data from the table: "protocol" */
   protocol: Array<Protocol>;
   /** fetch aggregated fields from the table: "protocol" */
@@ -1931,25 +1938,25 @@ export type Query_RootOrder_By_PkArgs = {
 };
 
 
-export type Query_RootOrder_CarriersArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
+export type Query_RootOrder_IncidentsArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 
-export type Query_RootOrder_Carriers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
+export type Query_RootOrder_Incidents_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 
-export type Query_RootOrder_Carriers_By_PkArgs = {
+export type Query_RootOrder_Incidents_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -1996,12 +2003,12 @@ export type Subscription_Root = {
   order_aggregate: Order_Aggregate;
   /** fetch data from the table: "order" using primary key columns */
   order_by_pk?: Maybe<Order>;
-  /** fetch data from the table: "order_carriers" */
-  order_carriers: Array<Order_Carriers>;
-  /** fetch aggregated fields from the table: "order_carriers" */
-  order_carriers_aggregate: Order_Carriers_Aggregate;
-  /** fetch data from the table: "order_carriers" using primary key columns */
-  order_carriers_by_pk?: Maybe<Order_Carriers>;
+  /** fetch data from the table: "order_incidents" */
+  order_incidents: Array<Order_Incidents>;
+  /** fetch aggregated fields from the table: "order_incidents" */
+  order_incidents_aggregate: Order_Incidents_Aggregate;
+  /** fetch data from the table: "order_incidents" using primary key columns */
+  order_incidents_by_pk?: Maybe<Order_Incidents>;
   /** fetch data from the table: "protocol" */
   protocol: Array<Protocol>;
   /** fetch aggregated fields from the table: "protocol" */
@@ -2080,25 +2087,25 @@ export type Subscription_RootOrder_By_PkArgs = {
 };
 
 
-export type Subscription_RootOrder_CarriersArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
+export type Subscription_RootOrder_IncidentsArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 
-export type Subscription_RootOrder_Carriers_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Carriers_Select_Column>>;
+export type Subscription_RootOrder_Incidents_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Carriers_Order_By>>;
-  where?: InputMaybe<Order_Carriers_Bool_Exp>;
+  order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
+  where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
 
-export type Subscription_RootOrder_Carriers_By_PkArgs = {
+export type Subscription_RootOrder_Incidents_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -2148,7 +2155,7 @@ export type SubscribeOrderSubscriptionVariables = Exact<{
 }>;
 
 
-export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order_by_pk?: { __typename?: 'order', id: number, status: string, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, carriers: Array<{ __typename?: 'order_carriers', carrier: { __typename?: 'carrier', id: number, status: string } }> } | null };
+export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order_by_pk?: { __typename?: 'order', id: number, status: string, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, incidents: Array<{ __typename?: 'order_incidents', incident: { __typename?: 'incident', id: number, assumption: string, carrier: { __typename?: 'carrier', id: number } } }> } | null };
 
 export type SubscribeCarriersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2183,6 +2190,13 @@ export type UpdateIncidentMutationVariables = Exact<{
 
 export type UpdateIncidentMutation = { __typename?: 'mutation_root', update_incident?: { __typename?: 'incident_mutation_response', affected_rows: number } | null };
 
+export type CreateOrderMutationVariables = Exact<{
+  incidents: Array<Order_Incidents_Insert_Input> | Order_Incidents_Insert_Input;
+}>;
+
+
+export type CreateOrderMutation = { __typename?: 'mutation_root', insert_order_one?: { __typename?: 'order', id: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
     subscription SubscribeOrders {
@@ -2209,10 +2223,13 @@ export const SubscribeOrderDocument = gql`
       body
       created_at
     }
-    carriers {
-      carrier {
+    incidents {
+      incident {
         id
-        status
+        assumption
+        carrier {
+          id
+        }
       }
     }
     created_at
@@ -2291,4 +2308,15 @@ export const UpdateIncidentDocument = gql`
 
 export function useUpdateIncidentMutation() {
   return Urql.useMutation<UpdateIncidentMutation, UpdateIncidentMutationVariables>(UpdateIncidentDocument);
+};
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
+  insert_order_one(object: {incidents: {data: $incidents}, status: "open"}) {
+    id
+  }
+}
+    `;
+
+export function useCreateOrderMutation() {
+  return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
 };

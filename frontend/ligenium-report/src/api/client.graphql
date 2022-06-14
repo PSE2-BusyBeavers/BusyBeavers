@@ -17,10 +17,13 @@ subscription SubscribeOrder($id: Int!) {
       body
       created_at
     }
-    carriers {
-      carrier {
+    incidents {
+      incident {
         id
-        status
+        assumption
+        carrier {
+          id
+        }
       }
     }
     created_at
@@ -71,8 +74,8 @@ mutation UpdateIncident($id: Int!, $status: String!) {
   }
 }
 
-# mutation CreateOrder($id: Int!, $status: String!) {
-#   create_order(: {status: $status}) {
-#     affected_rows
-#   }
-# }
+mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
+  insert_order_one(object: { incidents: { data: $incidents }, status: "open" }) {
+    id
+  }
+}
