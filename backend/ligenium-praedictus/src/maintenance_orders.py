@@ -32,7 +32,7 @@ def create_maintenance_order(carrier_id: str, assumption: str) -> None:
     checkExistingOrderQuery = gql(
     """
     query MyQuery($carrier_id: Int!) {
-        order(where: {carrier_id: {_eq: $carrier_id}, status: {_neq: "closed"}}) {
+        incident(where: {carrier_id: {_eq: $carrier_id}, status: {_neq: "closed"}}) {
             carrier_id
         }
     }
@@ -43,14 +43,14 @@ def create_maintenance_order(carrier_id: str, assumption: str) -> None:
     }
     result = client.execute(checkExistingOrderQuery, variable_values=params)
 
-    if len(result["order"]) > 0:
-        print("Order already exists")
+    if len(result["incident"]) > 0:
+        print("Incident already exists")
         return
 
     addOrderQuery = gql(
     """
-    mutation MyQuery($carrier_id: Int!, $assumption: String!, $status: String!) {
-        insert_order_one(object: {carrier_id: $carrier_id, assumption: $assumption, status: $status}) {
+    mutation MyQuery($carrier_id: Int!, $assumption: String!) {
+        insert_incident_one(object: {carrier_id: $carrier_id, assumption: $assumption, status: "error_detected"}) {
             id
             carrier_id
             assumption
@@ -60,8 +60,7 @@ def create_maintenance_order(carrier_id: str, assumption: str) -> None:
     )
     params = {
         "carrier_id": carrier_id,
-        "assumption": assumption,
-        "status": "error_detected"
+        "assumption": assumption
     }
     result = client.execute(addOrderQuery, variable_values=params)
     print(result)
