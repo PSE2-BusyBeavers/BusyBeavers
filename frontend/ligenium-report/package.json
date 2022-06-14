@@ -17,9 +17,11 @@
     "@mui/x-data-grid": "^5.11.1",
     "graphql-ws": "^5.8.2",
     "maplibre-gl": "^2.1.9",
+    "prettier": "^2.7.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-map-gl": "^7.0.15",
+    "react-router-dom": "^6.3.0",
     "urql": "^2.2.0"
   },
   "devDependencies": {
