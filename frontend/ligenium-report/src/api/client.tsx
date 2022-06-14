@@ -2143,20 +2143,24 @@ export type SubscribeOrdersSubscriptionVariables = Exact<{ [key: string]: never;
 
 export type SubscribeOrdersSubscription = { __typename?: 'subscription_root', order: Array<{ __typename?: 'order', id: number, status: string, created_at: any, updated_at: any }> };
 
-export type SubscribeOrderSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type SubscribeOrderSubscriptionVariables = Exact<{
+  id: Scalars['Int'];
+}>;
 
 
-export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order: Array<{ __typename?: 'order', id: number, status: string, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, carriers: Array<{ __typename?: 'order_carriers', carrier: { __typename?: 'carrier', id: number, status: string } }> }> };
+export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order_by_pk?: { __typename?: 'order', id: number, status: string, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, carriers: Array<{ __typename?: 'order_carriers', carrier: { __typename?: 'carrier', id: number, status: string } }> } | null };
 
 export type SubscribeCarriersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SubscribeCarriersSubscription = { __typename?: 'subscription_root', carrier: Array<{ __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any }> };
 
-export type SubscribeCarrierSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type SubscribeCarrierSubscriptionVariables = Exact<{
+  id: Scalars['Int'];
+}>;
 
 
-export type SubscribeCarrierSubscription = { __typename?: 'subscription_root', carrier: Array<{ __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any }> };
+export type SubscribeCarrierSubscription = { __typename?: 'subscription_root', carrier_by_pk?: { __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any } | null };
 
 export type SubscribeIncidentsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -2195,8 +2199,8 @@ export function useSubscribeOrdersSubscription<TData = SubscribeOrdersSubscripti
   return Urql.useSubscription<SubscribeOrdersSubscription, TData, SubscribeOrdersSubscriptionVariables>({ query: SubscribeOrdersDocument, ...options }, handler);
 };
 export const SubscribeOrderDocument = gql`
-    subscription SubscribeOrder {
-  order {
+    subscription SubscribeOrder($id: Int!) {
+  order_by_pk(id: $id) {
     id
     status
     protocols {
@@ -2236,8 +2240,8 @@ export function useSubscribeCarriersSubscription<TData = SubscribeCarriersSubscr
   return Urql.useSubscription<SubscribeCarriersSubscription, TData, SubscribeCarriersSubscriptionVariables>({ query: SubscribeCarriersDocument, ...options }, handler);
 };
 export const SubscribeCarrierDocument = gql`
-    subscription SubscribeCarrier {
-  carrier {
+    subscription SubscribeCarrier($id: Int!) {
+  carrier_by_pk(id: $id) {
     id
     status
     customer

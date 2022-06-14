@@ -94,7 +94,13 @@ const Orders = () => {
 
   return (
     <Container sx={{ height: '100%', pt: 2 }}>
-      <DataGrid columns={columns} rows={orders} initialState={initialState} />;
+      <DataGrid
+        columns={columns}
+        rows={orders}
+        initialState={initialState}
+        onRowClick={(row) => navigate(`${row.id}`)}
+      />
+      ;
     </Container>
   );
 };
