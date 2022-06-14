@@ -2,13 +2,13 @@ table:
   schema: public
   name: order
 array_relationships:
-  - name: carriers
+  - name: incidents
     using:
       foreign_key_constraint_on:
         column: order_id
         table:
           schema: public
-          name: order_carriers
+          name: order_incidents
   - name: protocols
     using:
       foreign_key_constraint_on:

@@ -110,8 +110,8 @@ COMMENT ON TRIGGER set_public_protocol_updated_at ON public.protocol IS 'trigger
 ALTER TABLE ONLY public.incident
     ADD CONSTRAINT incidents_carrier_id_fkey FOREIGN KEY (carrier_id) REFERENCES public.carrier(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY public.order_incidents
-    ADD CONSTRAINT order_carriers_order_id_fkey FOREIGN KEY (order_id) REFERENCES public."order"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT order_incidents_incident_id_fkey FOREIGN KEY (incident_id) REFERENCES public.incident(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY public.order_incidents
-    ADD CONSTRAINT order_incidents_incident_id_fkey FOREIGN KEY (incident_id) REFERENCES public.incident(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT order_incidents_order_id_fkey FOREIGN KEY (order_id) REFERENCES public."order"(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY public.protocol
     ADD CONSTRAINT protocol_order_id_fkey FOREIGN KEY (order_id) REFERENCES public."order"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
