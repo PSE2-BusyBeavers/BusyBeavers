@@ -2,7 +2,7 @@ import { Box, Button, IconButton, Menu, MenuItem, Typography, useMediaQuery, use
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { useState } from 'react';
 
-const pages = ['Ausstehend', 'In Reperatur', 'History'];
+const pages = ['Ausstehend', 'In Reparatur', 'History'];
 
 const Navigation = () => {
   const theme = useTheme();

@@ -1,14 +1,14 @@
-import { createContext, FC, useEffect, useState } from 'react'
+import { createContext, FC, useEffect, useState } from 'react';
 
 interface User {
-  id: string
-  name: string
-  avatar: string
-  theme: 'dark' | 'light'
+  id: string;
+  name: string;
+  avatar: string;
+  theme: 'dark' | 'light';
 }
 
 interface UserMethods {
-  changeTheme: () => void
+  changeTheme: () => void;
 }
 
 interface Context extends User, UserMethods {}
@@ -17,26 +17,26 @@ const AuthUser = () => {
   const [user, setUser] = useState<User>({
     name: 'Knauber',
     id: '1',
-    theme: 'dark',
+    theme: 'light',
     avatar:
-      'https://www.informatik.hs-mannheim.de/fileadmin/user_upload/fakultaeten/fakultaet_i/neue_webseite/Professoren_und_Mitarbeiter/peter-knauber-300px.jpg'
-  })
+      'https://www.informatik.hs-mannheim.de/fileadmin/user_upload/fakultaeten/fakultaet_i/neue_webseite/Professoren_und_Mitarbeiter/peter-knauber-300px.jpg',
+  });
 
   useEffect(() => {
     //catch from hazura
 
     return () => {
       /*unsubscribe*/
-    }
-  }, [])
+    };
+  }, []);
 
   return {
     ...user,
     changeTheme: () => {
-      setUser({ ...user, theme: user.theme === 'dark' ? 'light' : 'dark' })
-    }
-  }
-}
+      setUser({ ...user, theme: user.theme === 'dark' ? 'light' : 'dark' });
+    },
+  };
+};
 
 export const authUserContext = createContext<Context>({
   name: '',
@@ -45,16 +45,10 @@ export const authUserContext = createContext<Context>({
   theme: 'dark',
   changeTheme: () => {
     /* placeholder */
-  }
-})
+  },
+});
 
-export const AuthProvider: FC<{ children?: React.ReactNode }> = ({
-  children
-}) => {
-  const authUser = AuthUser()
-  return (
-    <authUserContext.Provider value={authUser}>
-      {children}
-    </authUserContext.Provider>
-  )
-}
+export const AuthProvider: FC<{ children?: React.ReactNode }> = ({ children }) => {
+  const authUser = AuthUser();
+  return <authUserContext.Provider value={authUser}>{children}</authUserContext.Provider>;
+};

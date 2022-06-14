@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import {
   useUpdateCarrierMutation,
-  useUpdateOrderMutation
+  // useUpdateOrderMutation
 } from '@src/api/client'
 import Order from '@src/types/Order'
 import getOrderStatusLabel, {
@@ -39,7 +39,7 @@ const DataRow = ({ label, value }: DataRowProps) => (
 )
 
 const MaintenanceOrder = ({ order, onNavigateBack }: Props) => {
-  const [, updateOrder] = useUpdateOrderMutation()
+  // const [, updateOrder] = useUpdateOrderMutation()
   const [, updateCarrier] = useUpdateCarrierMutation()
 
   const handleApproval = () => {
@@ -47,7 +47,7 @@ const MaintenanceOrder = ({ order, onNavigateBack }: Props) => {
       id: parseInt(order.carrierId),
       status: 'locked'
     })
-    updateOrder({ id: parseInt(order.id), status: 'error_confirmed' })
+    // updateOrder({ id: parseInt(order.id), status: 'error_confirmed' })
   }
 
   return (

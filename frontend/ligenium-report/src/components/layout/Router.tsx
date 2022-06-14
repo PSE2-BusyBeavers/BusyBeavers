@@ -1,0 +1,30 @@
+import Incidents from '@src/pages/Incidents';
+import CustomerOverview from '@src/pages/Customers';
+import Orders from '@src/pages/Orders';
+import Order from '@src/pages/Order';
+import { Routes, Route } from 'react-router-dom';
+import CustomerLayout from '@src/components/layout/CustomerLayout';
+import App from '@src/components/layout/App';
+import IncidentsHeatmap from '@src/pages/IncidentsHeatmap';
+
+function Router() {
+  return (
+    <Routes>
+      <Route path="/" element={<App />}>
+        <Route index element={<CustomerOverview />} />
+        <Route path="customers/:customer" element={<CustomerLayout />}>
+          <Route path="incidents">
+            <Route index element={<Incidents />} />
+            <Route path="heatmap" element={<IncidentsHeatmap />} />
+          </Route>
+          <Route path="orders">
+            <Route index element={<Orders />} />
+            <Route path=":order" element={<Order />} />
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
+  );
+}
+
+export default Router;

@@ -1,13 +1,28 @@
 subscription SubscribeOrders {
   order {
     id
-    carrier_id
-    carrier {
-      status
-      customer
-    }
-    assumption
     status
+    created_at
+    updated_at
+  }
+}
+
+subscription SubscribeOrder {
+  order {
+    id
+    status
+    protocols {
+      id
+      user
+      body
+      created_at
+    }
+    carriers {
+      carrier {
+        id
+        status
+      }
+    }
     created_at
     updated_at
   }
@@ -30,13 +45,17 @@ subscription SubscribeCarrier {
     customer
     created_at
     updated_at
-    orders {
-      id
-      status
-      assumption
-      created_at
-      updated_at
-    }
+  }
+}
+
+subscription SubscribeIncidents {
+  incident {
+    id
+    carrier_id
+    assumption
+    status
+    created_at
+    updated_at
   }
 }
 
@@ -46,8 +65,8 @@ mutation UpdateCarrier($id: Int!, $status: String!) {
   }
 }
 
-mutation UpdateOrder($id: Int!, $status: String!) {
-  update_order(where: {id: {_eq: $id}}, _set: {status: $status}) {
+mutation UpdateIncident($id: Int!, $status: String!) {
+  update_incident(where: {id: {_eq: $id}}, _set: {status: $status}) {
     affected_rows
   }
 }
