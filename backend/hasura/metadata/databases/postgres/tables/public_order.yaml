@@ -1,7 +1,18 @@
 table:
   schema: public
   name: order
-object_relationships:
-  - name: carrier
+array_relationships:
+  - name: carriers
     using:
-      foreign_key_constraint_on: carrier_id
+      foreign_key_constraint_on:
+        column: order_id
+        table:
+          schema: public
+          name: order_carriers
+  - name: protocols
+    using:
+      foreign_key_constraint_on:
+        column: order_id
+        table:
+          schema: public
+          name: protocol

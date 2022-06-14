@@ -1,0 +1,10 @@
+table:
+  schema: public
+  name: order_carriers
+object_relationships:
+  - name: carrier
+    using:
+      foreign_key_constraint_on: carrier_id
+  - name: order
+    using:
+      foreign_key_constraint_on: order_id
