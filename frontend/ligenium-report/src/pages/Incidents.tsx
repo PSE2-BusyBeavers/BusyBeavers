@@ -22,6 +22,7 @@ const CarrierContent = () => {
     const result = await createOrder({
       incidents: incidentIds.map((i) => ({ incident_id: i })),
     });
+    // TODO: update incident status to be sth like 'active order' and hide them from the list / move them downwards
     navigate(`./../orders/${result.data?.insert_order_one?.id}`);
   };
 

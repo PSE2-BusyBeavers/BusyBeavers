@@ -2197,6 +2197,15 @@ export type CreateOrderMutationVariables = Exact<{
 
 export type CreateOrderMutation = { __typename?: 'mutation_root', insert_order_one?: { __typename?: 'order', id: number } | null };
 
+export type CreateProtocolMutationVariables = Exact<{
+  order: Scalars['Int'];
+  body: Scalars['String'];
+  user: Scalars['String'];
+}>;
+
+
+export type CreateProtocolMutation = { __typename?: 'mutation_root', insert_protocol_one?: { __typename?: 'protocol', id: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
     subscription SubscribeOrders {
@@ -2319,4 +2328,15 @@ export const CreateOrderDocument = gql`
 
 export function useCreateOrderMutation() {
   return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
+};
+export const CreateProtocolDocument = gql`
+    mutation CreateProtocol($order: Int!, $body: String!, $user: String!) {
+  insert_protocol_one(object: {order_id: $order, body: $body, user: $user}) {
+    id
+  }
+}
+    `;
+
+export function useCreateProtocolMutation() {
+  return Urql.useMutation<CreateProtocolMutation, CreateProtocolMutationVariables>(CreateProtocolDocument);
 };

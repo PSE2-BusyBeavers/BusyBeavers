@@ -1,10 +1,25 @@
-import { Approval, ArrowBack } from '@mui/icons-material';
-import { Box, Button, Container, Grid, Step, StepLabel, Stepper, Typography } from '@mui/material';
-import { useSubscribeOrderSubscription } from '@src/api/client';
+import { Approval, ArrowBack, Send } from '@mui/icons-material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Step,
+  StepLabel,
+  Stepper,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { useSubscribeOrderSubscription, useCreateProtocolMutation } from '@src/api/client';
 import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLabel';
 import { useParams, Link } from 'react-router-dom';
 import { DataGrid, GridColumns } from '@mui/x-data-grid';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 type DataRowProps = {
   label: string;
@@ -59,6 +74,10 @@ const Order1 = () => {
     [],
   );
 
+  const [newProtocolValue, setNewProtocolValue] = useState('');
+
+  const [_, createProtocol] = useCreateProtocolMutation();
+
   return (
     <Container sx={{ pt: 2 }}>
       {order && (
@@ -89,6 +108,47 @@ const Order1 = () => {
           </Grid>
           <Box sx={{ width: '100%', height: '300px' }}>
             <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
+          </Box>
+          <Box sx={{ width: '100%', mt: 2 }}>
+            <h2>Protokoll</h2>
+            <Grid sx={{ overflowY: 'auto' }}>
+              {order.protocols.map((p) => (
+                <div key={p.id}>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt={p.user} src="/static/images/avatar/2.jpg" />
+                    </ListItemAvatar>
+                    <ListItemText primary={p.user} secondary={<span className="whitespace-pre-wrap">{p.body}</span>} />
+                  </ListItem>
+                </div>
+              ))}
+            </Grid>
+            <Grid>
+              <TextField
+                sx={{ width: '100%', mt: 4 }}
+                label="Neuer Protokoll-Eintrag"
+                multiline
+                rows={5}
+                value={newProtocolValue}
+                onChange={(event) => setNewProtocolValue(event.target.value)}
+              />
+              <Button
+                sx={{ mt: 2 }}
+                variant="contained"
+                startIcon={<Send />}
+                onClick={() => {
+                  createProtocol({
+                    order: order.id,
+                    body: newProtocolValue,
+                    user: 'Knauber', // TODO
+                  });
+                  setNewProtocolValue('');
+                }}
+              >
+                Speichern
+              </Button>
+            </Grid>
           </Box>
         </Grid>
       )}

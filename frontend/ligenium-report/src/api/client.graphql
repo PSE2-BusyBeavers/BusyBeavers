@@ -79,3 +79,9 @@ mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
     id
   }
 }
+
+mutation CreateProtocol($order: Int!, $body: String!, $user: String!) {
+  insert_protocol_one(object: { order_id: $order, body: $body, user: $user }) {
+    id
+  }
+}
