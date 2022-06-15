@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import CustomerTable from '@src/components/CustomerTable';
+import CustomerSelection from '@src/components/CustomerSelection';
 
 type Props = {};
 const data = [
@@ -33,12 +33,12 @@ const data = [
   },
 ];
 
-const CustomersPage = (_props: Props) => {
+const Customers = (_props: Props) => {
   return (
     <Container sx={{ height: '100%', pt: 2 }}>
-      <CustomerTable customers={data} />
+      <CustomerSelection customers={data} />
     </Container>
   );
 };
 
-export default CustomersPage;
+export default Customers;

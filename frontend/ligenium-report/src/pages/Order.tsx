@@ -20,6 +20,7 @@ import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLab
 import { useParams, Link } from 'react-router-dom';
 import { DataGrid, GridColumns } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
+import { useAuthUser } from '@src/hooks/Auth';
 
 type DataRowProps = {
   label: string;
@@ -39,6 +40,7 @@ const DataRow = ({ label, value }: DataRowProps) => (
 
 const Order1 = () => {
   const params = useParams();
+  const user = useAuthUser();
   const [orderRes] = useSubscribeOrderSubscription({
     variables: {
       id: parseInt(params.order || '', 10),
@@ -79,9 +81,9 @@ const Order1 = () => {
   const [_, createProtocol] = useCreateProtocolMutation();
 
   return (
-    <Container sx={{ pt: 2 }}>
+    <Container sx={{ pt: 2, maxHeight: '100%' }}>
       {order && (
-        <Grid container>
+        <Grid container sx={{}}>
           <Grid item xs={12} pb={2}>
             <Link to="..">
               <Button startIcon={<ArrowBack />}>Zurück</Button>
@@ -141,7 +143,7 @@ const Order1 = () => {
                   createProtocol({
                     order: order.id,
                     body: newProtocolValue,
-                    user: 'Knauber', // TODO
+                    user: user.name,
                   });
                   setNewProtocolValue('');
                 }}
