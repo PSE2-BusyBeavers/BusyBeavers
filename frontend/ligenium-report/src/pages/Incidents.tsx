@@ -1,8 +1,8 @@
 import { Box, Button, CircularProgress, Container } from '@mui/material';
-import { DataGrid, GridColumns, GridInitialState, GridSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridColumns, GridSelectionModel } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
 import ControlBar from '@src/components/Incidents/ControlBar';
-import { useUpdateCarrierMutation, useCreateOrderMutation } from '@src/api/client';
+import { useCreateOrderMutation } from '@src/api/client';
 import useIncidents from '@src/hooks/useIncidents';
 import { useNavigate } from 'react-router-dom';
 import { Add } from '@mui/icons-material';
@@ -11,6 +11,7 @@ const CarrierContent = () => {
   const [isLoading, incidents] = useIncidents();
   const navigate = useNavigate();
 
+  const activeIncidents = incidents.filter((incident) => incident.status === 'open');
   const tabs = ['Übersicht', 'Heatmap'];
 
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
@@ -70,7 +71,7 @@ const CarrierContent = () => {
             </Button>
             <DataGrid
               columns={columns}
-              rows={incidents}
+              rows={activeIncidents}
               checkboxSelection
               className="w-full"
               onSelectionModelChange={(newSelectionModel) => {

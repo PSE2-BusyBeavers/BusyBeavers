@@ -15,11 +15,18 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useSubscribeOrderSubscription, useCreateProtocolMutation } from '@src/api/client';
+import {
+  useSubscribeOrderSubscription,
+  useCreateProtocolMutation,
+  useUpdateOrderMutation,
+  useUpdateIncidentMutation,
+  useUpdateCarrierMutation,
+} from '@src/api/client';
 import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLabel';
 import { useParams, Link } from 'react-router-dom';
 import { DataGrid, GridColumns } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
+import { useAuthUser } from '@src/hooks/Auth';
 
 type DataRowProps = {
   label: string;
@@ -39,22 +46,35 @@ const DataRow = ({ label, value }: DataRowProps) => (
 
 const Order1 = () => {
   const params = useParams();
+  const user = useAuthUser();
   const [orderRes] = useSubscribeOrderSubscription({
     variables: {
       id: parseInt(params.order || '', 10),
     },
   });
+  const [, updateOrder] = useUpdateOrderMutation();
+  const [, updateIncident] = useUpdateIncidentMutation();
+  const [, updateCarrier] = useUpdateCarrierMutation();
   const order = orderRes.data?.order_by_pk;
 
-  // const [, updateCarrier] = useUpdateCarrierMutation();
+  //
 
   const handleApproval = () => {
-    // TODO
-    // updateCarrier({
-    //   id: parseInt(order.carrierId),
-    //   status: 'locked',
-    // });
-    // updateOrder({ id: parseInt(order.id), status: 'error_confirmed' })
+    if (!order) return;
+
+    order?.incidents
+      .flatMap((i) => i.incident)
+      .forEach((incident) => {
+        updateCarrier({
+          id: incident.carrier.id,
+          status: 'locked',
+        });
+        updateIncident({
+          id: incident.id,
+          status: 'in_process',
+        });
+      });
+    updateOrder({ id: parseInt(order!.id.toString()), status: 'error_confirmed' });
   };
 
   const incidentColumns: GridColumns = useMemo(
@@ -79,9 +99,9 @@ const Order1 = () => {
   const [_, createProtocol] = useCreateProtocolMutation();
 
   return (
-    <Container sx={{ pt: 2 }}>
+    <Container sx={{ pt: 2, maxHeight: '100%' }}>
       {order && (
-        <Grid container>
+        <Grid container sx={{}}>
           <Grid item xs={12} pb={2}>
             <Link to="..">
               <Button startIcon={<ArrowBack />}>Zurück</Button>
@@ -99,6 +119,9 @@ const Order1 = () => {
               ))}
             </Stepper>
           </Grid>
+          <Box sx={{ width: '100%', height: '300px' }} pt={2}>
+            <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
+          </Box>
           <Grid item xs={12} pt={4}>
             {order.status === 'error_detected' && (
               <Button variant="contained" startIcon={<Approval />} onClick={handleApproval}>
@@ -106,11 +129,11 @@ const Order1 = () => {
               </Button>
             )}
           </Grid>
-          <Box sx={{ width: '100%', height: '300px' }}>
-            <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
-          </Box>
+          <Grid item xs={12} pt={4}>
+            <Divider />
+          </Grid>
           <Box sx={{ width: '100%', mt: 2 }}>
-            <h2>Protokoll</h2>
+            <Typography variant="h5">Protokoll</Typography>
             <Grid sx={{ overflowY: 'auto' }}>
               {order.protocols.map((p) => (
                 <div key={p.id}>
@@ -141,7 +164,7 @@ const Order1 = () => {
                   createProtocol({
                     order: order.id,
                     body: newProtocolValue,
-                    user: 'Knauber', // TODO
+                    user: user.name,
                   });
                   setNewProtocolValue('');
                 }}

@@ -6,7 +6,7 @@ import { brandingDarkTheme, brandingLightTheme } from './themes/muiTheme';
 import { Box } from '@mui/material';
 import { Provider, loadClient } from './api/index';
 import { AuthProvider, useAuthUser } from './hooks/Auth';
-import Router from '@src/components/layout/Router';
+import Router from '@src/router/Router';
 import { BrowserRouter } from 'react-router-dom';
 import 'virtual:windi.css';
 
@@ -22,7 +22,10 @@ const Content = () => {
           background: theme.palette.background.default,
           width: '100vw',
           height: '100vh',
-          overflow: 'hidden',
+          overflowY: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
         }}
       >
         <Router />

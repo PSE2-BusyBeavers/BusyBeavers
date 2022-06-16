@@ -75,7 +75,7 @@ mutation UpdateIncident($id: Int!, $status: String!) {
 }
 
 mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
-  insert_order_one(object: { incidents: { data: $incidents }, status: "open" }) {
+  insert_order_one(object: { incidents: { data: $incidents }, status: "error_detected" }) {
     id
   }
 }
@@ -83,5 +83,11 @@ mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
 mutation CreateProtocol($order: Int!, $body: String!, $user: String!) {
   insert_protocol_one(object: { order_id: $order, body: $body, user: $user }) {
     id
+  }
+}
+
+mutation UpdateOrder($id: Int!, $status: String!) {
+  update_order(where: { id: { _eq: $id } }, _set: { status: $status }) {
+    affected_rows
   }
 }
