@@ -25,7 +25,7 @@ jobs:
         working-directory: frontend/ligenium-report
 
       - name: Build app
-        run: pnpm vite build
+        run: npm run vite build
         working-directory: frontend/ligenium-report
 
       - name: Deploy 🚀
