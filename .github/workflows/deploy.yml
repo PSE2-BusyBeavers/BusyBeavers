@@ -28,6 +28,8 @@ jobs:
         run: npm build
         working-directory: frontend/ligenium-report
 
+      - run: ls -la frontend/ligenium-report
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
