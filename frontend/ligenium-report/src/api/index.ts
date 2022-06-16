@@ -1,16 +1,12 @@
-import { createClient as createWSClient } from "graphql-ws";
-import {
-  createClient,
-  subscriptionExchange,
-  defaultExchanges,
-  Provider,
-} from "urql";
-import { devtoolsExchange } from "@urql/devtools";
+import { createClient as createWSClient } from 'graphql-ws';
+import { createClient, subscriptionExchange, defaultExchanges, Provider } from 'urql';
+import { devtoolsExchange } from '@urql/devtools';
 
-const endpoint = "localhost:8124/v1/graphql";
+// const endpoint = 'localhost:8124/v1/graphql';
+const endpoint = ' https://lrxtdrwgxgrvfmwtefkr.nhost.run/v1/graphql';
 
 const headers = {
-  "x-hasura-admin-secret": "myadminsecretkey",
+  // "x-hasura-admin-secret": "myadminsecretkey",
 };
 
 export function loadClient() {
