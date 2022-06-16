@@ -25,7 +25,7 @@ jobs:
         working-directory: frontend/ligenium-report
 
       - name: Build app
-        run: npm build
+        run: npm run build
         working-directory: frontend/ligenium-report
 
       - run: ls -la frontend/ligenium-report
