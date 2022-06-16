@@ -31,8 +31,7 @@ jobs:
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6
-          run_install:
-            cwd: frontend/ligenium-report
+          run_install: true
 
       - name: Build app
         run: pnpm vite build
