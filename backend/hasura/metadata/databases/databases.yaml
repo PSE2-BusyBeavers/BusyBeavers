@@ -1,9 +1,14 @@
-- name: postgres
+- name: default
   kind: postgres
   configuration:
     connection_info:
-      use_prepared_statements: false
+      use_prepared_statements: true
       database_url:
-        from_env: PG_DATABASE_URL
+        from_env: HASURA_GRAPHQL_DATABASE_URL
       isolation_level: read-committed
-  tables: "!include postgres/tables/tables.yaml"
+      pool_settings:
+        connection_lifetime: 600
+        retries: 1
+        idle_timeout: 60
+        max_connections: 10
+  tables: "!include default/tables/tables.yaml"
