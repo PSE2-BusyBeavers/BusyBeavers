@@ -2,7 +2,8 @@ from gql import gql, Client
 from gql.transport.aiohttp import AIOHTTPTransport
 
 # Select your transport with a defined url endpoint
-transport = AIOHTTPTransport(url="http://localhost:8124/v1/graphql", headers={'x-hasura-admin-secret': 'myadminsecretkey'})
+# transport = AIOHTTPTransport(url="http://localhost:8124/v1/graphql", headers={'x-hasura-admin-secret': 'myadminsecretkey'})
+transport = AIOHTTPTransport(url="https://lrxtdrwgxgrvfmwtefkr.nhost.run/v1/graphql")
 
 # Create a GraphQL client using the defined transport
 client = Client(transport=transport, fetch_schema_from_transport=True)

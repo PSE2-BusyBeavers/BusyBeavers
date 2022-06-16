@@ -3,7 +3,7 @@ import { createClient, subscriptionExchange, defaultExchanges, Provider } from '
 import { devtoolsExchange } from '@urql/devtools';
 
 // const endpoint = 'localhost:8124/v1/graphql';
-const endpoint = ' https://lrxtdrwgxgrvfmwtefkr.nhost.run/v1/graphql';
+const endpoint = 'lrxtdrwgxgrvfmwtefkr.nhost.run/v1/graphql';
 
 const headers = {
   // "x-hasura-admin-secret": "myadminsecretkey",
