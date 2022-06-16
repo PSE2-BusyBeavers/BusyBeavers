@@ -11,14 +11,14 @@ const headers = {
 
 export function loadClient() {
   const wsClient = createWSClient({
-    url: `ws://${endpoint}`,
+    url: `wss://${endpoint}`,
     connectionParams: async () => ({
       headers: headers,
     }),
   });
 
   const urqlOptions = {
-    url: `http://${endpoint}`,
+    url: `https://${endpoint}`,
     fetchOptions: () => ({
       headers: headers,
     }),
