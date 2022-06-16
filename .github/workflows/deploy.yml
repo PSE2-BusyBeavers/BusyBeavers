@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    name: Release
+    name: Deploy app
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,18 +20,9 @@ jobs:
         with:
           node-version: "14"
 
-      - name: Cache pnpm modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6
-          run_install: true
+      - name: npm install
+        run: npm install
+        working-directory: frontend/ligenium-report
 
       - name: Build app
         run: pnpm vite build
