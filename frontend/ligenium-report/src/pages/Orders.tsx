@@ -13,7 +13,6 @@ import {
 import formatTableDate from '@src/utils/formatTableDate';
 import getOrderStatusLabel from '@src/utils/getOrderStatusLabel';
 import { useMemo } from 'react';
-// import { useUpdateOrderMutation } from '@src/api/client'
 import { Search } from '@mui/icons-material';
 
 const getColor = (status: string) => {
@@ -53,17 +52,6 @@ const Orders = () => {
         headerName: 'Auftragsnummer',
         flex: 0.3,
       },
-      // {
-      //   field: 'customer',
-      //   headerName: 'Kunde',
-      //   flex: 0.5,
-      // },
-      // {
-      //   field: 'created_at',
-      //   headerName: 'Erstellungsdatum',
-      //   flex: 0.5,
-      //   valueGetter: formatTableDate,
-      // },
       {
         field: 'updated_at',
         headerName: 'Letzte Änderung',

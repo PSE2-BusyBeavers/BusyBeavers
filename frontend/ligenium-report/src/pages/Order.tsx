@@ -27,6 +27,7 @@ import { useParams, Link } from 'react-router-dom';
 import { DataGrid, GridColumns } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
 import { useAuthUser } from '@src/hooks/Auth';
+import dayjs from 'dayjs';
 
 type DataRowProps = {
   label: string;
@@ -56,8 +57,6 @@ const Order1 = () => {
   const [, updateIncident] = useUpdateIncidentMutation();
   const [, updateCarrier] = useUpdateCarrierMutation();
   const order = orderRes.data?.order_by_pk;
-
-  //
 
   const handleApproval = () => {
     if (!order) return;
@@ -101,15 +100,15 @@ const Order1 = () => {
   return (
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
       {order && (
-        <Grid container sx={{}}>
+        <Grid container>
           <Grid item xs={12} pb={2}>
             <Link to="..">
               <Button startIcon={<ArrowBack />}>Zurück</Button>
             </Link>
           </Grid>
           <DataRow label="Auftragsnummer:" value={order.id.toString()} />
-          <DataRow label="Erstellungsdatum:" value={order.created_at.toLocaleString()} />
-          <DataRow label="Letzte Änderung:" value={order.updated_at.toLocaleString()} />
+          <DataRow label="Erstellungsdatum:" value={dayjs(order.created_at).format('DD.MM.YYYY HH:mm')} />
+          <DataRow label="Letzte Änderung:" value={dayjs(order.updated_at).format('DD.MM.YYYY HH:mm')} />
           <Grid item xs={12} pt={4}>
             <Stepper activeStep={orderStatuses.indexOf(order.status)} alternativeLabel>
               {orderStatuses.map((status) => (
@@ -119,16 +118,43 @@ const Order1 = () => {
               ))}
             </Stepper>
           </Grid>
-          <Box sx={{ width: '100%', height: '300px' }} pt={2}>
-            <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
-          </Box>
           <Grid item xs={12} pt={4}>
             {order.status === 'error_detected' && (
               <Button variant="contained" startIcon={<Approval />} onClick={handleApproval}>
-                Approve Report
+                Fehler bestätigen
+              </Button>
+            )}
+            {order.status === 'error_confirmed' && (
+              <Button
+                variant="contained"
+                startIcon={<Approval />}
+                onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'in_maintenance' })}
+              >
+                Reparatur beginnen
+              </Button>
+            )}
+            {order.status === 'in_maintenance' && (
+              <Button
+                variant="contained"
+                startIcon={<Approval />}
+                onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'closed' })}
+              >
+                Reparatur abschließen
+              </Button>
+            )}
+            {order.status === 'closed' && (
+              <Button
+                variant="contained"
+                startIcon={<Approval />}
+                onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'active' })}
+              >
+                Ladungsträger freigeben
               </Button>
             )}
           </Grid>
+          <Box sx={{ width: '100%', height: '300px' }} pt={2}>
+            <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
+          </Box>
           <Grid item xs={12} pt={4}>
             <Divider />
           </Grid>
@@ -157,7 +183,7 @@ const Order1 = () => {
                 onChange={(event) => setNewProtocolValue(event.target.value)}
               />
               <Button
-                sx={{ mt: 2 }}
+                sx={{ my: 2 }}
                 variant="contained"
                 startIcon={<Send />}
                 onClick={() => {
