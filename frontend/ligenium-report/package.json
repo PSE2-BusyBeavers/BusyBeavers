@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "vite build",
     "codegen": "graphql-codegen --config codegen.yml",
     "dev": "vite",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",

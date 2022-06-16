@@ -25,11 +25,11 @@ jobs:
         working-directory: frontend/ligenium-report
 
       - name: Build app
-        run: npm run vite build
+        run: npm build
         working-directory: frontend/ligenium-report
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.3
         with:
           branch: gh-pages
-          folder: frontend/ligenium-report
+          folder: frontend/ligenium-report/dist
