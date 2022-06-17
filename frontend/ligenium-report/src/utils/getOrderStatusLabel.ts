@@ -3,8 +3,8 @@ const mapping = {
   error_detected: 'Auftrag erstellt',
   error_confirmed: 'Fehler bestätigt',
   in_maintenance: 'In Reparatur',
-  closed: 'Erledigt',
-  active: 'Ladungsträger wieder in Betrieb',
+  closed: 'Ladungsträger wieder in Betrieb',
+  active: 'Auftrag abgeschlossen',
 };
 
 const orderStatuses = Object.keys(mapping);

@@ -114,43 +114,43 @@ const Order1 = () => {
               {orderStatuses.map((status) => (
                 <Step key={status}>
                   <StepLabel>{getOrderStatusLabel(status)}</StepLabel>
+                  <div className="w-full flex justify-center mt-4">
+                    {order.status === 'error_detected' && status === 'error_detected' && (
+                      <Button variant="contained" startIcon={<Approval />} onClick={handleApproval}>
+                        Fehler bestätigen
+                      </Button>
+                    )}
+                    {order.status === 'error_confirmed' && status === 'error_confirmed' && (
+                      <Button
+                        variant="contained"
+                        startIcon={<Approval />}
+                        onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'in_maintenance' })}
+                      >
+                        Reparatur beginnen
+                      </Button>
+                    )}
+                    {order.status === 'in_maintenance' && status === 'in_maintenance' && (
+                      <Button
+                        variant="contained"
+                        startIcon={<Approval />}
+                        onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'closed' })}
+                      >
+                        Reparatur abschließen & Ladungsträger freigeben
+                      </Button>
+                    )}
+                    {order.status === 'closed' && status === 'closed' && (
+                      <Button
+                        variant="contained"
+                        startIcon={<Approval />}
+                        onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'active' })}
+                      >
+                        Auftrag abschließen
+                      </Button>
+                    )}
+                  </div>
                 </Step>
               ))}
             </Stepper>
-          </Grid>
-          <Grid item xs={12} pt={4}>
-            {order.status === 'error_detected' && (
-              <Button variant="contained" startIcon={<Approval />} onClick={handleApproval}>
-                Fehler bestätigen
-              </Button>
-            )}
-            {order.status === 'error_confirmed' && (
-              <Button
-                variant="contained"
-                startIcon={<Approval />}
-                onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'in_maintenance' })}
-              >
-                Reparatur beginnen
-              </Button>
-            )}
-            {order.status === 'in_maintenance' && (
-              <Button
-                variant="contained"
-                startIcon={<Approval />}
-                onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'closed' })}
-              >
-                Reparatur abschließen
-              </Button>
-            )}
-            {order.status === 'closed' && (
-              <Button
-                variant="contained"
-                startIcon={<Approval />}
-                onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'active' })}
-              >
-                Ladungsträger freigeben
-              </Button>
-            )}
           </Grid>
           <Box sx={{ width: '100%', height: '300px' }} pt={2}>
             <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
