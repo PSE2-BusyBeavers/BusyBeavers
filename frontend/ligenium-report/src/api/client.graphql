@@ -2,6 +2,7 @@ subscription SubscribeOrders {
   order {
     id
     status
+    assignee
     created_at
     updated_at
   }
@@ -75,7 +76,7 @@ mutation UpdateIncident($id: Int!, $status: String!) {
 }
 
 mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
-  insert_order_one(object: { incidents: { data: $incidents }, status: "error_detected" }) {
+  insert_order_one(object: { incidents: { data: $incidents }, status: "error_detected", assignee: "Knauber" }) {
     id
   }
 }

@@ -35,14 +35,10 @@ type DataRowProps = {
 };
 
 const DataRow = ({ label, value }: DataRowProps) => (
-  <>
-    <Grid item xs={3}>
-      <Typography variant="h6">{label}</Typography>
-    </Grid>
-    <Grid item xs={9}>
-      <Typography variant="h6">{value}</Typography>
-    </Grid>
-  </>
+  <div className="flex flex-row">
+    <Typography className="w-1/3">{label}</Typography>
+    <Typography>{value}</Typography>
+  </div>
 );
 
 const Order1 = () => {
@@ -101,63 +97,67 @@ const Order1 = () => {
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
       {order && (
         <Grid container>
-          <Grid item xs={12} pb={2}>
-            <Link to="..">
-              <Button startIcon={<ArrowBack />}>Zurück</Button>
-            </Link>
-          </Grid>
-          <DataRow label="Auftragsnummer:" value={order.id.toString()} />
-          <DataRow label="Erstellungsdatum:" value={dayjs(order.created_at).format('DD.MM.YYYY HH:mm')} />
-          <DataRow label="Letzte Änderung:" value={dayjs(order.updated_at).format('DD.MM.YYYY HH:mm')} />
-          <Grid item xs={12} pt={4}>
+          <Grid item xs={12} my={2}>
             <Stepper activeStep={orderStatuses.indexOf(order.status)} alternativeLabel>
               {orderStatuses.map((status) => (
                 <Step key={status}>
                   <StepLabel>{getOrderStatusLabel(status)}</StepLabel>
-                  <div className="w-full flex justify-center mt-4">
-                    {order.status === 'error_detected' && status === 'error_detected' && (
-                      <Button variant="contained" startIcon={<Approval />} onClick={handleApproval}>
-                        Fehler bestätigen
-                      </Button>
-                    )}
-                    {order.status === 'error_confirmed' && status === 'error_confirmed' && (
-                      <Button
-                        variant="contained"
-                        startIcon={<Approval />}
-                        onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'in_maintenance' })}
-                      >
-                        Reparatur beginnen
-                      </Button>
-                    )}
-                    {order.status === 'in_maintenance' && status === 'in_maintenance' && (
-                      <Button
-                        variant="contained"
-                        startIcon={<Approval />}
-                        onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'closed' })}
-                      >
-                        Reparatur abschließen & Ladungsträger freigeben
-                      </Button>
-                    )}
-                    {order.status === 'closed' && status === 'closed' && (
-                      <Button
-                        variant="contained"
-                        startIcon={<Approval />}
-                        onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'active' })}
-                      >
-                        Auftrag abschließen
-                      </Button>
-                    )}
-                  </div>
                 </Step>
               ))}
             </Stepper>
           </Grid>
-          <Box sx={{ width: '100%', height: '300px' }} pt={2}>
-            <DataGrid columns={incidentColumns} rows={order.incidents.flatMap((i) => i.incident)} />
-          </Box>
-          <Grid item xs={12} pt={4}>
-            <Divider />
+          <Grid item xs={12} mb={2}>
+            <Link to="..">
+              <Button startIcon={<ArrowBack />}>Zurück</Button>
+            </Link>
           </Grid>
+          <Grid xs={12} className="flex items-end">
+            <div className="flex flex-col flex-shrink-0 w-1/2">
+              <DataRow label="Auftragsnummer:" value={order.id.toString()} />
+              <DataRow label="Erstellungsdatum:" value={dayjs(order.created_at).format('DD.MM.YYYY HH:mm')} />
+              <DataRow label="Letzte Änderung:" value={dayjs(order.updated_at).format('DD.MM.YYYY HH:mm')} />
+            </div>
+            <div className="ml-auto flex gap-2">
+              {order.status === 'error_detected' && order.status === 'error_detected' && (
+                <>
+                  <Button variant="contained" onClick={handleApproval}>
+                    Fehler bestätigen
+                  </Button>
+                  <Button variant="contained" onClick={handleApproval}>
+                    Fehler verwerfen
+                  </Button>
+                </>
+              )}
+              {order.status === 'error_confirmed' && order.status === 'error_confirmed' && (
+                <Button
+                  variant="contained"
+                  onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'in_maintenance' })}
+                >
+                  Reparatur beginnen
+                </Button>
+              )}
+              {order.status === 'in_maintenance' && order.status === 'in_maintenance' && (
+                <Button
+                  variant="contained"
+                  onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'closed' })}
+                >
+                  Ladungsträger freigeben
+                </Button>
+              )}
+              {order.status === 'closed' && order.status === 'closed' && (
+                <Button
+                  variant="contained"
+                  onClick={() => updateOrder({ id: parseInt(order!.id.toString()), status: 'active' })}
+                >
+                  Auftrag abschließen
+                </Button>
+              )}
+            </div>
+          </Grid>
+          <Box sx={{ width: '100%', height: '300px' }} pt={2}>
+            <DataGrid columns={incidentColumns} pageSize={10} rows={order.incidents.flatMap((i) => i.incident)} />
+          </Box>
+          <Divider />
           <Box sx={{ width: '100%', mt: 2 }}>
             <Typography variant="h5">Protokoll</Typography>
             <Grid sx={{ overflowY: 'auto' }}>

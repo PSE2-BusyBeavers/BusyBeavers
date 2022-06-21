@@ -30,8 +30,13 @@ const CarrierContent = () => {
   const columns: GridColumns = useMemo(
     () => [
       {
+        field: 'id',
+        headerName: 'Störfallnummer',
+        flex: 0.3,
+      },
+      {
         field: 'carrier_id',
-        headerName: 'Ladungsträger-Id',
+        headerName: 'Ladungsträgernummer',
         flex: 0.3,
       },
       {
@@ -62,7 +67,6 @@ const CarrierContent = () => {
           <Container sx={{ height: '100%', pt: 2, display: 'flex', flexDirection: 'column' }}>
             <Button
               variant="contained"
-              startIcon={<Add />}
               disabled={selectionModel.length < 1}
               sx={{ ml: 'auto', mb: 2 }}
               onClick={createIncident}
@@ -77,6 +81,7 @@ const CarrierContent = () => {
               onSelectionModelChange={(newSelectionModel) => {
                 setSelectionModel(newSelectionModel);
               }}
+              pageSize={10}
               selectionModel={selectionModel}
             />
           </Container>

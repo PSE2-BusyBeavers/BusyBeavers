@@ -3,7 +3,7 @@ import { List, ListItem, Paper, ListItemButton, ListItemText, ListItemIcon, Divi
 import { useLocation, useParams, Link, matchPath } from 'react-router-dom';
 
 const pages = [
-  { name: 'Incidents', path: 'incidents', pattern: '/customers/:customer/incidents' },
+  { name: 'Störfälle', path: 'incidents', pattern: '/customers/:customer/incidents' },
   { name: 'Reparaturaufträge', path: 'orders', pattern: '/customers/:customer/orders' },
 ];
 

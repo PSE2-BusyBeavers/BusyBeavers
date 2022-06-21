@@ -15,14 +15,6 @@ import getOrderStatusLabel from '@src/utils/getOrderStatusLabel';
 import { useMemo } from 'react';
 import { Search } from '@mui/icons-material';
 
-const getColor = (status: string) => {
-  if (status === 'in_maintenance') return 'warning';
-  if (status === 'error_confirmed') return 'info';
-  if (status === 'error_detected') return 'error';
-  if (status === 'closed') return 'success';
-  else return 'primary';
-};
-
 const Orders = () => {
   const [, orders] = useOrders();
   const navigate = useNavigate();
@@ -59,12 +51,15 @@ const Orders = () => {
         valueGetter: formatTableDate,
       },
       {
+        field: 'assignee',
+        headerName: 'Zugewiesen an',
+        flex: 0.5,
+      },
+      {
         field: 'status',
         headerName: 'Status',
         flex: 0.5,
-        renderCell: (params: GridRenderCellParams<string>) => (
-          <Chip label={getOrderStatusLabel(params.value!)} color={getColor(params.value as any)} variant="outlined" />
-        ),
+        renderCell: (params: GridRenderCellParams<string>) => <span>{getOrderStatusLabel(params.value!)}</span>,
       },
       {
         field: 'actions',
@@ -85,6 +80,7 @@ const Orders = () => {
       <DataGrid
         columns={columns}
         rows={orders}
+        pageSize={10}
         initialState={initialState}
         onRowClick={(row) => navigate(`${row.id}`)}
       />
