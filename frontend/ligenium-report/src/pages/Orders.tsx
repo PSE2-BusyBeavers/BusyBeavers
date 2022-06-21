@@ -19,7 +19,7 @@ import { Search } from '@mui/icons-material';
 const getColor = (status: string) => {
   if (status === 'in_maintenance') return 'warning';
   if (status === 'error_confirmed') return 'info';
-  if (status === 'error_detected') return 'error';
+  if (status === 'error_detected') return 'info';
   if (status === 'closed') return 'success';
   else return 'primary';
 };

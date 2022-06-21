@@ -1,10 +1,10 @@
 
 //! ATTENTION TO THE CORRECT ORDER
 const mapping = {
-  error_detected: "Möglichen Fehler entdeckt",
+  error_detected: "Möglichen Fehler prüfen",
   error_confirmed: "Fehler bestätigt",
   in_maintenance: "In Bearbeitung",
-  closed: "Erledigt",
+  closed: "Zur Freigabe bereit",
   active: "Wieder in Betrieb",
 };
 
