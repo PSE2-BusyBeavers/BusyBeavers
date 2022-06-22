@@ -1,18 +1,10 @@
 import { Box } from '@mui/material';
 import TopBar from '@src/components/TopBar';
 import { useUser } from '@src/hooks/useUser';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
 function App() {
   const { user } = useUser();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  });
 
   return user ? (
     <>
@@ -22,7 +14,7 @@ function App() {
       </Box>
     </>
   ) : (
-    <></>
+    <Navigate to={'/login'} />
   );
 }
 

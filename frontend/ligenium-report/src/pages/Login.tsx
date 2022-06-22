@@ -16,6 +16,7 @@ const Login = () => {
         name: 'Peter Knauber',
         id: '1',
         theme: 'light',
+        role: 'service',
         avatar:
           'https://www.informatik.hs-mannheim.de/fileadmin/user_upload/fakultaeten/fakultaet_i/neue_webseite/Professoren_und_Mitarbeiter/peter-knauber-300px.jpg',
       });
@@ -24,6 +25,7 @@ const Login = () => {
         name: 'Ferdinand Porsche',
         id: '2',
         theme: 'dark',
+        role: 'customer',
         avatar:
           'https://upload.wikimedia.org/wikipedia/commons/f/fb/Bundesarchiv_Bild_183-2005-1017-525%2C_Dr._Ferdinand_Porsche.jpg',
       });

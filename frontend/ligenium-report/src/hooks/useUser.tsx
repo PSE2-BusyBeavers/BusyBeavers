@@ -4,6 +4,7 @@ interface User {
   id: string;
   name: string;
   avatar: string;
+  role: 'service' | 'customer';
   theme: 'dark' | 'light';
 }
 
