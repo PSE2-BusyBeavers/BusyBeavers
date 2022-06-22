@@ -1,6 +1,6 @@
 import { Grid, Button, TextField, Container, Typography } from '@mui/material';
 import logo from '@src/assets/Logo.png';
-import { useUser } from '@src/hooks/useUser';
+import { useUser, users } from '@src/hooks/useUser';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,23 +12,9 @@ const Login = () => {
 
   function login() {
     if (userValue === 'knauber') {
-      setUser({
-        name: 'Peter Knauber',
-        id: '1',
-        theme: 'light',
-        role: 'service',
-        avatar:
-          'https://www.informatik.hs-mannheim.de/fileadmin/user_upload/fakultaeten/fakultaet_i/neue_webseite/Professoren_und_Mitarbeiter/peter-knauber-300px.jpg',
-      });
+      setUser(users[0]);
     } else if (userValue === 'porsche') {
-      setUser({
-        name: 'Ferdinand Porsche',
-        id: '2',
-        theme: 'dark',
-        role: 'customer',
-        avatar:
-          'https://upload.wikimedia.org/wikipedia/commons/f/fb/Bundesarchiv_Bild_183-2005-1017-525%2C_Dr._Ferdinand_Porsche.jpg',
-      });
+      setUser(users[1]);
     } else {
       alert('Benutzername oder Passwort falsch');
       return;

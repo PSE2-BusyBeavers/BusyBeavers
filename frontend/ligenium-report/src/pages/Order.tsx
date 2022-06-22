@@ -26,7 +26,7 @@ import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLab
 import { useParams, Link } from 'react-router-dom';
 import { DataGrid, GridColumns } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
-import { useUser } from '@src/hooks/useUser';
+import { useUser, users } from '@src/hooks/useUser';
 import dayjs from 'dayjs';
 
 type DataRowProps = {
@@ -111,7 +111,7 @@ const Order1 = () => {
               <Button startIcon={<ArrowBack />}>Zurück</Button>
             </Link>
           </Grid>
-          <Grid xs={12} className="flex items-end">
+          <Grid item xs={12} className="flex items-end">
             <div className="flex flex-col flex-shrink-0 w-1/2">
               <DataRow label="Auftragsnummer:" value={order.id.toString()} />
               <DataRow label="Erstellungsdatum:" value={dayjs(order.created_at).format('DD.MM.YYYY HH:mm')} />
@@ -166,7 +166,7 @@ const Order1 = () => {
                   <Divider variant="inset" component="li" />
                   <ListItem alignItems="flex-start">
                     <ListItemAvatar>
-                      <Avatar alt={p.user} src="/static/images/avatar/2.jpg" />
+                      <Avatar alt={p.user} src={p.user.includes('Knauber') ? users[0].avatar : users[1].avatar} />
                     </ListItemAvatar>
                     <ListItemText primary={p.user} secondary={<span className="whitespace-pre-wrap">{p.body}</span>} />
                   </ListItem>
