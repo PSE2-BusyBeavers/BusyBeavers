@@ -1,73 +1,62 @@
-import {
-  Avatar,
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography
-} from '@mui/material'
-import { DarkMode, LightMode } from '@mui/icons-material'
-import { useAuthUser } from '@src/hooks/Auth'
-import { useState } from 'react'
-
-const settings = ['Settings', 'Account', 'Logout']
+import { Avatar, Box, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { DarkMode, LightMode } from '@mui/icons-material';
+import { useUser } from '@src/hooks/useUser';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const User = () => {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-  const user = useAuthUser()
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const { user, changeTheme, setUser } = useUser();
+  const navigate = useNavigate();
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
+    setAnchorElUser(null);
+  };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
+    setAnchorElUser(event.currentTarget);
+  };
+
+  function logout() {
+    setUser(undefined);
+    navigate('/login');
   }
 
   return (
-    <Stack direction='row' alignItems='center'>
-      <Typography>Hallo, {user.name}!</Typography>
+    <Stack direction="row" alignItems="center">
+      <Typography>Hallo, {user?.name}!</Typography>
 
       <Box sx={{ flexGrow: 0 }} m={2}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt='Remy Sharp' src={user.avatar} />
+          <Avatar alt="Remy Sharp" src={user?.avatar} />
         </IconButton>
         <Menu
           sx={{ mt: '45px' }}
-          id='menu-appbar'
+          id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'right'
+            horizontal: 'right',
           }}
           keepMounted
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'right'
+            horizontal: 'right',
           }}
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          <MenuItem key='theme' onClick={user.changeTheme}>
-            {user.theme === 'light' ? (
-              <DarkMode fontSize='small' />
-            ) : (
-              <LightMode fontSize='small' />
-            )}
-            <Typography>
-              {user.theme === 'light' ? 'Dark' : 'Light'} Theme
-            </Typography>
+          <MenuItem key="theme" onClick={() => changeTheme(user?.theme === 'dark' ? 'light' : 'dark')}>
+            {user?.theme === 'light' ? <DarkMode fontSize="small" /> : <LightMode fontSize="small" />}
+            <Typography>{user?.theme === 'dark' ? 'Light' : 'Dark'} Theme</Typography>
           </MenuItem>
-          {settings.map(setting => (
-            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-              <Typography textAlign='center'>{setting}</Typography>
-            </MenuItem>
-          ))}
+          <MenuItem key="logout" onClick={logout}>
+            <Typography textAlign="center">Logout</Typography>
+          </MenuItem>
         </Menu>
       </Box>
     </Stack>
-  )
-}
+  );
+};
 
-export default User
+export default User;

@@ -5,7 +5,6 @@ import ControlBar from '@src/components/Incidents/ControlBar';
 import { useCreateOrderMutation } from '@src/api/client';
 import useIncidents from '@src/hooks/useIncidents';
 import { useNavigate } from 'react-router-dom';
-import { Add } from '@mui/icons-material';
 
 const CarrierContent = () => {
   const [isLoading, incidents] = useIncidents();

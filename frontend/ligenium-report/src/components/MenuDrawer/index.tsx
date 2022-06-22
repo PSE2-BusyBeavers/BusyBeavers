@@ -21,7 +21,7 @@ const MenuDrawer = () => {
         <Paper elevation={0}>
           <Link to={'/'}>
             <ListItemI>
-              <ListItemButton component="a" sx={{ height: 56, width: '100%' }}>
+              <ListItemButton sx={{ height: 56, width: '100%' }}>
                 <ListItemIcon>
                   <People color="primary" />
                 </ListItemIcon>

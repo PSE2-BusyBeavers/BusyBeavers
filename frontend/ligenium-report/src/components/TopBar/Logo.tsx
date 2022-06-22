@@ -1,5 +1,5 @@
 import { Avatar, Stack, Typography } from '@mui/material';
-import logo from './../../assets/Logo.png';
+import logo from '@src/assets/Logo.png';
 import { Link } from 'react-router-dom';
 
 const Logo = () => {

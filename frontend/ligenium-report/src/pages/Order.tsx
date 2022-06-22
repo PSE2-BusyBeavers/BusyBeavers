@@ -1,4 +1,4 @@
-import { Approval, ArrowBack, Send } from '@mui/icons-material';
+import { ArrowBack, Send } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -26,7 +26,7 @@ import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLab
 import { useParams, Link } from 'react-router-dom';
 import { DataGrid, GridColumns } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
-import { useAuthUser } from '@src/hooks/Auth';
+import { useUser } from '@src/hooks/useUser';
 import dayjs from 'dayjs';
 
 type DataRowProps = {
@@ -43,7 +43,7 @@ const DataRow = ({ label, value }: DataRowProps) => (
 
 const Order1 = () => {
   const params = useParams();
-  const user = useAuthUser();
+  const { user } = useUser();
   const [orderRes] = useSubscribeOrderSubscription({
     variables: {
       id: parseInt(params.order || '', 10),
@@ -190,7 +190,7 @@ const Order1 = () => {
                   createProtocol({
                     order: order.id,
                     body: newProtocolValue,
-                    user: user.name,
+                    user: user?.name!,
                   });
                   setNewProtocolValue('');
                 }}

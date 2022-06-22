@@ -13,8 +13,8 @@ const CustomerSelection = ({ customers }: Props) => {
   const handleNavigation = (id: string) => () => navigate(`/customers/${id}/incidents`);
   return (
     <Grid container sx={{ marginTop: 0, minHeight: '80%' }} spacing={4} justifyContent="center" alignContent="center">
-      {customers.map((customer) => (
-        <CustomerCard customer={customer} onClick={handleNavigation(customer.id)} />
+      {customers.map((customer, i) => (
+        <CustomerCard key={i} customer={customer} onClick={handleNavigation(customer.id)} />
       ))}
     </Grid>
   );
