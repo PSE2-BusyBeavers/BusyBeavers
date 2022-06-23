@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Badge, Container } from '@mui/material';
 import useOrders from '@src/hooks/useOrders';
 import { useNavigate } from 'react-router-dom';
 import { Chip, Tooltip } from '@mui/material';
@@ -13,10 +13,13 @@ import {
 import formatTableDate from '@src/utils/formatTableDate';
 import getOrderStatusLabel from '@src/utils/getOrderStatusLabel';
 import { useMemo } from 'react';
-import { Search } from '@mui/icons-material';
+import { Search, Mail } from '@mui/icons-material';
+import { useUser } from '@src/hooks/useUser';
+import { Notification } from '@src/api/client';
 
 const Orders = () => {
   const [, orders] = useOrders();
+  const { user } = useUser();
   const navigate = useNavigate();
 
   const initialState = useMemo<GridInitialState>(
@@ -65,11 +68,39 @@ const Orders = () => {
         field: 'actions',
         type: 'actions',
         flex: 0.2,
-        getActions: (params: GridRowParams) => [
-          <Tooltip title="View">
-            <GridActionsCellItem label="Report" icon={<Search />} onClick={handleViewReport(params.row.id)} />
-          </Tooltip>,
-        ],
+        getActions: (params: GridRowParams) => {
+          const myNotifications = (params.row.notifications as Notification[])
+            .filter((n) => n.user_id === parseInt(user?.id as unknown as string))
+            .filter((n) => n.read === false);
+
+          const actions = [];
+
+          if (myNotifications.length > 0) {
+            actions.push(
+              <Tooltip title="Benachrichtigungen">
+                <GridActionsCellItem
+                  label="Benachrichtigungen"
+                  icon={
+                    <Badge badgeContent={myNotifications.length} color="primary">
+                      <Mail color="action" />
+                    </Badge>
+                  }
+                  onClick={() => console.log(myNotifications)}
+                />
+              </Tooltip>,
+            );
+          } else {
+            actions.push(<div className="w-8" />);
+          }
+
+          actions.push(
+            <Tooltip title="Details">
+              <GridActionsCellItem label="Details" icon={<Search />} onClick={handleViewReport(params.row.id)} />
+            </Tooltip>,
+          );
+
+          return actions;
+        },
       },
     ],
     [],

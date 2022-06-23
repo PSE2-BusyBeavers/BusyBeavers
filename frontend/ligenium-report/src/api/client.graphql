@@ -5,6 +5,11 @@ subscription SubscribeOrders {
     assignee
     created_at
     updated_at
+    notifications {
+      id
+      user_id
+      read
+    }
   }
 }
 
@@ -89,6 +94,18 @@ mutation CreateProtocol($order: Int!, $body: String!, $user: String!) {
 
 mutation UpdateOrder($id: Int!, $status: String!) {
   update_order(where: { id: { _eq: $id } }, _set: { status: $status }) {
+    affected_rows
+  }
+}
+
+mutation CreateNotification($order: Int!, $user: Int!) {
+  insert_notification_one(object: { order_id: $order, user_id: $user, read: false }) {
+    id
+  }
+}
+
+mutation ReadNotifications($order: Int!, $user: Int!) {
+  update_notification(where: { order_id: { _eq: $order }, user_id: { _eq: $user } }, _set: { read: true }) {
     affected_rows
   }
 }

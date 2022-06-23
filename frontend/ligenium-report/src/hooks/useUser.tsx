@@ -1,7 +1,7 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 
 interface User {
-  id: string;
+  id: number;
   name: string;
   avatar: string;
   role: 'service' | 'customer';
@@ -17,7 +17,7 @@ type UserContext = {
 export const users: User[] = [
   {
     name: 'Peter Knauber',
-    id: '1',
+    id: 1,
     theme: 'light',
     role: 'service',
     avatar:
@@ -25,7 +25,7 @@ export const users: User[] = [
   },
   {
     name: 'Ferdinand Porsche',
-    id: '2',
+    id: 2,
     theme: 'dark',
     role: 'customer',
     avatar:

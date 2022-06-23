@@ -2,7 +2,7 @@ import { Box, Button, CircularProgress, Container } from '@mui/material';
 import { DataGrid, GridColumns, GridSelectionModel } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
 import ControlBar from '@src/components/Incidents/ControlBar';
-import { useCreateOrderMutation } from '@src/api/client';
+import { useCreateOrderMutation, useUpdateCarrierMutation, useUpdateIncidentMutation } from '@src/api/client';
 import useIncidents from '@src/hooks/useIncidents';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,13 +16,26 @@ const CarrierContent = () => {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
   const [_, createOrder] = useCreateOrderMutation();
+  const [, updateIncident] = useUpdateIncidentMutation();
+  const [, updateCarrier] = useUpdateCarrierMutation();
 
   const createIncident = async () => {
     const incidentIds = selectionModel as number[];
     const result = await createOrder({
       incidents: incidentIds.map((i) => ({ incident_id: i })),
     });
-    // TODO: update incident status to be sth like 'active order' and hide them from the list / move them downwards
+
+    incidents.forEach((incident) => {
+      updateCarrier({
+        id: incident.carrier.id,
+        status: 'locked',
+      });
+      updateIncident({
+        id: incident.id,
+        status: 'in_process',
+      });
+    });
+
     navigate(`./../orders/${result.data?.insert_order_one?.id}`);
   };
 

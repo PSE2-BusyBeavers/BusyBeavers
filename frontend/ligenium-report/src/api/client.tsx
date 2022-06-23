@@ -19,8 +19,13 @@ export type Scalars = {
   uuid: any;
 };
 
+export type Boolean_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
+  _cast?: InputMaybe<Boolean_Cast_Exp>;
   _eq?: InputMaybe<Scalars['Boolean']>;
   _gt?: InputMaybe<Scalars['Boolean']>;
   _gte?: InputMaybe<Scalars['Boolean']>;
@@ -32,8 +37,13 @@ export type Boolean_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
+export type Int_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
+  _cast?: InputMaybe<Int_Cast_Exp>;
   _eq?: InputMaybe<Scalars['Int']>;
   _gt?: InputMaybe<Scalars['Int']>;
   _gte?: InputMaybe<Scalars['Int']>;
@@ -129,7 +139,7 @@ export type AuthProviderRequests_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.provider_requests" */
 export enum AuthProviderRequests_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   ProviderRequestsPkey = 'provider_requests_pkey'
 }
 
@@ -283,7 +293,7 @@ export type AuthProviders_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.providers" */
 export enum AuthProviders_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   ProvidersPkey = 'providers_pkey'
 }
 
@@ -417,7 +427,7 @@ export type AuthRefreshTokens_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.refresh_tokens" */
 export enum AuthRefreshTokens_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "refresh_token" */
   RefreshTokensPkey = 'refresh_tokens_pkey'
 }
 
@@ -614,7 +624,7 @@ export type AuthRoles_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.roles" */
 export enum AuthRoles_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "role" */
   RolesPkey = 'roles_pkey'
 }
 
@@ -761,11 +771,11 @@ export type AuthUserProviders_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.user_providers" */
 export enum AuthUserProviders_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   UserProvidersPkey = 'user_providers_pkey',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "provider_user_id", "provider_id" */
   UserProvidersProviderIdProviderUserIdKey = 'user_providers_provider_id_provider_user_id_key',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "provider_id", "user_id" */
   UserProvidersUserIdProviderIdKey = 'user_providers_user_id_provider_id_key'
 }
 
@@ -984,9 +994,9 @@ export type AuthUserRoles_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.user_roles" */
 export enum AuthUserRoles_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   UserRolesPkey = 'user_roles_pkey',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "role", "user_id" */
   UserRolesUserIdRoleKey = 'user_roles_user_id_role_key'
 }
 
@@ -1190,7 +1200,7 @@ export type Buckets_Bool_Exp = {
 
 /** unique or primary key constraints on table "storage.buckets" */
 export enum Buckets_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   BucketsPkey = 'buckets_pkey'
 }
 
@@ -1472,7 +1482,7 @@ export type Carrier_Bool_Exp = {
 
 /** unique or primary key constraints on table "carrier" */
 export enum Carrier_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   CarrierPkey = 'carrier_pkey'
 }
 
@@ -1761,7 +1771,7 @@ export type Files_Bool_Exp = {
 
 /** unique or primary key constraints on table "storage.files" */
 export enum Files_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   FilesPkey = 'files_pkey'
 }
 
@@ -2133,7 +2143,7 @@ export type Incident_Bool_Exp = {
 
 /** unique or primary key constraints on table "incident" */
 export enum Incident_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   IncidentsPkey = 'incidents_pkey'
 }
 
@@ -2445,6 +2455,10 @@ export type Mutation_Root = {
   delete_incident?: Maybe<Incident_Mutation_Response>;
   /** delete single row from the table: "incident" */
   delete_incident_by_pk?: Maybe<Incident>;
+  /** delete data from the table: "notification" */
+  delete_notification?: Maybe<Notification_Mutation_Response>;
+  /** delete single row from the table: "notification" */
+  delete_notification_by_pk?: Maybe<Notification>;
   /** delete data from the table: "order" */
   delete_order?: Maybe<Order_Mutation_Response>;
   /** delete single row from the table: "order" */
@@ -2501,6 +2515,10 @@ export type Mutation_Root = {
   insert_incident?: Maybe<Incident_Mutation_Response>;
   /** insert a single row into the table: "incident" */
   insert_incident_one?: Maybe<Incident>;
+  /** insert data into the table: "notification" */
+  insert_notification?: Maybe<Notification_Mutation_Response>;
+  /** insert a single row into the table: "notification" */
+  insert_notification_one?: Maybe<Notification>;
   /** insert data into the table: "order" */
   insert_order?: Maybe<Order_Mutation_Response>;
   /** insert data into the table: "order_incidents" */
@@ -2557,6 +2575,10 @@ export type Mutation_Root = {
   update_incident?: Maybe<Incident_Mutation_Response>;
   /** update single row of the table: "incident" */
   update_incident_by_pk?: Maybe<Incident>;
+  /** update data of the table: "notification" */
+  update_notification?: Maybe<Notification_Mutation_Response>;
+  /** update single row of the table: "notification" */
+  update_notification_by_pk?: Maybe<Notification>;
   /** update data of the table: "order" */
   update_order?: Maybe<Order_Mutation_Response>;
   /** update single row of the table: "order" */
@@ -2700,6 +2722,18 @@ export type Mutation_RootDelete_IncidentArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Incident_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_NotificationArgs = {
+  where: Notification_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Notification_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -2891,6 +2925,20 @@ export type Mutation_RootInsert_IncidentArgs = {
 export type Mutation_RootInsert_Incident_OneArgs = {
   object: Incident_Insert_Input;
   on_conflict?: InputMaybe<Incident_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_NotificationArgs = {
+  objects: Array<Notification_Insert_Input>;
+  on_conflict?: InputMaybe<Notification_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Notification_OneArgs = {
+  object: Notification_Insert_Input;
+  on_conflict?: InputMaybe<Notification_On_Conflict>;
 };
 
 
@@ -3119,6 +3167,22 @@ export type Mutation_RootUpdate_Incident_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_NotificationArgs = {
+  _inc?: InputMaybe<Notification_Inc_Input>;
+  _set?: InputMaybe<Notification_Set_Input>;
+  where: Notification_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_By_PkArgs = {
+  _inc?: InputMaybe<Notification_Inc_Input>;
+  _set?: InputMaybe<Notification_Set_Input>;
+  pk_columns: Notification_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_OrderArgs = {
   _inc?: InputMaybe<Order_Inc_Input>;
   _set?: InputMaybe<Order_Set_Input>;
@@ -3165,6 +3229,341 @@ export type Mutation_RootUpdate_Protocol_By_PkArgs = {
   pk_columns: Protocol_Pk_Columns_Input;
 };
 
+/** columns and relationships of "notification" */
+export type Notification = {
+  __typename?: 'notification';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id: Scalars['Int'];
+  /** An object relationship */
+  order: Order;
+  order_id: Scalars['Int'];
+  read: Scalars['Boolean'];
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_id: Scalars['Int'];
+};
+
+/** aggregated selection of "notification" */
+export type Notification_Aggregate = {
+  __typename?: 'notification_aggregate';
+  aggregate?: Maybe<Notification_Aggregate_Fields>;
+  nodes: Array<Notification>;
+};
+
+/** aggregate fields of "notification" */
+export type Notification_Aggregate_Fields = {
+  __typename?: 'notification_aggregate_fields';
+  avg?: Maybe<Notification_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Notification_Max_Fields>;
+  min?: Maybe<Notification_Min_Fields>;
+  stddev?: Maybe<Notification_Stddev_Fields>;
+  stddev_pop?: Maybe<Notification_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Notification_Stddev_Samp_Fields>;
+  sum?: Maybe<Notification_Sum_Fields>;
+  var_pop?: Maybe<Notification_Var_Pop_Fields>;
+  var_samp?: Maybe<Notification_Var_Samp_Fields>;
+  variance?: Maybe<Notification_Variance_Fields>;
+};
+
+
+/** aggregate fields of "notification" */
+export type Notification_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Notification_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "notification" */
+export type Notification_Aggregate_Order_By = {
+  avg?: InputMaybe<Notification_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Notification_Max_Order_By>;
+  min?: InputMaybe<Notification_Min_Order_By>;
+  stddev?: InputMaybe<Notification_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Notification_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Notification_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Notification_Sum_Order_By>;
+  var_pop?: InputMaybe<Notification_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Notification_Var_Samp_Order_By>;
+  variance?: InputMaybe<Notification_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "notification" */
+export type Notification_Arr_Rel_Insert_Input = {
+  data: Array<Notification_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Notification_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Notification_Avg_Fields = {
+  __typename?: 'notification_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "notification" */
+export type Notification_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "notification". All fields are combined with a logical 'AND'. */
+export type Notification_Bool_Exp = {
+  _and?: InputMaybe<Array<Notification_Bool_Exp>>;
+  _not?: InputMaybe<Notification_Bool_Exp>;
+  _or?: InputMaybe<Array<Notification_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  order?: InputMaybe<Order_Bool_Exp>;
+  order_id?: InputMaybe<Int_Comparison_Exp>;
+  read?: InputMaybe<Boolean_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user_id?: InputMaybe<Int_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "notification" */
+export enum Notification_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  NotificationsPkey = 'notifications_pkey'
+}
+
+/** input type for incrementing numeric columns in table "notification" */
+export type Notification_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+  order_id?: InputMaybe<Scalars['Int']>;
+  user_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "notification" */
+export type Notification_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['Int']>;
+  order?: InputMaybe<Order_Obj_Rel_Insert_Input>;
+  order_id?: InputMaybe<Scalars['Int']>;
+  read?: InputMaybe<Scalars['Boolean']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type Notification_Max_Fields = {
+  __typename?: 'notification_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "notification" */
+export type Notification_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Notification_Min_Fields = {
+  __typename?: 'notification_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "notification" */
+export type Notification_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "notification" */
+export type Notification_Mutation_Response = {
+  __typename?: 'notification_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Notification>;
+};
+
+/** on_conflict condition type for table "notification" */
+export type Notification_On_Conflict = {
+  constraint: Notification_Constraint;
+  update_columns?: Array<Notification_Update_Column>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "notification". */
+export type Notification_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  read?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: notification */
+export type Notification_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "notification" */
+export enum Notification_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrderId = 'order_id',
+  /** column name */
+  Read = 'read',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "notification" */
+export type Notification_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  id?: InputMaybe<Scalars['Int']>;
+  order_id?: InputMaybe<Scalars['Int']>;
+  read?: InputMaybe<Scalars['Boolean']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Notification_Stddev_Fields = {
+  __typename?: 'notification_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "notification" */
+export type Notification_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Notification_Stddev_Pop_Fields = {
+  __typename?: 'notification_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "notification" */
+export type Notification_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Notification_Stddev_Samp_Fields = {
+  __typename?: 'notification_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "notification" */
+export type Notification_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Notification_Sum_Fields = {
+  __typename?: 'notification_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['Int']>;
+  user_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "notification" */
+export type Notification_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "notification" */
+export enum Notification_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  OrderId = 'order_id',
+  /** column name */
+  Read = 'read',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** aggregate var_pop on columns */
+export type Notification_Var_Pop_Fields = {
+  __typename?: 'notification_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "notification" */
+export type Notification_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Notification_Var_Samp_Fields = {
+  __typename?: 'notification_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "notification" */
+export type Notification_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Notification_Variance_Fields = {
+  __typename?: 'notification_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  order_id?: Maybe<Scalars['Float']>;
+  user_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "notification" */
+export type Notification_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
 /** columns and relationships of "order" */
 export type Order = {
   __typename?: 'order';
@@ -3175,6 +3574,10 @@ export type Order = {
   incidents: Array<Order_Incidents>;
   /** An aggregate relationship */
   incidents_aggregate: Order_Incidents_Aggregate;
+  /** An array relationship */
+  notifications: Array<Notification>;
+  /** An aggregate relationship */
+  notifications_aggregate: Notification_Aggregate;
   /** An array relationship */
   protocols: Array<Protocol>;
   /** An aggregate relationship */
@@ -3201,6 +3604,26 @@ export type OrderIncidents_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
+};
+
+
+/** columns and relationships of "order" */
+export type OrderNotificationsArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+/** columns and relationships of "order" */
+export type OrderNotifications_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
 };
 
 
@@ -3268,6 +3691,7 @@ export type Order_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   incidents?: InputMaybe<Order_Incidents_Bool_Exp>;
+  notifications?: InputMaybe<Notification_Bool_Exp>;
   protocols?: InputMaybe<Protocol_Bool_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -3291,7 +3715,7 @@ export enum Order_By {
 
 /** unique or primary key constraints on table "order" */
 export enum Order_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   OrderPkey = 'order_pkey'
 }
 
@@ -3393,7 +3817,7 @@ export type Order_Incidents_Bool_Exp = {
 
 /** unique or primary key constraints on table "order_incidents" */
 export enum Order_Incidents_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   OrderCarriersPkey = 'order_carriers_pkey'
 }
 
@@ -3611,6 +4035,7 @@ export type Order_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
   incidents?: InputMaybe<Order_Incidents_Arr_Rel_Insert_Input>;
+  notifications?: InputMaybe<Notification_Arr_Rel_Insert_Input>;
   protocols?: InputMaybe<Protocol_Arr_Rel_Insert_Input>;
   status?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
@@ -3665,6 +4090,7 @@ export type Order_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   incidents_aggregate?: InputMaybe<Order_Incidents_Aggregate_Order_By>;
+  notifications_aggregate?: InputMaybe<Notification_Aggregate_Order_By>;
   protocols_aggregate?: InputMaybe<Protocol_Aggregate_Order_By>;
   status?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -3848,7 +4274,7 @@ export type Protocol_Bool_Exp = {
 
 /** unique or primary key constraints on table "protocol" */
 export enum Protocol_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   ProtocolPkey = 'protocol_pkey'
 }
 
@@ -4138,6 +4564,12 @@ export type Query_Root = {
   incident_aggregate: Incident_Aggregate;
   /** fetch data from the table: "incident" using primary key columns */
   incident_by_pk?: Maybe<Incident>;
+  /** fetch data from the table: "notification" */
+  notification: Array<Notification>;
+  /** fetch aggregated fields from the table: "notification" */
+  notification_aggregate: Notification_Aggregate;
+  /** fetch data from the table: "notification" using primary key columns */
+  notification_by_pk?: Maybe<Notification>;
   /** fetch data from the table: "order" */
   order: Array<Order>;
   /** fetch aggregated fields from the table: "order" */
@@ -4395,6 +4827,29 @@ export type Query_RootIncident_By_PkArgs = {
 };
 
 
+export type Query_RootNotificationArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Query_RootNotification_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Query_RootNotification_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootOrderArgs = {
   distinct_on?: InputMaybe<Array<Order_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4548,6 +5003,12 @@ export type Subscription_Root = {
   incident_aggregate: Incident_Aggregate;
   /** fetch data from the table: "incident" using primary key columns */
   incident_by_pk?: Maybe<Incident>;
+  /** fetch data from the table: "notification" */
+  notification: Array<Notification>;
+  /** fetch aggregated fields from the table: "notification" */
+  notification_aggregate: Notification_Aggregate;
+  /** fetch data from the table: "notification" using primary key columns */
+  notification_by_pk?: Maybe<Notification>;
   /** fetch data from the table: "order" */
   order: Array<Order>;
   /** fetch aggregated fields from the table: "order" */
@@ -4805,6 +5266,29 @@ export type Subscription_RootIncident_By_PkArgs = {
 };
 
 
+export type Subscription_RootNotificationArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Subscription_RootOrderArgs = {
   distinct_on?: InputMaybe<Array<Order_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4896,8 +5380,13 @@ export type Subscription_RootUsersAggregateArgs = {
   where?: InputMaybe<Users_Bool_Exp>;
 };
 
+export type Timestamptz_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
+  _cast?: InputMaybe<Timestamptz_Cast_Exp>;
   _eq?: InputMaybe<Scalars['timestamptz']>;
   _gt?: InputMaybe<Scalars['timestamptz']>;
   _gte?: InputMaybe<Scalars['timestamptz']>;
@@ -5096,11 +5585,11 @@ export type Users_Bool_Exp = {
 
 /** unique or primary key constraints on table "auth.users" */
 export enum Users_Constraint {
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "email" */
   UsersEmailKey = 'users_email_key',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "phone_number" */
   UsersPhoneNumberKey = 'users_phone_number_key',
-  /** unique or primary key constraint */
+  /** unique or primary key constraint on columns "id" */
   UsersPkey = 'users_pkey'
 }
 
@@ -5442,8 +5931,13 @@ export enum Users_Update_Column {
   UpdatedAt = 'updatedAt'
 }
 
+export type Uuid_Cast_Exp = {
+  String?: InputMaybe<String_Comparison_Exp>;
+};
+
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
+  _cast?: InputMaybe<Uuid_Cast_Exp>;
   _eq?: InputMaybe<Scalars['uuid']>;
   _gt?: InputMaybe<Scalars['uuid']>;
   _gte?: InputMaybe<Scalars['uuid']>;
@@ -5458,7 +5952,7 @@ export type Uuid_Comparison_Exp = {
 export type SubscribeOrdersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SubscribeOrdersSubscription = { __typename?: 'subscription_root', order: Array<{ __typename?: 'order', id: number, status: string, assignee?: string | null, created_at: any, updated_at: any }> };
+export type SubscribeOrdersSubscription = { __typename?: 'subscription_root', order: Array<{ __typename?: 'order', id: number, status: string, assignee?: string | null, created_at: any, updated_at: any, notifications: Array<{ __typename?: 'notification', id: number, user_id: number, read: boolean }> }> };
 
 export type SubscribeOrderSubscriptionVariables = Exact<{
   id: Scalars['Int'];
@@ -5524,6 +6018,22 @@ export type UpdateOrderMutationVariables = Exact<{
 
 export type UpdateOrderMutation = { __typename?: 'mutation_root', update_order?: { __typename?: 'order_mutation_response', affected_rows: number } | null };
 
+export type CreateNotificationMutationVariables = Exact<{
+  order: Scalars['Int'];
+  user: Scalars['Int'];
+}>;
+
+
+export type CreateNotificationMutation = { __typename?: 'mutation_root', insert_notification_one?: { __typename?: 'notification', id: number } | null };
+
+export type ReadNotificationsMutationVariables = Exact<{
+  order: Scalars['Int'];
+  user: Scalars['Int'];
+}>;
+
+
+export type ReadNotificationsMutation = { __typename?: 'mutation_root', update_notification?: { __typename?: 'notification_mutation_response', affected_rows: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
     subscription SubscribeOrders {
@@ -5533,6 +6043,11 @@ export const SubscribeOrdersDocument = gql`
     assignee
     created_at
     updated_at
+    notifications {
+      id
+      user_id
+      read
+    }
   }
 }
     `;
@@ -5671,4 +6186,29 @@ export const UpdateOrderDocument = gql`
 
 export function useUpdateOrderMutation() {
   return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
+};
+export const CreateNotificationDocument = gql`
+    mutation CreateNotification($order: Int!, $user: Int!) {
+  insert_notification_one(object: {order_id: $order, user_id: $user, read: false}) {
+    id
+  }
+}
+    `;
+
+export function useCreateNotificationMutation() {
+  return Urql.useMutation<CreateNotificationMutation, CreateNotificationMutationVariables>(CreateNotificationDocument);
+};
+export const ReadNotificationsDocument = gql`
+    mutation ReadNotifications($order: Int!, $user: Int!) {
+  update_notification(
+    where: {order_id: {_eq: $order}, user_id: {_eq: $user}}
+    _set: {read: true}
+  ) {
+    affected_rows
+  }
+}
+    `;
+
+export function useReadNotificationsMutation() {
+  return Urql.useMutation<ReadNotificationsMutation, ReadNotificationsMutationVariables>(ReadNotificationsDocument);
 };
