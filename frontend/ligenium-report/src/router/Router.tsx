@@ -7,7 +7,6 @@ import CustomerLayout from '@src/components/layout/CustomerLayout';
 import App from '@src/components/layout/App';
 import IncidentsHeatmap from '@src/pages/IncidentsHeatmap';
 import Login from '@src/pages/Login';
-import Carriers from '@src/pages/Carriers';
 import Sensor from '@src/pages/Sensor';
 
 function Router() {
@@ -24,9 +23,6 @@ function Router() {
           <Route path="orders">
             <Route index element={<Orders />} />
             <Route path=":order" element={<Order />} />
-          </Route>
-          <Route path="carriers">
-            <Route index element={<Carriers />} />
           </Route>
         </Route>
       </Route>
