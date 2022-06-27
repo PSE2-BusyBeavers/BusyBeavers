@@ -1,9 +1,11 @@
-import { ArrowBack, Send } from '@mui/icons-material';
+import { ArrowBack, Search, Send } from '@mui/icons-material';
 import {
   Avatar,
   Box,
   Button,
   Container,
+  Dialog,
+  DialogContent,
   Divider,
   Grid,
   ListItem,
@@ -13,6 +15,7 @@ import {
   StepLabel,
   Stepper,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import {
@@ -24,10 +27,11 @@ import {
 } from '@src/api/client';
 import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLabel';
 import { useParams, Link } from 'react-router-dom';
-import { DataGrid, GridColumns } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColumns, GridRowParams } from '@mui/x-data-grid';
 import { useEffect, useMemo, useState } from 'react';
 import { useUser, users } from '@src/hooks/useUser';
 import dayjs from 'dayjs';
+import CarrierData from '@src/components/CarrierData';
 
 type DataRowProps = {
   label: string;
@@ -85,6 +89,8 @@ const Order = () => {
     });
   }
 
+  const [showCarrierDataOfId, setShowCarrierDataOfId] = useState<number | null>(null);
+
   const incidentColumns: GridColumns = useMemo(
     () => [
       {
@@ -97,6 +103,20 @@ const Order = () => {
         field: 'assumption',
         headerName: 'Fehlervermutung',
         flex: 0.5,
+      },
+      {
+        field: 'actions',
+        type: 'actions',
+        flex: 0.1,
+        getActions: (params: GridRowParams) => [
+          <Tooltip title="Details">
+            <GridActionsCellItem
+              label="Details"
+              icon={<Search />}
+              onClick={() => setShowCarrierDataOfId(params.row.id as number)}
+            />
+          </Tooltip>,
+        ],
       },
     ],
     [],
@@ -137,6 +157,14 @@ const Order = () => {
 
   return (
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
+      <Dialog
+        open={showCarrierDataOfId !== null}
+        onClose={() => setShowCarrierDataOfId(null)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <DialogContent>{showCarrierDataOfId && <CarrierData carrierId={showCarrierDataOfId} />}</DialogContent>
+      </Dialog>
       {order && (
         <Grid container>
           <Grid item xs={12} my={2}>
@@ -188,7 +216,12 @@ const Order = () => {
             </div>
           </Grid>
           <Box sx={{ width: '100%', height: '300px' }} pt={2}>
-            <DataGrid columns={incidentColumns} pageSize={10} rows={order.incidents.flatMap((i) => i.incident)} />
+            <DataGrid
+              columns={incidentColumns}
+              pageSize={10}
+              rows={order.incidents.flatMap((i) => i.incident)}
+              onRowClick={(row) => setShowCarrierDataOfId(row.id as number)}
+            />
           </Box>
           <Divider />
           <Box sx={{ width: '100%', mt: 2 }}>

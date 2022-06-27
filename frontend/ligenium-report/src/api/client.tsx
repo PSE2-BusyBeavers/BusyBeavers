@@ -1402,6 +1402,10 @@ export type Carrier = {
   __typename?: 'carrier';
   created_at: Scalars['timestamptz'];
   customer: Scalars['String'];
+  /** An array relationship */
+  data: Array<Carrier_Data>;
+  /** An aggregate relationship */
+  data_aggregate: Carrier_Data_Aggregate;
   id: Scalars['Int'];
   /** An array relationship */
   incidents: Array<Incident>;
@@ -1409,6 +1413,26 @@ export type Carrier = {
   incidents_aggregate: Incident_Aggregate;
   status: Scalars['String'];
   updated_at: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "carrier" */
+export type CarrierDataArgs = {
+  distinct_on?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Carrier_Data_Order_By>>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
+};
+
+
+/** columns and relationships of "carrier" */
+export type CarrierData_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Carrier_Data_Order_By>>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
 };
 
 
@@ -1474,6 +1498,7 @@ export type Carrier_Bool_Exp = {
   _or?: InputMaybe<Array<Carrier_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   customer?: InputMaybe<String_Comparison_Exp>;
+  data?: InputMaybe<Carrier_Data_Bool_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   incidents?: InputMaybe<Incident_Bool_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
@@ -1486,6 +1511,328 @@ export enum Carrier_Constraint {
   CarrierPkey = 'carrier_pkey'
 }
 
+/** columns and relationships of "carrier_data" */
+export type Carrier_Data = {
+  __typename?: 'carrier_data';
+  /** An object relationship */
+  carrier: Carrier;
+  carrier_id: Scalars['Int'];
+  created_at: Scalars['timestamptz'];
+  dataset: Scalars['String'];
+  id: Scalars['Int'];
+  type: Scalars['String'];
+  value: Scalars['String'];
+};
+
+/** aggregated selection of "carrier_data" */
+export type Carrier_Data_Aggregate = {
+  __typename?: 'carrier_data_aggregate';
+  aggregate?: Maybe<Carrier_Data_Aggregate_Fields>;
+  nodes: Array<Carrier_Data>;
+};
+
+/** aggregate fields of "carrier_data" */
+export type Carrier_Data_Aggregate_Fields = {
+  __typename?: 'carrier_data_aggregate_fields';
+  avg?: Maybe<Carrier_Data_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Carrier_Data_Max_Fields>;
+  min?: Maybe<Carrier_Data_Min_Fields>;
+  stddev?: Maybe<Carrier_Data_Stddev_Fields>;
+  stddev_pop?: Maybe<Carrier_Data_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Carrier_Data_Stddev_Samp_Fields>;
+  sum?: Maybe<Carrier_Data_Sum_Fields>;
+  var_pop?: Maybe<Carrier_Data_Var_Pop_Fields>;
+  var_samp?: Maybe<Carrier_Data_Var_Samp_Fields>;
+  variance?: Maybe<Carrier_Data_Variance_Fields>;
+};
+
+
+/** aggregate fields of "carrier_data" */
+export type Carrier_Data_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "carrier_data" */
+export type Carrier_Data_Aggregate_Order_By = {
+  avg?: InputMaybe<Carrier_Data_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Carrier_Data_Max_Order_By>;
+  min?: InputMaybe<Carrier_Data_Min_Order_By>;
+  stddev?: InputMaybe<Carrier_Data_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Carrier_Data_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Carrier_Data_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Carrier_Data_Sum_Order_By>;
+  var_pop?: InputMaybe<Carrier_Data_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Carrier_Data_Var_Samp_Order_By>;
+  variance?: InputMaybe<Carrier_Data_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "carrier_data" */
+export type Carrier_Data_Arr_Rel_Insert_Input = {
+  data: Array<Carrier_Data_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Carrier_Data_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Carrier_Data_Avg_Fields = {
+  __typename?: 'carrier_data_avg_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "carrier_data" */
+export type Carrier_Data_Avg_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "carrier_data". All fields are combined with a logical 'AND'. */
+export type Carrier_Data_Bool_Exp = {
+  _and?: InputMaybe<Array<Carrier_Data_Bool_Exp>>;
+  _not?: InputMaybe<Carrier_Data_Bool_Exp>;
+  _or?: InputMaybe<Array<Carrier_Data_Bool_Exp>>;
+  carrier?: InputMaybe<Carrier_Bool_Exp>;
+  carrier_id?: InputMaybe<Int_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  dataset?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
+  value?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "carrier_data" */
+export enum Carrier_Data_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  CarrierDataPkey = 'carrier_data_pkey'
+}
+
+/** input type for incrementing numeric columns in table "carrier_data" */
+export type Carrier_Data_Inc_Input = {
+  carrier_id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "carrier_data" */
+export type Carrier_Data_Insert_Input = {
+  carrier?: InputMaybe<Carrier_Obj_Rel_Insert_Input>;
+  carrier_id?: InputMaybe<Scalars['Int']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  dataset?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Carrier_Data_Max_Fields = {
+  __typename?: 'carrier_data_max_fields';
+  carrier_id?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dataset?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "carrier_data" */
+export type Carrier_Data_Max_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dataset?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Carrier_Data_Min_Fields = {
+  __typename?: 'carrier_data_min_fields';
+  carrier_id?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dataset?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "carrier_data" */
+export type Carrier_Data_Min_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dataset?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "carrier_data" */
+export type Carrier_Data_Mutation_Response = {
+  __typename?: 'carrier_data_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Carrier_Data>;
+};
+
+/** on_conflict condition type for table "carrier_data" */
+export type Carrier_Data_On_Conflict = {
+  constraint: Carrier_Data_Constraint;
+  update_columns?: Array<Carrier_Data_Update_Column>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "carrier_data". */
+export type Carrier_Data_Order_By = {
+  carrier?: InputMaybe<Carrier_Order_By>;
+  carrier_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dataset?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  value?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: carrier_data */
+export type Carrier_Data_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "carrier_data" */
+export enum Carrier_Data_Select_Column {
+  /** column name */
+  CarrierId = 'carrier_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Dataset = 'dataset',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  Value = 'value'
+}
+
+/** input type for updating data in table "carrier_data" */
+export type Carrier_Data_Set_Input = {
+  carrier_id?: InputMaybe<Scalars['Int']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  dataset?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  type?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Carrier_Data_Stddev_Fields = {
+  __typename?: 'carrier_data_stddev_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "carrier_data" */
+export type Carrier_Data_Stddev_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Carrier_Data_Stddev_Pop_Fields = {
+  __typename?: 'carrier_data_stddev_pop_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "carrier_data" */
+export type Carrier_Data_Stddev_Pop_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Carrier_Data_Stddev_Samp_Fields = {
+  __typename?: 'carrier_data_stddev_samp_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "carrier_data" */
+export type Carrier_Data_Stddev_Samp_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Carrier_Data_Sum_Fields = {
+  __typename?: 'carrier_data_sum_fields';
+  carrier_id?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "carrier_data" */
+export type Carrier_Data_Sum_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "carrier_data" */
+export enum Carrier_Data_Update_Column {
+  /** column name */
+  CarrierId = 'carrier_id',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Dataset = 'dataset',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  Value = 'value'
+}
+
+/** aggregate var_pop on columns */
+export type Carrier_Data_Var_Pop_Fields = {
+  __typename?: 'carrier_data_var_pop_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "carrier_data" */
+export type Carrier_Data_Var_Pop_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Carrier_Data_Var_Samp_Fields = {
+  __typename?: 'carrier_data_var_samp_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "carrier_data" */
+export type Carrier_Data_Var_Samp_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Carrier_Data_Variance_Fields = {
+  __typename?: 'carrier_data_variance_fields';
+  carrier_id?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "carrier_data" */
+export type Carrier_Data_Variance_Order_By = {
+  carrier_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
 /** input type for incrementing numeric columns in table "carrier" */
 export type Carrier_Inc_Input = {
   id?: InputMaybe<Scalars['Int']>;
@@ -1495,6 +1842,7 @@ export type Carrier_Inc_Input = {
 export type Carrier_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   customer?: InputMaybe<Scalars['String']>;
+  data?: InputMaybe<Carrier_Data_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['Int']>;
   incidents?: InputMaybe<Incident_Arr_Rel_Insert_Input>;
   status?: InputMaybe<Scalars['String']>;
@@ -1548,6 +1896,7 @@ export type Carrier_On_Conflict = {
 export type Carrier_Order_By = {
   created_at?: InputMaybe<Order_By>;
   customer?: InputMaybe<Order_By>;
+  data_aggregate?: InputMaybe<Carrier_Data_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   incidents_aggregate?: InputMaybe<Incident_Aggregate_Order_By>;
   status?: InputMaybe<Order_By>;
@@ -2451,6 +2800,10 @@ export type Mutation_Root = {
   delete_carrier?: Maybe<Carrier_Mutation_Response>;
   /** delete single row from the table: "carrier" */
   delete_carrier_by_pk?: Maybe<Carrier>;
+  /** delete data from the table: "carrier_data" */
+  delete_carrier_data?: Maybe<Carrier_Data_Mutation_Response>;
+  /** delete single row from the table: "carrier_data" */
+  delete_carrier_data_by_pk?: Maybe<Carrier_Data>;
   /** delete data from the table: "incident" */
   delete_incident?: Maybe<Incident_Mutation_Response>;
   /** delete single row from the table: "incident" */
@@ -2509,6 +2862,10 @@ export type Mutation_Root = {
   insertUsers?: Maybe<Users_Mutation_Response>;
   /** insert data into the table: "carrier" */
   insert_carrier?: Maybe<Carrier_Mutation_Response>;
+  /** insert data into the table: "carrier_data" */
+  insert_carrier_data?: Maybe<Carrier_Data_Mutation_Response>;
+  /** insert a single row into the table: "carrier_data" */
+  insert_carrier_data_one?: Maybe<Carrier_Data>;
   /** insert a single row into the table: "carrier" */
   insert_carrier_one?: Maybe<Carrier>;
   /** insert data into the table: "incident" */
@@ -2571,6 +2928,10 @@ export type Mutation_Root = {
   update_carrier?: Maybe<Carrier_Mutation_Response>;
   /** update single row of the table: "carrier" */
   update_carrier_by_pk?: Maybe<Carrier>;
+  /** update data of the table: "carrier_data" */
+  update_carrier_data?: Maybe<Carrier_Data_Mutation_Response>;
+  /** update single row of the table: "carrier_data" */
+  update_carrier_data_by_pk?: Maybe<Carrier_Data>;
   /** update data of the table: "incident" */
   update_incident?: Maybe<Incident_Mutation_Response>;
   /** update single row of the table: "incident" */
@@ -2710,6 +3071,18 @@ export type Mutation_RootDelete_CarrierArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Carrier_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Carrier_DataArgs = {
+  where: Carrier_Data_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Carrier_Data_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -2904,6 +3277,20 @@ export type Mutation_RootInsertUsersArgs = {
 export type Mutation_RootInsert_CarrierArgs = {
   objects: Array<Carrier_Insert_Input>;
   on_conflict?: InputMaybe<Carrier_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Carrier_DataArgs = {
+  objects: Array<Carrier_Data_Insert_Input>;
+  on_conflict?: InputMaybe<Carrier_Data_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Carrier_Data_OneArgs = {
+  object: Carrier_Data_Insert_Input;
+  on_conflict?: InputMaybe<Carrier_Data_On_Conflict>;
 };
 
 
@@ -3147,6 +3534,22 @@ export type Mutation_RootUpdate_Carrier_By_PkArgs = {
   _inc?: InputMaybe<Carrier_Inc_Input>;
   _set?: InputMaybe<Carrier_Set_Input>;
   pk_columns: Carrier_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Carrier_DataArgs = {
+  _inc?: InputMaybe<Carrier_Data_Inc_Input>;
+  _set?: InputMaybe<Carrier_Data_Set_Input>;
+  where: Carrier_Data_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Carrier_Data_By_PkArgs = {
+  _inc?: InputMaybe<Carrier_Data_Inc_Input>;
+  _set?: InputMaybe<Carrier_Data_Set_Input>;
+  pk_columns: Carrier_Data_Pk_Columns_Input;
 };
 
 
@@ -4552,6 +4955,12 @@ export type Query_Root = {
   carrier_aggregate: Carrier_Aggregate;
   /** fetch data from the table: "carrier" using primary key columns */
   carrier_by_pk?: Maybe<Carrier>;
+  /** fetch data from the table: "carrier_data" */
+  carrier_data: Array<Carrier_Data>;
+  /** fetch aggregated fields from the table: "carrier_data" */
+  carrier_data_aggregate: Carrier_Data_Aggregate;
+  /** fetch data from the table: "carrier_data" using primary key columns */
+  carrier_data_by_pk?: Maybe<Carrier_Data>;
   /** fetch data from the table: "storage.files" using primary key columns */
   file?: Maybe<Files>;
   /** An array relationship */
@@ -4781,6 +5190,29 @@ export type Query_RootCarrier_By_PkArgs = {
 };
 
 
+export type Query_RootCarrier_DataArgs = {
+  distinct_on?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Carrier_Data_Order_By>>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
+};
+
+
+export type Query_RootCarrier_Data_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Carrier_Data_Order_By>>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
+};
+
+
+export type Query_RootCarrier_Data_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootFileArgs = {
   id: Scalars['uuid'];
 };
@@ -4991,6 +5423,12 @@ export type Subscription_Root = {
   carrier_aggregate: Carrier_Aggregate;
   /** fetch data from the table: "carrier" using primary key columns */
   carrier_by_pk?: Maybe<Carrier>;
+  /** fetch data from the table: "carrier_data" */
+  carrier_data: Array<Carrier_Data>;
+  /** fetch aggregated fields from the table: "carrier_data" */
+  carrier_data_aggregate: Carrier_Data_Aggregate;
+  /** fetch data from the table: "carrier_data" using primary key columns */
+  carrier_data_by_pk?: Maybe<Carrier_Data>;
   /** fetch data from the table: "storage.files" using primary key columns */
   file?: Maybe<Files>;
   /** An array relationship */
@@ -5216,6 +5654,29 @@ export type Subscription_RootCarrier_AggregateArgs = {
 
 
 export type Subscription_RootCarrier_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootCarrier_DataArgs = {
+  distinct_on?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Carrier_Data_Order_By>>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
+};
+
+
+export type Subscription_RootCarrier_Data_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Carrier_Data_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Carrier_Data_Order_By>>;
+  where?: InputMaybe<Carrier_Data_Bool_Exp>;
+};
+
+
+export type Subscription_RootCarrier_Data_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -5973,6 +6434,14 @@ export type SubscribeCarrierSubscriptionVariables = Exact<{
 
 export type SubscribeCarrierSubscription = { __typename?: 'subscription_root', carrier_by_pk?: { __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any } | null };
 
+export type SubscribeCarrierDataSubscriptionVariables = Exact<{
+  carrierId: Scalars['Int'];
+  type: Scalars['String'];
+}>;
+
+
+export type SubscribeCarrierDataSubscription = { __typename?: 'subscription_root', carrier_data: Array<{ __typename?: 'carrier_data', id: number, created_at: any, value: string, dataset: string }> };
+
 export type SubscribeIncidentsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -6033,6 +6502,16 @@ export type ReadNotificationsMutationVariables = Exact<{
 
 
 export type ReadNotificationsMutation = { __typename?: 'mutation_root', update_notification?: { __typename?: 'notification_mutation_response', affected_rows: number } | null };
+
+export type CreateCarrierDataEntryMutationVariables = Exact<{
+  carrierId: Scalars['Int'];
+  type: Scalars['String'];
+  value: Scalars['String'];
+  dataset: Scalars['String'];
+}>;
+
+
+export type CreateCarrierDataEntryMutation = { __typename?: 'mutation_root', insert_carrier_data_one?: { __typename?: 'carrier_data', id: number } | null };
 
 
 export const SubscribeOrdersDocument = gql`
@@ -6113,6 +6592,20 @@ export const SubscribeCarrierDocument = gql`
 
 export function useSubscribeCarrierSubscription<TData = SubscribeCarrierSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeCarrierSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeCarrierSubscription, TData>) {
   return Urql.useSubscription<SubscribeCarrierSubscription, TData, SubscribeCarrierSubscriptionVariables>({ query: SubscribeCarrierDocument, ...options }, handler);
+};
+export const SubscribeCarrierDataDocument = gql`
+    subscription SubscribeCarrierData($carrierId: Int!, $type: String!) {
+  carrier_data(where: {carrier: {id: {_eq: $carrierId}}, type: {_eq: $type}}) {
+    id
+    created_at
+    value
+    dataset
+  }
+}
+    `;
+
+export function useSubscribeCarrierDataSubscription<TData = SubscribeCarrierDataSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeCarrierDataSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeCarrierDataSubscription, TData>) {
+  return Urql.useSubscription<SubscribeCarrierDataSubscription, TData, SubscribeCarrierDataSubscriptionVariables>({ query: SubscribeCarrierDataDocument, ...options }, handler);
 };
 export const SubscribeIncidentsDocument = gql`
     subscription SubscribeIncidents {
@@ -6211,4 +6704,17 @@ export const ReadNotificationsDocument = gql`
 
 export function useReadNotificationsMutation() {
   return Urql.useMutation<ReadNotificationsMutation, ReadNotificationsMutationVariables>(ReadNotificationsDocument);
+};
+export const CreateCarrierDataEntryDocument = gql`
+    mutation CreateCarrierDataEntry($carrierId: Int!, $type: String!, $value: String!, $dataset: String!) {
+  insert_carrier_data_one(
+    object: {carrier_id: $carrierId, type: $type, value: $value, dataset: $dataset}
+  ) {
+    id
+  }
+}
+    `;
+
+export function useCreateCarrierDataEntryMutation() {
+  return Urql.useMutation<CreateCarrierDataEntryMutation, CreateCarrierDataEntryMutationVariables>(CreateCarrierDataEntryDocument);
 };

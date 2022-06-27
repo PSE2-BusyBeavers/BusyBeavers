@@ -57,6 +57,15 @@ subscription SubscribeCarrier($id: Int!) {
   }
 }
 
+subscription SubscribeCarrierData($carrierId: Int!, $type: String!) {
+  carrier_data(where: { carrier: { id: { _eq: $carrierId } }, type: { _eq: $type } }) {
+    id
+    created_at
+    value
+    dataset
+  }
+}
+
 subscription SubscribeIncidents {
   incident {
     id
@@ -107,5 +116,11 @@ mutation CreateNotification($order: Int!, $user: Int!) {
 mutation ReadNotifications($order: Int!, $user: Int!) {
   update_notification(where: { order_id: { _eq: $order }, user_id: { _eq: $user } }, _set: { read: true }) {
     affected_rows
+  }
+}
+
+mutation CreateCarrierDataEntry($carrierId: Int!, $type: String!, $value: String!, $dataset: String!) {
+  insert_carrier_data_one(object: { carrier_id: $carrierId, type: $type, value: $value, dataset: $dataset }) {
+    id
   }
 }
