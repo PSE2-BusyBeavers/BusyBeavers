@@ -26,7 +26,7 @@ export const users: User[] = [
   {
     name: 'Ferdinand Porsche',
     id: 2,
-    theme: 'dark',
+    theme: 'light',
     role: 'customer',
     avatar:
       'https://upload.wikimedia.org/wikipedia/commons/f/fb/Bundesarchiv_Bild_183-2005-1017-525%2C_Dr._Ferdinand_Porsche.jpg',
