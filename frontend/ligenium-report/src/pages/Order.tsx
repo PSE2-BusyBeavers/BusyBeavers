@@ -31,7 +31,7 @@ import { DataGrid, GridActionsCellItem, GridColumns, GridRowParams } from '@mui/
 import { useEffect, useMemo, useState } from 'react';
 import { useUser, users } from '@src/hooks/useUser';
 import dayjs from 'dayjs';
-import CarrierData from '@src/components/CarrierData';
+import CarrierDataPopup from '@src/components/CarrierDataPopup';
 
 type DataRowProps = {
   label: string;
@@ -157,14 +157,10 @@ const Order = () => {
 
   return (
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
-      <Dialog
-        open={showCarrierDataOfId !== null}
-        onClose={() => setShowCarrierDataOfId(null)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <DialogContent>{showCarrierDataOfId && <CarrierData carrierId={showCarrierDataOfId} />}</DialogContent>
-      </Dialog>
+      <CarrierDataPopup
+        carrierId={showCarrierDataOfId}
+        setCarrierId={(carrierId) => setShowCarrierDataOfId(carrierId)}
+      />
       {order && (
         <Grid container>
           <Grid item xs={12} my={2}>
