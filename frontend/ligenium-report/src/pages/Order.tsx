@@ -157,10 +157,12 @@ const Order = () => {
 
   return (
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
-      <CarrierDataPopup
-        carrierId={showCarrierDataOfId}
-        setCarrierId={(carrierId) => setShowCarrierDataOfId(carrierId)}
-      />
+      {showCarrierDataOfId && (
+        <CarrierDataPopup
+          carrierId={showCarrierDataOfId}
+          setCarrierId={(carrierId) => setShowCarrierDataOfId(carrierId)}
+        />
+      )}
       {order && (
         <Grid container>
           <Grid item xs={12} my={2}>

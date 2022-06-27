@@ -31,7 +31,7 @@ const Sensor = () => {
   }, 1000);
 
   useEffect(() => {
-    const handleMotionEvent = (event: DeviceMotionEvent & DeviceMotionEventAcceleration) => {
+    const handleMotionEvent = (event: any) => {
       if (!recording) {
         return;
       }
