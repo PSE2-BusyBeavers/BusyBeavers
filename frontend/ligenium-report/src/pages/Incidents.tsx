@@ -1,10 +1,12 @@
-import { Box, Button, CircularProgress, Container } from '@mui/material';
-import { DataGrid, GridColumns, GridSelectionModel } from '@mui/x-data-grid';
+import { Box, Button, CircularProgress, Container, Tooltip } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridColumns, GridRowParams, GridSelectionModel } from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
 import ControlBar from '@src/components/Incidents/ControlBar';
 import { useCreateOrderMutation, useUpdateCarrierMutation, useUpdateIncidentMutation } from '@src/api/client';
 import useIncidents from '@src/hooks/useIncidents';
 import { useNavigate } from 'react-router-dom';
+import CarrierDataPopup from '@src/components/CarrierDataPopup';
+import { Insights } from '@mui/icons-material';
 
 const CarrierContent = () => {
   const [isLoading, incidents] = useIncidents();
@@ -39,6 +41,8 @@ const CarrierContent = () => {
     navigate(`./../orders/${result.data?.insert_order_one?.id}`);
   };
 
+  const [showCarrierDataOfId, setShowCarrierDataOfId] = useState<number | null>(null);
+
   const columns: GridColumns = useMemo(
     () => [
       {
@@ -56,12 +60,32 @@ const CarrierContent = () => {
         headerName: 'Fehlervermutung',
         flex: 0.5,
       },
+      {
+        field: 'actions',
+        type: 'actions',
+        flex: 0.1,
+        getActions: (params: GridRowParams) => [
+          <Tooltip title="Details">
+            <GridActionsCellItem
+              label="Details"
+              icon={<Insights />}
+              onClick={() => setShowCarrierDataOfId(params.row.carrier_id as number)}
+            />
+          </Tooltip>,
+        ],
+      },
     ],
     [],
   );
 
   return (
     <Container sx={{ height: '100%', pt: 2 }}>
+      {showCarrierDataOfId && (
+        <CarrierDataPopup
+          carrierId={showCarrierDataOfId}
+          setCarrierId={(carrierId) => setShowCarrierDataOfId(carrierId)}
+        />
+      )}
       <Box sx={{ width: '100%', height: '80%' }}>
         <ControlBar value={0} onChange={() => navigate('heatmap')} tabs={tabs} />
         {isLoading ? (
