@@ -6595,7 +6595,10 @@ export function useSubscribeCarrierSubscription<TData = SubscribeCarrierSubscrip
 };
 export const SubscribeCarrierDataDocument = gql`
     subscription SubscribeCarrierData($carrierId: Int!, $type: String!) {
-  carrier_data(where: {carrier: {id: {_eq: $carrierId}}, type: {_eq: $type}}) {
+  carrier_data(
+    where: {carrier: {id: {_eq: $carrierId}}, type: {_eq: $type}}
+    order_by: {created_at: asc}
+  ) {
     id
     created_at
     value
