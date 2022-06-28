@@ -6,10 +6,13 @@ import { Routes, Route } from 'react-router-dom';
 import CustomerLayout from '@src/components/layout/CustomerLayout';
 import App from '@src/components/layout/App';
 import IncidentsHeatmap from '@src/pages/IncidentsHeatmap';
+import Login from '@src/pages/Login';
+import Sensor from '@src/pages/Sensor';
 
 function Router() {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<App />}>
         <Route index element={<CustomerOverview />} />
         <Route path="customers/:customer" element={<CustomerLayout />}>
@@ -23,6 +26,7 @@ function Router() {
           </Route>
         </Route>
       </Route>
+      <Route path="/sensor" element={<Sensor />} />
     </Routes>
   );
 }

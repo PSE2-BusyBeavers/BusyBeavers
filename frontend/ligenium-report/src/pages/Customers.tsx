@@ -1,5 +1,7 @@
 import { Container } from '@mui/material';
 import CustomerSelection from '@src/components/CustomerSelection';
+import { useUser } from '@src/hooks/useUser';
+import { Navigate } from 'react-router-dom';
 
 type Props = {};
 const data = [
@@ -34,10 +36,14 @@ const data = [
 ];
 
 const Customers = (_props: Props) => {
-  return (
+  const { user } = useUser();
+
+  return user?.role === 'service' ? (
     <Container sx={{ height: '100%', pt: 2 }}>
       <CustomerSelection customers={data} />
     </Container>
+  ) : (
+    <Navigate to={`/customers/porsche/orders`} />
   );
 };
 
