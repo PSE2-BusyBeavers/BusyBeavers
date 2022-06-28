@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useCreateCarrierDataEntryMutation } from '@src/api/client';
-import { debounce } from '@mui/material';
+import { throttle } from 'lodash';
 
 const Sensor = () => {
   const [recording, setRecording] = useState(false);
@@ -14,18 +14,18 @@ const Sensor = () => {
 
   const [_, createCarrierDataEntry] = useCreateCarrierDataEntryMutation();
 
-  const uploadData = debounce((_xAcceleration: number, _yAcceleration: number) => {
+  const uploadData = throttle(async (_xAcceleration: number, _yAcceleration: number) => {
     if (!carrierId) {
       return;
     }
 
-    createCarrierDataEntry({
+    await createCarrierDataEntry({
       carrierId,
       type: 'acceleration',
       dataset: 'x',
       value: `${_xAcceleration}`,
     });
-    createCarrierDataEntry({
+    await createCarrierDataEntry({
       carrierId,
       type: 'acceleration',
       dataset: 'y',
