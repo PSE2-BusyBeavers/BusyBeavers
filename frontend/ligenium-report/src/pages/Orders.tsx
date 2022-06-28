@@ -28,8 +28,8 @@ const Orders = () => {
       sorting: {
         sortModel: [
           {
-            field: 'lastUpdate',
-            sort: 'asc',
+            field: 'updated_at',
+            sort: 'desc',
           },
         ],
       },
@@ -46,7 +46,7 @@ const Orders = () => {
       .filter((n) => n.user_id === parseInt(user?.id as unknown as string))
       .filter((n) => n.read === false);
   const orderNeedsAction = (order: { status: string; notifications: Notification[] }) =>
-    (order.status === orderStatuses[0] && user?.role === 'customer') || getMyUnReadNotifications(order).length > 0;
+    (order.status === 'error_confirmed' && user?.role === 'customer') || getMyUnReadNotifications(order).length > 0;
 
   const renderBold = (params: GridRenderCellParams<any, any, any>) => {
     if (orderNeedsAction(params.row)) return <strong>{params.value}</strong>;

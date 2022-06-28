@@ -1,10 +1,14 @@
 //! ATTENTION TO THE CORRECT ORDER
 const mapping = {
-  error_detected: "Möglichen Fehler prüfen",
-  error_confirmed: "Fehler bestätigt",
-  in_maintenance: "In Bearbeitung",
-  closed: "Zur Freigabe bereit",
-  active: "Wieder in Betrieb",
+  error_detected: 'Mögliche Fehler entdeckt',
+  error_confirmed: 'Fehler bestätigt',
+  carrier_ready: 'Ladungsträger bereitgestellt',
+  in_maintenance: 'In Reparatur',
+  maintenance_done: 'Reparatur abgeschlossen',
+  closed: 'Auftrag abgeschlossen',
+  aborted: 'Auftrag abgebrochen',
+  // closed: 'Zur Freigabe bereit',
+  // active: 'Wieder in Betrieb',
 };
 
 const orderStatuses = Object.keys(mapping);

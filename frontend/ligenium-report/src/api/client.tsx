@@ -6420,7 +6420,7 @@ export type SubscribeOrderSubscriptionVariables = Exact<{
 }>;
 
 
-export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order_by_pk?: { __typename?: 'order', id: number, status: string, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, incidents: Array<{ __typename?: 'order_incidents', incident: { __typename?: 'incident', id: number, assumption: string, carrier: { __typename?: 'carrier', id: number } } }> } | null };
+export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order_by_pk?: { __typename?: 'order', id: number, status: string, assignee?: string | null, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, incidents: Array<{ __typename?: 'order_incidents', incident: { __typename?: 'incident', id: number, assumption: string, carrier: { __typename?: 'carrier', id: number } } }> } | null };
 
 export type SubscribeCarriersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -6539,6 +6539,7 @@ export const SubscribeOrderDocument = gql`
   order_by_pk(id: $id) {
     id
     status
+    assignee
     protocols {
       id
       user
