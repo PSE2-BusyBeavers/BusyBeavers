@@ -150,7 +150,12 @@ const Order = () => {
       order: order?.id,
       user: user?.id,
     });
-  }, []);
+  }, [order]);
+
+  const _orderStatuses =
+    order?.status === 'aborted'
+      ? orderStatuses.filter((i) => ['error_detected', 'aborted'].includes(i))
+      : orderStatuses.filter((i) => i !== 'aborted');
 
   return (
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
@@ -163,8 +168,8 @@ const Order = () => {
       {order && (
         <Grid container>
           <Grid item xs={12} my={2}>
-            <Stepper activeStep={orderStatuses.indexOf(order.status)} alternativeLabel>
-              {orderStatuses.map((status) => (
+            <Stepper activeStep={_orderStatuses.indexOf(order.status)} alternativeLabel>
+              {_orderStatuses.map((status) => (
                 <Step key={status}>
                   <StepLabel>{getOrderStatusLabel(status)}</StepLabel>
                 </Step>
@@ -183,29 +188,39 @@ const Order = () => {
               <DataRow label="Letzte Änderung:" value={dayjs(order.updated_at).format('DD.MM.YYYY HH:mm')} />
             </div>
             <div className="ml-auto flex gap-2">
-              {order.status === 'error_detected' && order.status === 'error_detected' && (
+              {order.status === 'error_detected' && user?.role === 'service' && (
                 <>
                   <Button variant="contained" onClick={() => updateOrderStatus('error_confirmed')}>
                     Fehler bestätigen
                   </Button>
-                  <Button variant="contained" onClick={() => updateOrderStatus('error_confirmed')}>
+                  <Button variant="contained" onClick={() => updateOrderStatus('aborted')}>
                     Fehler verwerfen
                   </Button>
                 </>
               )}
-              {order.status === 'error_confirmed' && order.status === 'error_confirmed' && (
+              {order.status === 'error_confirmed' && user?.role === 'customer' && (
+                <Button variant="contained" onClick={() => updateOrderStatus('carrier_ready')}>
+                  Ladungsträger bereitstellen
+                </Button>
+              )}
+              {order.status === 'carrier_ready' && user?.role === 'service' && (
                 <Button variant="contained" onClick={() => updateOrderStatus('in_maintenance')}>
                   Reparatur beginnen
                 </Button>
               )}
-              {order.status === 'in_maintenance' && order.status === 'in_maintenance' && (
-                <Button variant="contained" onClick={() => updateOrderStatus('closed')}>
-                  Ladungsträger freigeben
+              {order.status === 'in_maintenance' && user?.role === 'service' && (
+                <Button variant="contained" onClick={() => updateOrderStatus('maintenance_done')}>
+                  Reparatur beenden
                 </Button>
               )}
-              {order.status === 'closed' && order.status === 'closed' && (
-                <Button variant="contained" onClick={() => updateOrderStatus('active')}>
+              {order.status === 'maintenance_done' && (
+                <Button variant="contained" onClick={() => updateOrderStatus('closed')}>
                   Auftrag abschließen
+                </Button>
+              )}
+              {(order.status === 'closed' || order.status === 'aborted') && user?.role === 'service' && (
+                <Button variant="contained" onClick={() => updateOrderStatus('error_detected')}>
+                  Auftrag wieder öffnen
                 </Button>
               )}
             </div>
@@ -248,26 +263,29 @@ const Order = () => {
                 </div>
               ))}
             </Grid>
-            <Grid>
-              <TextField
-                sx={{ width: '100%', mt: 4 }}
-                label="Neuer Protokoll-Eintrag"
-                multiline
-                rows={5}
-                value={newProtocolValue}
-                onChange={(event) => setNewProtocolValue(event.target.value)}
-              />
-              <Button
-                sx={{ my: 2 }}
-                variant="contained"
-                startIcon={<Send />}
-                onClick={() => {
-                  createProtocol();
-                }}
-              >
-                Speichern
-              </Button>
-            </Grid>
+            {(user?.role === 'service' && order.assignee !== 'Knauber') ||
+              (order.status !== 'closed' && order.status !== 'aborted' && (
+                <Grid>
+                  <TextField
+                    sx={{ width: '100%', mt: 4 }}
+                    label="Neuer Protokoll-Eintrag"
+                    multiline
+                    rows={5}
+                    value={newProtocolValue}
+                    onChange={(event) => setNewProtocolValue(event.target.value)}
+                  />
+                  <Button
+                    sx={{ my: 2 }}
+                    variant="contained"
+                    startIcon={<Send />}
+                    onClick={() => {
+                      createProtocol();
+                    }}
+                  >
+                    Speichern
+                  </Button>
+                </Grid>
+              ))}
           </Box>
         </Grid>
       )}

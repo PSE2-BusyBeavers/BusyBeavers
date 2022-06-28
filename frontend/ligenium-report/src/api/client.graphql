@@ -17,6 +17,7 @@ subscription SubscribeOrder($id: Int!) {
   order_by_pk(id: $id) {
     id
     status
+    assignee
     protocols {
       id
       user
