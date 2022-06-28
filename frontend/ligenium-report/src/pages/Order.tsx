@@ -40,8 +40,8 @@ type DataRowProps = {
 
 const DataRow = ({ label, value }: DataRowProps) => (
   <div className="flex flex-row">
-    <Typography className="w-1/3">{label}</Typography>
-    <Typography>{value}</Typography>
+    <Typography className="basis-1/2">{label}</Typography>
+    <Typography className="basis-1/2">{value}</Typography>
   </div>
 );
 
@@ -177,7 +177,7 @@ const Order = () => {
             </Link>
           </Grid>
           <Grid item xs={12} className="flex items-end">
-            <div className="flex flex-col flex-shrink-0 w-1/2">
+            <div className="flex flex-col flex-shrink-0 flex-grow max-w-72">
               <DataRow label="Auftragsnummer:" value={order.id.toString()} />
               <DataRow label="Erstellungsdatum:" value={dayjs(order.created_at).format('DD.MM.YYYY HH:mm')} />
               <DataRow label="Letzte Änderung:" value={dayjs(order.updated_at).format('DD.MM.YYYY HH:mm')} />
