@@ -19,17 +19,22 @@ const Sensor = () => {
       return;
     }
 
-    await createCarrierDataEntry({
+    createCarrierDataEntry({
       carrierId,
       type: 'acceleration',
       dataset: 'x',
       value: `${_xAcceleration}`,
     });
-    await createCarrierDataEntry({
+    createCarrierDataEntry({
       carrierId,
       type: 'acceleration',
       dataset: 'y',
       value: `${_yAcceleration}`,
+    });
+
+    setMotion({
+      xAcceleration: _xAcceleration,
+      yAcceleration: _yAcceleration,
     });
   }, 1000 * 0.25);
 
@@ -46,11 +51,6 @@ const Sensor = () => {
       setRecording(false);
       return;
     }
-
-    setMotion({
-      xAcceleration: _xAcceleration,
-      yAcceleration: _yAcceleration,
-    });
 
     uploadData(_xAcceleration, _yAcceleration);
   };
