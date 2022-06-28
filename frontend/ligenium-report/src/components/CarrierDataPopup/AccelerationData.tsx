@@ -12,11 +12,15 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
   const series: ApexAxisChartSeries = [
     {
       name: 'X Beschleunigung',
-      data: x.map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() })),
+      data: x
+        .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
+        .concat({ y: 0, x: dayjs().valueOf() }),
     },
     {
       name: 'Y Beschleunigung',
-      data: y.map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() })),
+      data: y
+        .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
+        .concat({ y: 0, x: dayjs().valueOf() }),
     },
   ];
 
@@ -53,6 +57,9 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
     },
     xaxis: {
       type: 'datetime',
+      labels: {
+        datetimeUTC: false,
+      },
     },
     yaxis: {
       labels: {
@@ -96,6 +103,9 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
       type: 'datetime',
       tooltip: {
         enabled: false,
+      },
+      labels: {
+        datetimeUTC: false,
       },
     },
     yaxis: {
