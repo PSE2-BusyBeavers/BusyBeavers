@@ -1,4 +1,4 @@
-import { ArrowBack, Search, Send } from '@mui/icons-material';
+import { ArrowBack, ChevronRight, Search, Send } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -112,7 +112,7 @@ const Order = () => {
           <Tooltip title="Details">
             <GridActionsCellItem
               label="Details"
-              icon={<Search />}
+              icon={<ChevronRight />}
               onClick={() => setShowCarrierDataOfId(params.row.id as number)}
             />
           </Tooltip>,
@@ -219,6 +219,7 @@ const Order = () => {
               pageSize={10}
               rows={order.incidents.flatMap((i) => i.incident)}
               onRowClick={(row) => setShowCarrierDataOfId(row.id as number)}
+              sx={{ cursor: 'pointer' }}
             />
           </Box>
           <Divider />

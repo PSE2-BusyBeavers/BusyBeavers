@@ -1,7 +1,7 @@
 import { Badge, Container } from '@mui/material';
 import useOrders from '@src/hooks/useOrders';
 import { useNavigate } from 'react-router-dom';
-import { Chip, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -11,11 +11,12 @@ import {
   GridRowParams,
 } from '@mui/x-data-grid';
 import formatTableDate from '@src/utils/formatTableDate';
-import getOrderStatusLabel from '@src/utils/getOrderStatusLabel';
+import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLabel';
 import { useMemo } from 'react';
 import { Search, Mail } from '@mui/icons-material';
 import { useUser } from '@src/hooks/useUser';
 import { Notification } from '@src/api/client';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const getColor = (status: string) => {
   if (status === 'in_maintenance') return 'warning';
@@ -48,29 +49,39 @@ const Orders = () => {
     navigate(`${id}`);
   };
 
+  const renderBold = (params: GridRenderCellParams<any, any, any>) => {
+    if (params.row['status'] === orderStatuses[0]) return <strong>{params.value}</strong>;
+  };
+
   const columns: GridColumns = useMemo(
     () => [
       {
         field: 'id',
         headerName: 'Auftragsnummer',
         flex: 0.3,
+        renderCell: renderBold,
       },
       {
         field: 'updated_at',
         headerName: 'Letzte Änderung',
         flex: 0.5,
         valueGetter: formatTableDate,
+        renderCell: renderBold,
       },
       {
         field: 'assignee',
         headerName: 'Zugewiesen an',
         flex: 0.5,
+        renderCell: renderBold,
       },
       {
         field: 'status',
         headerName: 'Status',
         flex: 0.5,
-        renderCell: (params: GridRenderCellParams<string>) => <span>{getOrderStatusLabel(params.value!)}</span>,
+        renderCell: (params: GridRenderCellParams<string>) => {
+          if (params.row['status'] === orderStatuses[0]) return <strong>{getOrderStatusLabel(params.value!)}</strong>;
+          return <span>{getOrderStatusLabel(params.value!)}</span>;
+        },
       },
       {
         field: 'actions',
@@ -103,7 +114,11 @@ const Orders = () => {
 
           actions.push(
             <Tooltip title="Details">
-              <GridActionsCellItem label="Details" icon={<Search />} onClick={handleViewReport(params.row.id)} />
+              <GridActionsCellItem
+                label="Details"
+                icon={<ChevronRightIcon />}
+                onClick={handleViewReport(params.row.id)}
+              />
             </Tooltip>,
           );
 
@@ -122,6 +137,9 @@ const Orders = () => {
         pageSize={10}
         initialState={initialState}
         onRowClick={(row) => navigate(`${row.id}`)}
+        sx={{
+          cursor: 'pointer',
+        }}
       />
       ;
     </Container>
