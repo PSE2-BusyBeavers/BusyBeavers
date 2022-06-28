@@ -13,18 +13,10 @@ import {
 import formatTableDate from '@src/utils/formatTableDate';
 import getOrderStatusLabel, { orderStatuses } from '@src/utils/getOrderStatusLabel';
 import { useMemo } from 'react';
-import { Search, Mail } from '@mui/icons-material';
+import { Mail } from '@mui/icons-material';
 import { useUser } from '@src/hooks/useUser';
 import { Notification } from '@src/api/client';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-
-const getColor = (status: string) => {
-  if (status === 'in_maintenance') return 'warning';
-  if (status === 'error_confirmed') return 'info';
-  if (status === 'error_detected') return 'info';
-  if (status === 'closed') return 'success';
-  else return 'primary';
-};
 
 const Orders = () => {
   const [, orders] = useOrders();
@@ -49,8 +41,15 @@ const Orders = () => {
     navigate(`${id}`);
   };
 
+  const getMyUnReadNotifications = (order: { notifications: Notification[] }) =>
+    (order.notifications as Notification[])
+      .filter((n) => n.user_id === parseInt(user?.id as unknown as string))
+      .filter((n) => n.read === false);
+  const orderNeedsAction = (order: { status: string; notifications: Notification[] }) =>
+    (order.status === orderStatuses[0] && user?.role === 'customer') || getMyUnReadNotifications(order).length > 0;
+
   const renderBold = (params: GridRenderCellParams<any, any, any>) => {
-    if (params.row['status'] === orderStatuses[0]) return <strong>{params.value}</strong>;
+    if (orderNeedsAction(params.row)) return <strong>{params.value}</strong>;
   };
 
   const columns: GridColumns = useMemo(
@@ -79,7 +78,7 @@ const Orders = () => {
         headerName: 'Status',
         flex: 0.5,
         renderCell: (params: GridRenderCellParams<string>) => {
-          if (params.row['status'] === orderStatuses[0]) return <strong>{getOrderStatusLabel(params.value!)}</strong>;
+          if (orderNeedsAction(params.row)) return <strong>{getOrderStatusLabel(params.value!)}</strong>;
           return <span>{getOrderStatusLabel(params.value!)}</span>;
         },
       },
@@ -88,9 +87,7 @@ const Orders = () => {
         type: 'actions',
         flex: 0.2,
         getActions: (params: GridRowParams) => {
-          const myNotifications = (params.row.notifications as Notification[])
-            .filter((n) => n.user_id === parseInt(user?.id as unknown as string))
-            .filter((n) => n.read === false);
+          const myNotifications = getMyUnReadNotifications(params.row);
 
           const actions = [];
 
