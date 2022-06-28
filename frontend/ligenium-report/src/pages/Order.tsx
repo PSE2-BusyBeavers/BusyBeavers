@@ -113,7 +113,7 @@ const Order = () => {
             <GridActionsCellItem
               label="Details"
               icon={<ChevronRight />}
-              onClick={() => setShowCarrierDataOfId(params.row.id as number)}
+              onClick={() => setShowCarrierDataOfId(params.row.carrier.id as number)}
             />
           </Tooltip>,
         ],
@@ -218,7 +218,7 @@ const Order = () => {
               columns={incidentColumns}
               pageSize={10}
               rows={order.incidents.flatMap((i) => i.incident)}
-              onRowClick={(row) => setShowCarrierDataOfId(row.id as number)}
+              onRowClick={(params) => setShowCarrierDataOfId(params.row.carrier.id as number)}
               sx={{ cursor: 'pointer' }}
             />
           </Box>
