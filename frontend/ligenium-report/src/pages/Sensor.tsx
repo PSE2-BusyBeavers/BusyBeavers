@@ -10,11 +10,12 @@ const Sensor = () => {
   const [{ xAcceleration, yAcceleration }, setMotion] = useState({
     xAcceleration: 0,
     yAcceleration: 0,
+    zAcceleration: 0,
   });
 
   const [_, createCarrierDataEntry] = useCreateCarrierDataEntryMutation();
 
-  const uploadData = throttle(async (_xAcceleration: number, _yAcceleration: number) => {
+  const uploadData = throttle(async (_xAcceleration: number, _yAcceleration: number, _zAcceleration: number) => {
     if (!carrierId) {
       return;
     }
@@ -31,10 +32,17 @@ const Sensor = () => {
       dataset: 'y',
       value: `${_yAcceleration}`,
     });
+    await createCarrierDataEntry({
+      carrierId,
+      type: 'acceleration',
+      dataset: 'z',
+      value: `${_zAcceleration}`,
+    });
 
     setMotion({
       xAcceleration: _xAcceleration,
       yAcceleration: _yAcceleration,
+      zAcceleration: _zAcceleration,
     });
   }, 1000 * 0.25);
 
@@ -45,14 +53,14 @@ const Sensor = () => {
 
     const _xAcceleration = event?.acceleration?.x || event?.accelerationIncludingGravity?.x;
     const _yAcceleration = event?.acceleration?.y || event?.accelerationIncludingGravity?.y;
+    const _zAcceleration = event?.acceleration?.z || event?.accelerationIncludingGravity?.z;
 
-    if (!_xAcceleration || !_yAcceleration) {
+    if (!_xAcceleration || !_yAcceleration || !_zAcceleration) {
       alert('No motion detected. Maybe your browser is blocking the sensor or you do not have such a sensor.');
       setRecording(false);
       return;
     }
-
-    uploadData(_xAcceleration, _yAcceleration);
+    uploadData(_xAcceleration, _yAcceleration, _zAcceleration);
   };
 
   useEffect(() => {
