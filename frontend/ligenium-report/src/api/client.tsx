@@ -76,6 +76,7 @@ export type Carrier = {
   updated_at: Scalars['timestamptz'];
 };
 
+
 /** columns and relationships of "carrier" */
 export type CarrierIncidentsArgs = {
   distinct_on?: InputMaybe<Array<Incident_Select_Column>>;
@@ -84,6 +85,7 @@ export type CarrierIncidentsArgs = {
   order_by?: InputMaybe<Array<Incident_Order_By>>;
   where?: InputMaybe<Incident_Bool_Exp>;
 };
+
 
 /** columns and relationships of "carrier" */
 export type CarrierIncidents_AggregateArgs = {
@@ -117,6 +119,7 @@ export type Carrier_Aggregate_Fields = {
   variance?: Maybe<Carrier_Variance_Fields>;
 };
 
+
 /** aggregate fields of "carrier" */
 export type Carrier_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Carrier_Select_Column>>;
@@ -145,7 +148,7 @@ export type Carrier_Bool_Exp = {
 /** unique or primary key constraints on table "carrier" */
 export enum Carrier_Constraint {
   /** unique or primary key constraint */
-  CarrierPkey = 'carrier_pkey',
+  CarrierPkey = 'carrier_pkey'
 }
 
 /** input type for incrementing numeric columns in table "carrier" */
@@ -232,7 +235,7 @@ export enum Carrier_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "carrier" */
@@ -279,7 +282,7 @@ export enum Carrier_Update_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
@@ -317,6 +320,7 @@ export type Incident = {
   updated_at: Scalars['timestamptz'];
 };
 
+
 /** columns and relationships of "incident" */
 export type IncidentOrdersArgs = {
   distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
@@ -325,6 +329,7 @@ export type IncidentOrdersArgs = {
   order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
+
 
 /** columns and relationships of "incident" */
 export type IncidentOrders_AggregateArgs = {
@@ -357,6 +362,7 @@ export type Incident_Aggregate_Fields = {
   var_samp?: Maybe<Incident_Var_Samp_Fields>;
   variance?: Maybe<Incident_Variance_Fields>;
 };
+
 
 /** aggregate fields of "incident" */
 export type Incident_Aggregate_FieldsCountArgs = {
@@ -417,7 +423,7 @@ export type Incident_Bool_Exp = {
 /** unique or primary key constraints on table "incident" */
 export enum Incident_Constraint {
   /** unique or primary key constraint */
-  IncidentsPkey = 'incidents_pkey',
+  IncidentsPkey = 'incidents_pkey'
 }
 
 /** input type for incrementing numeric columns in table "incident" */
@@ -533,7 +539,7 @@ export enum Incident_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "incident" */
@@ -611,7 +617,7 @@ export enum Incident_Update_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
@@ -718,55 +724,66 @@ export type Mutation_Root = {
   update_protocol_by_pk?: Maybe<Protocol>;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_CarrierArgs = {
   where: Carrier_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Carrier_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_IncidentArgs = {
   where: Incident_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Incident_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_OrderArgs = {
   where: Order_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Order_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Order_IncidentsArgs = {
   where: Order_Incidents_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootDelete_Order_Incidents_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_ProtocolArgs = {
   where: Protocol_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootDelete_Protocol_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_CarrierArgs = {
@@ -774,11 +791,13 @@ export type Mutation_RootInsert_CarrierArgs = {
   on_conflict?: InputMaybe<Carrier_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Carrier_OneArgs = {
   object: Carrier_Insert_Input;
   on_conflict?: InputMaybe<Carrier_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_IncidentArgs = {
@@ -786,11 +805,13 @@ export type Mutation_RootInsert_IncidentArgs = {
   on_conflict?: InputMaybe<Incident_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Incident_OneArgs = {
   object: Incident_Insert_Input;
   on_conflict?: InputMaybe<Incident_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_OrderArgs = {
@@ -798,11 +819,13 @@ export type Mutation_RootInsert_OrderArgs = {
   on_conflict?: InputMaybe<Order_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Order_IncidentsArgs = {
   objects: Array<Order_Incidents_Insert_Input>;
   on_conflict?: InputMaybe<Order_Incidents_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_Order_Incidents_OneArgs = {
@@ -810,11 +833,13 @@ export type Mutation_RootInsert_Order_Incidents_OneArgs = {
   on_conflict?: InputMaybe<Order_Incidents_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Order_OneArgs = {
   object: Order_Insert_Input;
   on_conflict?: InputMaybe<Order_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootInsert_ProtocolArgs = {
@@ -822,11 +847,13 @@ export type Mutation_RootInsert_ProtocolArgs = {
   on_conflict?: InputMaybe<Protocol_On_Conflict>;
 };
 
+
 /** mutation root */
 export type Mutation_RootInsert_Protocol_OneArgs = {
   object: Protocol_Insert_Input;
   on_conflict?: InputMaybe<Protocol_On_Conflict>;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_CarrierArgs = {
@@ -835,12 +862,14 @@ export type Mutation_RootUpdate_CarrierArgs = {
   where: Carrier_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Carrier_By_PkArgs = {
   _inc?: InputMaybe<Carrier_Inc_Input>;
   _set?: InputMaybe<Carrier_Set_Input>;
   pk_columns: Carrier_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_IncidentArgs = {
@@ -849,12 +878,14 @@ export type Mutation_RootUpdate_IncidentArgs = {
   where: Incident_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Incident_By_PkArgs = {
   _inc?: InputMaybe<Incident_Inc_Input>;
   _set?: InputMaybe<Incident_Set_Input>;
   pk_columns: Incident_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_OrderArgs = {
@@ -863,12 +894,14 @@ export type Mutation_RootUpdate_OrderArgs = {
   where: Order_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Order_By_PkArgs = {
   _inc?: InputMaybe<Order_Inc_Input>;
   _set?: InputMaybe<Order_Set_Input>;
   pk_columns: Order_Pk_Columns_Input;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Order_IncidentsArgs = {
@@ -877,6 +910,7 @@ export type Mutation_RootUpdate_Order_IncidentsArgs = {
   where: Order_Incidents_Bool_Exp;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_Order_Incidents_By_PkArgs = {
   _inc?: InputMaybe<Order_Incidents_Inc_Input>;
@@ -884,12 +918,14 @@ export type Mutation_RootUpdate_Order_Incidents_By_PkArgs = {
   pk_columns: Order_Incidents_Pk_Columns_Input;
 };
 
+
 /** mutation root */
 export type Mutation_RootUpdate_ProtocolArgs = {
   _inc?: InputMaybe<Protocol_Inc_Input>;
   _set?: InputMaybe<Protocol_Set_Input>;
   where: Protocol_Bool_Exp;
 };
+
 
 /** mutation root */
 export type Mutation_RootUpdate_Protocol_By_PkArgs = {
@@ -915,6 +951,7 @@ export type Order = {
   updated_at: Scalars['timestamptz'];
 };
 
+
 /** columns and relationships of "order" */
 export type OrderIncidentsArgs = {
   distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
@@ -923,6 +960,7 @@ export type OrderIncidentsArgs = {
   order_by?: InputMaybe<Array<Order_Incidents_Order_By>>;
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
+
 
 /** columns and relationships of "order" */
 export type OrderIncidents_AggregateArgs = {
@@ -933,6 +971,7 @@ export type OrderIncidents_AggregateArgs = {
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
+
 /** columns and relationships of "order" */
 export type OrderProtocolsArgs = {
   distinct_on?: InputMaybe<Array<Protocol_Select_Column>>;
@@ -941,6 +980,7 @@ export type OrderProtocolsArgs = {
   order_by?: InputMaybe<Array<Protocol_Order_By>>;
   where?: InputMaybe<Protocol_Bool_Exp>;
 };
+
 
 /** columns and relationships of "order" */
 export type OrderProtocols_AggregateArgs = {
@@ -973,6 +1013,7 @@ export type Order_Aggregate_Fields = {
   var_samp?: Maybe<Order_Var_Samp_Fields>;
   variance?: Maybe<Order_Variance_Fields>;
 };
+
 
 /** aggregate fields of "order" */
 export type Order_Aggregate_FieldsCountArgs = {
@@ -1012,13 +1053,13 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 /** unique or primary key constraints on table "order" */
 export enum Order_Constraint {
   /** unique or primary key constraint */
-  OrderPkey = 'order_pkey',
+  OrderPkey = 'order_pkey'
 }
 
 /** input type for incrementing numeric columns in table "order" */
@@ -1060,6 +1101,7 @@ export type Order_Incidents_Aggregate_Fields = {
   var_samp?: Maybe<Order_Incidents_Var_Samp_Fields>;
   variance?: Maybe<Order_Incidents_Variance_Fields>;
 };
+
 
 /** aggregate fields of "order_incidents" */
 export type Order_Incidents_Aggregate_FieldsCountArgs = {
@@ -1119,7 +1161,7 @@ export type Order_Incidents_Bool_Exp = {
 /** unique or primary key constraints on table "order_incidents" */
 export enum Order_Incidents_Constraint {
   /** unique or primary key constraint */
-  OrderCarriersPkey = 'order_carriers_pkey',
+  OrderCarriersPkey = 'order_carriers_pkey'
 }
 
 /** input type for incrementing numeric columns in table "order_incidents" */
@@ -1205,7 +1247,7 @@ export enum Order_Incidents_Select_Column {
   /** column name */
   IncidentId = 'incident_id',
   /** column name */
-  OrderId = 'order_id',
+  OrderId = 'order_id'
 }
 
 /** input type for updating data in table "order_incidents" */
@@ -1282,7 +1324,7 @@ export enum Order_Incidents_Update_Column {
   /** column name */
   IncidentId = 'incident_id',
   /** column name */
-  OrderId = 'order_id',
+  OrderId = 'order_id'
 }
 
 /** aggregate var_pop on columns */
@@ -1405,7 +1447,7 @@ export enum Order_Select_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "order" */
@@ -1449,7 +1491,7 @@ export enum Order_Update_Column {
   /** column name */
   Status = 'status',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** aggregate var_pop on columns */
@@ -1505,6 +1547,7 @@ export type Protocol_Aggregate_Fields = {
   var_samp?: Maybe<Protocol_Var_Samp_Fields>;
   variance?: Maybe<Protocol_Variance_Fields>;
 };
+
 
 /** aggregate fields of "protocol" */
 export type Protocol_Aggregate_FieldsCountArgs = {
@@ -1564,7 +1607,7 @@ export type Protocol_Bool_Exp = {
 /** unique or primary key constraints on table "protocol" */
 export enum Protocol_Constraint {
   /** unique or primary key constraint */
-  ProtocolPkey = 'protocol_pkey',
+  ProtocolPkey = 'protocol_pkey'
 }
 
 /** input type for incrementing numeric columns in table "protocol" */
@@ -1671,7 +1714,7 @@ export enum Protocol_Select_Column {
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
-  User = 'user',
+  User = 'user'
 }
 
 /** input type for updating data in table "protocol" */
@@ -1749,7 +1792,7 @@ export enum Protocol_Update_Column {
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
-  User = 'user',
+  User = 'user'
 }
 
 /** aggregate var_pop on columns */
@@ -1825,6 +1868,7 @@ export type Query_Root = {
   protocol_by_pk?: Maybe<Protocol>;
 };
 
+
 export type Query_RootCarrierArgs = {
   distinct_on?: InputMaybe<Array<Carrier_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1832,6 +1876,7 @@ export type Query_RootCarrierArgs = {
   order_by?: InputMaybe<Array<Carrier_Order_By>>;
   where?: InputMaybe<Carrier_Bool_Exp>;
 };
+
 
 export type Query_RootCarrier_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Carrier_Select_Column>>;
@@ -1841,9 +1886,11 @@ export type Query_RootCarrier_AggregateArgs = {
   where?: InputMaybe<Carrier_Bool_Exp>;
 };
 
+
 export type Query_RootCarrier_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Query_RootIncidentArgs = {
   distinct_on?: InputMaybe<Array<Incident_Select_Column>>;
@@ -1853,6 +1900,7 @@ export type Query_RootIncidentArgs = {
   where?: InputMaybe<Incident_Bool_Exp>;
 };
 
+
 export type Query_RootIncident_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Incident_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1861,9 +1909,11 @@ export type Query_RootIncident_AggregateArgs = {
   where?: InputMaybe<Incident_Bool_Exp>;
 };
 
+
 export type Query_RootIncident_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Query_RootOrderArgs = {
   distinct_on?: InputMaybe<Array<Order_Select_Column>>;
@@ -1873,6 +1923,7 @@ export type Query_RootOrderArgs = {
   where?: InputMaybe<Order_Bool_Exp>;
 };
 
+
 export type Query_RootOrder_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Order_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1881,9 +1932,11 @@ export type Query_RootOrder_AggregateArgs = {
   where?: InputMaybe<Order_Bool_Exp>;
 };
 
+
 export type Query_RootOrder_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Query_RootOrder_IncidentsArgs = {
   distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
@@ -1893,6 +1946,7 @@ export type Query_RootOrder_IncidentsArgs = {
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
+
 export type Query_RootOrder_Incidents_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1901,9 +1955,11 @@ export type Query_RootOrder_Incidents_AggregateArgs = {
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
+
 export type Query_RootOrder_Incidents_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Query_RootProtocolArgs = {
   distinct_on?: InputMaybe<Array<Protocol_Select_Column>>;
@@ -1913,6 +1969,7 @@ export type Query_RootProtocolArgs = {
   where?: InputMaybe<Protocol_Bool_Exp>;
 };
 
+
 export type Query_RootProtocol_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Protocol_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1920,6 +1977,7 @@ export type Query_RootProtocol_AggregateArgs = {
   order_by?: InputMaybe<Array<Protocol_Order_By>>;
   where?: InputMaybe<Protocol_Bool_Exp>;
 };
+
 
 export type Query_RootProtocol_By_PkArgs = {
   id: Scalars['Int'];
@@ -1959,6 +2017,7 @@ export type Subscription_Root = {
   protocol_by_pk?: Maybe<Protocol>;
 };
 
+
 export type Subscription_RootCarrierArgs = {
   distinct_on?: InputMaybe<Array<Carrier_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1966,6 +2025,7 @@ export type Subscription_RootCarrierArgs = {
   order_by?: InputMaybe<Array<Carrier_Order_By>>;
   where?: InputMaybe<Carrier_Bool_Exp>;
 };
+
 
 export type Subscription_RootCarrier_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Carrier_Select_Column>>;
@@ -1975,9 +2035,11 @@ export type Subscription_RootCarrier_AggregateArgs = {
   where?: InputMaybe<Carrier_Bool_Exp>;
 };
 
+
 export type Subscription_RootCarrier_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Subscription_RootIncidentArgs = {
   distinct_on?: InputMaybe<Array<Incident_Select_Column>>;
@@ -1987,6 +2049,7 @@ export type Subscription_RootIncidentArgs = {
   where?: InputMaybe<Incident_Bool_Exp>;
 };
 
+
 export type Subscription_RootIncident_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Incident_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -1995,9 +2058,11 @@ export type Subscription_RootIncident_AggregateArgs = {
   where?: InputMaybe<Incident_Bool_Exp>;
 };
 
+
 export type Subscription_RootIncident_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Subscription_RootOrderArgs = {
   distinct_on?: InputMaybe<Array<Order_Select_Column>>;
@@ -2007,6 +2072,7 @@ export type Subscription_RootOrderArgs = {
   where?: InputMaybe<Order_Bool_Exp>;
 };
 
+
 export type Subscription_RootOrder_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Order_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2015,9 +2081,11 @@ export type Subscription_RootOrder_AggregateArgs = {
   where?: InputMaybe<Order_Bool_Exp>;
 };
 
+
 export type Subscription_RootOrder_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Subscription_RootOrder_IncidentsArgs = {
   distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
@@ -2027,6 +2095,7 @@ export type Subscription_RootOrder_IncidentsArgs = {
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
+
 export type Subscription_RootOrder_Incidents_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Order_Incidents_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2035,9 +2104,11 @@ export type Subscription_RootOrder_Incidents_AggregateArgs = {
   where?: InputMaybe<Order_Incidents_Bool_Exp>;
 };
 
+
 export type Subscription_RootOrder_Incidents_By_PkArgs = {
   id: Scalars['Int'];
 };
+
 
 export type Subscription_RootProtocolArgs = {
   distinct_on?: InputMaybe<Array<Protocol_Select_Column>>;
@@ -2047,6 +2118,7 @@ export type Subscription_RootProtocolArgs = {
   where?: InputMaybe<Protocol_Bool_Exp>;
 };
 
+
 export type Subscription_RootProtocol_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Protocol_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2054,6 +2126,7 @@ export type Subscription_RootProtocol_AggregateArgs = {
   order_by?: InputMaybe<Array<Protocol_Order_By>>;
   where?: InputMaybe<Protocol_Bool_Exp>;
 };
+
 
 export type Subscription_RootProtocol_By_PkArgs = {
   id: Scalars['Int'];
@@ -2072,111 +2145,57 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
-export type SubscribeOrdersSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type SubscribeOrdersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export type SubscribeOrdersSubscription = {
-  __typename?: 'subscription_root';
-  order: Array<{ __typename?: 'order'; id: number; status: string; created_at: any; updated_at: any }>;
-};
+
+export type SubscribeOrdersSubscription = { __typename?: 'subscription_root', order: Array<{ __typename?: 'order', id: number, status: string, created_at: any, updated_at: any }> };
 
 export type SubscribeOrderSubscriptionVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
-export type SubscribeOrderSubscription = {
-  __typename?: 'subscription_root';
-  order_by_pk?: {
-    __typename?: 'order';
-    id: number;
-    status: string;
-    created_at: any;
-    updated_at: any;
-    protocols: Array<{ __typename?: 'protocol'; id: number; user: string; body: string; created_at?: any | null }>;
-    incidents: Array<{
-      __typename?: 'order_incidents';
-      incident: {
-        __typename?: 'incident';
-        id: number;
-        assumption: string;
-        carrier: { __typename?: 'carrier'; id: number };
-      };
-    }>;
-  } | null;
-};
 
-export type SubscribeCarriersSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type SubscribeOrderSubscription = { __typename?: 'subscription_root', order_by_pk?: { __typename?: 'order', id: number, status: string, created_at: any, updated_at: any, protocols: Array<{ __typename?: 'protocol', id: number, user: string, body: string, created_at?: any | null }>, incidents: Array<{ __typename?: 'order_incidents', incident: { __typename?: 'incident', id: number, assumption: string, carrier: { __typename?: 'carrier', id: number } } }> } | null };
 
-export type SubscribeCarriersSubscription = {
-  __typename?: 'subscription_root';
-  carrier: Array<{
-    __typename?: 'carrier';
-    id: number;
-    status: string;
-    customer: string;
-    created_at: any;
-    updated_at: any;
-  }>;
-};
+export type SubscribeCarriersSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubscribeCarriersSubscription = { __typename?: 'subscription_root', carrier: Array<{ __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any }> };
 
 export type SubscribeCarrierSubscriptionVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
-export type SubscribeCarrierSubscription = {
-  __typename?: 'subscription_root';
-  carrier_by_pk?: {
-    __typename?: 'carrier';
-    id: number;
-    status: string;
-    customer: string;
-    created_at: any;
-    updated_at: any;
-  } | null;
-};
 
-export type SubscribeIncidentsSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type SubscribeCarrierSubscription = { __typename?: 'subscription_root', carrier_by_pk?: { __typename?: 'carrier', id: number, status: string, customer: string, created_at: any, updated_at: any } | null };
 
-export type SubscribeIncidentsSubscription = {
-  __typename?: 'subscription_root';
-  incident: Array<{
-    __typename?: 'incident';
-    id: number;
-    carrier_id: number;
-    assumption: string;
-    status: string;
-    created_at: any;
-    updated_at: any;
-  }>;
-};
+export type SubscribeIncidentsSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SubscribeIncidentsSubscription = { __typename?: 'subscription_root', incident: Array<{ __typename?: 'incident', id: number, carrier_id: number, assumption: string, status: string, created_at: any, updated_at: any }> };
 
 export type UpdateCarrierMutationVariables = Exact<{
   id: Scalars['Int'];
   status: Scalars['String'];
 }>;
 
-export type UpdateCarrierMutation = {
-  __typename?: 'mutation_root';
-  update_carrier?: { __typename?: 'carrier_mutation_response'; affected_rows: number } | null;
-};
+
+export type UpdateCarrierMutation = { __typename?: 'mutation_root', update_carrier?: { __typename?: 'carrier_mutation_response', affected_rows: number } | null };
 
 export type UpdateIncidentMutationVariables = Exact<{
   id: Scalars['Int'];
   status: Scalars['String'];
 }>;
 
-export type UpdateIncidentMutation = {
-  __typename?: 'mutation_root';
-  update_incident?: { __typename?: 'incident_mutation_response'; affected_rows: number } | null;
-};
+
+export type UpdateIncidentMutation = { __typename?: 'mutation_root', update_incident?: { __typename?: 'incident_mutation_response', affected_rows: number } | null };
 
 export type CreateOrderMutationVariables = Exact<{
   incidents: Array<Order_Incidents_Insert_Input> | Order_Incidents_Insert_Input;
 }>;
 
-export type CreateOrderMutation = {
-  __typename?: 'mutation_root';
-  insert_order_one?: { __typename?: 'order'; id: number } | null;
-};
+
+export type CreateOrderMutation = { __typename?: 'mutation_root', insert_order_one?: { __typename?: 'order', id: number } | null };
 
 export type CreateProtocolMutationVariables = Exact<{
   order: Scalars['Int'];
@@ -2184,192 +2203,161 @@ export type CreateProtocolMutationVariables = Exact<{
   user: Scalars['String'];
 }>;
 
-export type CreateProtocolMutation = {
-  __typename?: 'mutation_root';
-  insert_protocol_one?: { __typename?: 'protocol'; id: number } | null;
-};
+
+export type CreateProtocolMutation = { __typename?: 'mutation_root', insert_protocol_one?: { __typename?: 'protocol', id: number } | null };
 
 export type UpdateOrderMutationVariables = Exact<{
   id: Scalars['Int'];
   status: Scalars['String'];
 }>;
 
-export type UpdateOrderMutation = {
-  __typename?: 'mutation_root';
-  update_order?: { __typename?: 'order_mutation_response'; affected_rows: number } | null;
-};
+
+export type UpdateOrderMutation = { __typename?: 'mutation_root', update_order?: { __typename?: 'order_mutation_response', affected_rows: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
-  subscription SubscribeOrders {
-    order {
-      id
-      status
-      created_at
-      updated_at
-    }
+    subscription SubscribeOrders {
+  order {
+    id
+    status
+    created_at
+    updated_at
   }
-`;
-
-export function useSubscribeOrdersSubscription<TData = SubscribeOrdersSubscription>(
-  options: Omit<Urql.UseSubscriptionArgs<SubscribeOrdersSubscriptionVariables>, 'query'> = {},
-  handler?: Urql.SubscriptionHandler<SubscribeOrdersSubscription, TData>,
-) {
-  return Urql.useSubscription<SubscribeOrdersSubscription, TData, SubscribeOrdersSubscriptionVariables>(
-    { query: SubscribeOrdersDocument, ...options },
-    handler,
-  );
 }
+    `;
+
+export function useSubscribeOrdersSubscription<TData = SubscribeOrdersSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeOrdersSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeOrdersSubscription, TData>) {
+  return Urql.useSubscription<SubscribeOrdersSubscription, TData, SubscribeOrdersSubscriptionVariables>({ query: SubscribeOrdersDocument, ...options }, handler);
+};
 export const SubscribeOrderDocument = gql`
-  subscription SubscribeOrder($id: Int!) {
-    order_by_pk(id: $id) {
+    subscription SubscribeOrder($id: Int!) {
+  order_by_pk(id: $id) {
+    id
+    status
+    protocols {
       id
-      status
-      protocols {
+      user
+      body
+      created_at
+    }
+    incidents {
+      incident {
         id
-        user
-        body
-        created_at
-      }
-      incidents {
-        incident {
+        assumption
+        carrier {
           id
-          assumption
-          carrier {
-            id
-          }
         }
       }
-      created_at
-      updated_at
     }
+    created_at
+    updated_at
   }
-`;
-
-export function useSubscribeOrderSubscription<TData = SubscribeOrderSubscription>(
-  options: Omit<Urql.UseSubscriptionArgs<SubscribeOrderSubscriptionVariables>, 'query'> = {},
-  handler?: Urql.SubscriptionHandler<SubscribeOrderSubscription, TData>,
-) {
-  return Urql.useSubscription<SubscribeOrderSubscription, TData, SubscribeOrderSubscriptionVariables>(
-    { query: SubscribeOrderDocument, ...options },
-    handler,
-  );
 }
+    `;
+
+export function useSubscribeOrderSubscription<TData = SubscribeOrderSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeOrderSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeOrderSubscription, TData>) {
+  return Urql.useSubscription<SubscribeOrderSubscription, TData, SubscribeOrderSubscriptionVariables>({ query: SubscribeOrderDocument, ...options }, handler);
+};
 export const SubscribeCarriersDocument = gql`
-  subscription SubscribeCarriers {
-    carrier {
-      id
-      status
-      customer
-      created_at
-      updated_at
-    }
+    subscription SubscribeCarriers {
+  carrier {
+    id
+    status
+    customer
+    created_at
+    updated_at
   }
-`;
-
-export function useSubscribeCarriersSubscription<TData = SubscribeCarriersSubscription>(
-  options: Omit<Urql.UseSubscriptionArgs<SubscribeCarriersSubscriptionVariables>, 'query'> = {},
-  handler?: Urql.SubscriptionHandler<SubscribeCarriersSubscription, TData>,
-) {
-  return Urql.useSubscription<SubscribeCarriersSubscription, TData, SubscribeCarriersSubscriptionVariables>(
-    { query: SubscribeCarriersDocument, ...options },
-    handler,
-  );
 }
+    `;
+
+export function useSubscribeCarriersSubscription<TData = SubscribeCarriersSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeCarriersSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeCarriersSubscription, TData>) {
+  return Urql.useSubscription<SubscribeCarriersSubscription, TData, SubscribeCarriersSubscriptionVariables>({ query: SubscribeCarriersDocument, ...options }, handler);
+};
 export const SubscribeCarrierDocument = gql`
-  subscription SubscribeCarrier($id: Int!) {
-    carrier_by_pk(id: $id) {
-      id
-      status
-      customer
-      created_at
-      updated_at
-    }
+    subscription SubscribeCarrier($id: Int!) {
+  carrier_by_pk(id: $id) {
+    id
+    status
+    customer
+    created_at
+    updated_at
   }
-`;
-
-export function useSubscribeCarrierSubscription<TData = SubscribeCarrierSubscription>(
-  options: Omit<Urql.UseSubscriptionArgs<SubscribeCarrierSubscriptionVariables>, 'query'> = {},
-  handler?: Urql.SubscriptionHandler<SubscribeCarrierSubscription, TData>,
-) {
-  return Urql.useSubscription<SubscribeCarrierSubscription, TData, SubscribeCarrierSubscriptionVariables>(
-    { query: SubscribeCarrierDocument, ...options },
-    handler,
-  );
 }
+    `;
+
+export function useSubscribeCarrierSubscription<TData = SubscribeCarrierSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeCarrierSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeCarrierSubscription, TData>) {
+  return Urql.useSubscription<SubscribeCarrierSubscription, TData, SubscribeCarrierSubscriptionVariables>({ query: SubscribeCarrierDocument, ...options }, handler);
+};
 export const SubscribeIncidentsDocument = gql`
-  subscription SubscribeIncidents {
-    incident {
-      id
-      carrier_id
-      assumption
-      status
-      created_at
-      updated_at
-    }
+    subscription SubscribeIncidents {
+  incident {
+    id
+    carrier_id
+    assumption
+    status
+    created_at
+    updated_at
   }
-`;
-
-export function useSubscribeIncidentsSubscription<TData = SubscribeIncidentsSubscription>(
-  options: Omit<Urql.UseSubscriptionArgs<SubscribeIncidentsSubscriptionVariables>, 'query'> = {},
-  handler?: Urql.SubscriptionHandler<SubscribeIncidentsSubscription, TData>,
-) {
-  return Urql.useSubscription<SubscribeIncidentsSubscription, TData, SubscribeIncidentsSubscriptionVariables>(
-    { query: SubscribeIncidentsDocument, ...options },
-    handler,
-  );
 }
+    `;
+
+export function useSubscribeIncidentsSubscription<TData = SubscribeIncidentsSubscription>(options: Omit<Urql.UseSubscriptionArgs<SubscribeIncidentsSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<SubscribeIncidentsSubscription, TData>) {
+  return Urql.useSubscription<SubscribeIncidentsSubscription, TData, SubscribeIncidentsSubscriptionVariables>({ query: SubscribeIncidentsDocument, ...options }, handler);
+};
 export const UpdateCarrierDocument = gql`
-  mutation UpdateCarrier($id: Int!, $status: String!) {
-    update_carrier(where: { id: { _eq: $id } }, _set: { status: $status }) {
-      affected_rows
-    }
+    mutation UpdateCarrier($id: Int!, $status: String!) {
+  update_carrier(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
   }
-`;
+}
+    `;
 
 export function useUpdateCarrierMutation() {
   return Urql.useMutation<UpdateCarrierMutation, UpdateCarrierMutationVariables>(UpdateCarrierDocument);
-}
+};
 export const UpdateIncidentDocument = gql`
-  mutation UpdateIncident($id: Int!, $status: String!) {
-    update_incident(where: { id: { _eq: $id } }, _set: { status: $status }) {
-      affected_rows
-    }
+    mutation UpdateIncident($id: Int!, $status: String!) {
+  update_incident(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
   }
-`;
+}
+    `;
 
 export function useUpdateIncidentMutation() {
   return Urql.useMutation<UpdateIncidentMutation, UpdateIncidentMutationVariables>(UpdateIncidentDocument);
-}
+};
 export const CreateOrderDocument = gql`
-  mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
-    insert_order_one(object: { incidents: { data: $incidents }, status: "error_detected" }) {
-      id
-    }
+    mutation CreateOrder($incidents: [order_incidents_insert_input!]!) {
+  insert_order_one(
+    object: {incidents: {data: $incidents}, status: "error_detected"}
+  ) {
+    id
   }
-`;
+}
+    `;
 
 export function useCreateOrderMutation() {
   return Urql.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument);
-}
+};
 export const CreateProtocolDocument = gql`
-  mutation CreateProtocol($order: Int!, $body: String!, $user: String!) {
-    insert_protocol_one(object: { order_id: $order, body: $body, user: $user }) {
-      id
-    }
+    mutation CreateProtocol($order: Int!, $body: String!, $user: String!) {
+  insert_protocol_one(object: {order_id: $order, body: $body, user: $user}) {
+    id
   }
-`;
+}
+    `;
 
 export function useCreateProtocolMutation() {
   return Urql.useMutation<CreateProtocolMutation, CreateProtocolMutationVariables>(CreateProtocolDocument);
-}
+};
 export const UpdateOrderDocument = gql`
-  mutation UpdateOrder($id: Int!, $status: String!) {
-    update_order(where: { id: { _eq: $id } }, _set: { status: $status }) {
-      affected_rows
-    }
+    mutation UpdateOrder($id: Int!, $status: String!) {
+  update_order(where: {id: {_eq: $id}}, _set: {status: $status}) {
+    affected_rows
   }
-`;
+}
+    `;
 
 export function useUpdateOrderMutation() {
   return Urql.useMutation<UpdateOrderMutation, UpdateOrderMutationVariables>(UpdateOrderDocument);
-}
+};

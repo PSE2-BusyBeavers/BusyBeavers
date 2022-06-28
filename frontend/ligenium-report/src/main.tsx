@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 import { Provider, loadClient } from './api/index';
 import { AuthProvider, useAuthUser } from './hooks/Auth';
 import Router from '@src/router/Router';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import 'virtual:windi.css';
 
 const client = loadClient();
@@ -38,9 +38,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider value={client}>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Content />
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </Provider>
   </React.StrictMode>,

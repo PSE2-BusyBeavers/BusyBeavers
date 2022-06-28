@@ -1,4 +1,3 @@
-
 //! ATTENTION TO THE CORRECT ORDER
 const mapping = {
   error_detected: "Möglichen Fehler prüfen",
@@ -12,7 +11,6 @@ const orderStatuses = Object.keys(mapping);
 
 type Status = keyof typeof mapping;
 
-export default (status: string) =>
-  Object.keys(mapping).includes(status) ? mapping[status as Status] : status;
+export default (status: string) => (Object.keys(mapping).includes(status) ? mapping[status as Status] : status);
 
-export { orderStatuses }
+export { orderStatuses };

@@ -11,7 +11,7 @@ const CarrierContent = () => {
   const [isLoading, incidents] = useIncidents();
   const navigate = useNavigate();
 
-  const activeIncidents = incidents.filter((incident) => incident.status === 'open');
+  const activeIncidents = incidents.filter((incident) => incident.status === 'error_detected');
   const tabs = ['Übersicht', 'Heatmap'];
 
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
@@ -36,7 +36,7 @@ const CarrierContent = () => {
       },
       {
         field: 'assumption',
-        headerName: 'Fehler',
+        headerName: 'Fehlervermutung',
         flex: 0.5,
       },
     ],

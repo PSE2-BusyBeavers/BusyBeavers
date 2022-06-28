@@ -1,0 +1,37 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: npm install
+        run: npm install
+        working-directory: frontend/ligenium-report
+
+      - name: Build app
+        run: npm run build
+        working-directory: frontend/ligenium-report
+
+      - run: ls -la frontend/ligenium-report
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
+        with:
+          branch: gh-pages
+          folder: frontend/ligenium-report/dist
