@@ -7,7 +7,7 @@ const Sensor = () => {
   const [recording, setRecording] = useState(false);
   const [carrierId, setCarrierId] = useState(8);
 
-  const [{ xAcceleration, yAcceleration }, setMotion] = useState({
+  const [{ xAcceleration, yAcceleration, zAcceleration }, setMotion] = useState({
     xAcceleration: 0,
     yAcceleration: 0,
     zAcceleration: 0,
@@ -79,7 +79,7 @@ const Sensor = () => {
         <>
           <span>We are tracking your acceleration for carrier "{carrierId}" data now!</span>
           <p>
-            {xAcceleration}:{yAcceleration}
+            {xAcceleration}:{yAcceleration}:{zAcceleration}
           </p>
           <button
             onClick={() => {

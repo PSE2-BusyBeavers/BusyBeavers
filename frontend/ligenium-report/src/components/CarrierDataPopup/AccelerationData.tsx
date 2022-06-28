@@ -98,7 +98,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
     legend: {
       show: false,
     },
-    colors: ['#FAA916', '#4BB3FD'],
+    colors: ['#FAA916', '#4BB3FD', '#AABBCC'],
     fill: {
       type: 'gradient',
       gradient: {
