@@ -55,7 +55,12 @@ const Order = () => {
   });
   const [, _updateOrder] = useUpdateOrderMutation();
   const [, _createNotification] = useCreateNotificationMutation();
+  const [newProtocolValue, setNewProtocolValue] = useState('');
+
+  const [_, _createProtocol] = useCreateProtocolMutation();
+  const [showCarrierDataOfId, setShowCarrierDataOfId] = useState<number | null>(null);
   const order = orderRes.data?.order_by_pk;
+  const [, readNotification] = useReadNotificationsMutation();
 
   async function createNotification() {
     if (!order) {
@@ -89,8 +94,6 @@ const Order = () => {
     });
   }
 
-  const [showCarrierDataOfId, setShowCarrierDataOfId] = useState<number | null>(null);
-
   const incidentColumns: GridColumns = useMemo(
     () => [
       {
@@ -122,10 +125,6 @@ const Order = () => {
     [],
   );
 
-  const [newProtocolValue, setNewProtocolValue] = useState('');
-
-  const [_, _createProtocol] = useCreateProtocolMutation();
-
   async function createProtocol() {
     if (!order) {
       throw new Error('Order not found');
@@ -142,8 +141,6 @@ const Order = () => {
     setNewProtocolValue('');
   }
 
-  const [, readNotification] = useReadNotificationsMutation();
-
   useEffect(() => {
     if (!order || !user) {
       return;
@@ -153,7 +150,7 @@ const Order = () => {
       order: order?.id,
       user: user?.id,
     });
-  });
+  }, []);
 
   return (
     <Container sx={{ pt: 2, maxHeight: '100%' }}>
