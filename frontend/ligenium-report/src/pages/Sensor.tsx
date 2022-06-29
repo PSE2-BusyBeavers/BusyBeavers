@@ -52,7 +52,7 @@ const Sensor = () => {
           carrier_id: carrierId,
           assumption: 'Rolle defekt',
         }),
-      2000,
+      20000,
     );
   };
 
@@ -90,7 +90,7 @@ const Sensor = () => {
     ];
 
     setMotionList(newList);
-  }, 20000 * 0.25);
+  }, 1000 * 0.25);
 
   const handleMotionEvent = (event: DeviceMotionEvent) => {
     if (!recording || !carrierId) {
