@@ -192,6 +192,7 @@ const Order = () => {
               <DataRow label="Auftragsnummer:" value={order.id.toString()} />
               <DataRow label="Erstellungsdatum:" value={dayjs(order.created_at).format('DD.MM.YYYY HH:mm')} />
               <DataRow label="Letzte Änderung:" value={dayjs(order.updated_at).format('DD.MM.YYYY HH:mm')} />
+              <DataRow label="Zugewiesen an:" value={order.assignee!} />
             </div>
             <div className="ml-auto flex gap-2">
               {order.status === 'error_detected' && user?.role === 'service' && (
