@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   useCreateCarrierDataEntryMutation,
@@ -8,32 +8,27 @@ import {
 import { round, throttle } from 'lodash';
 import { Button, TextField } from '@mui/material';
 
-let firstMotion = true;
-
 const Sensor = () => {
   const [recording, setRecording] = useState(false);
-  const [carrierId, setCarrierId] = useState(0);
+  const [carrierId, setCarrierId] = useState(() => 0);
 
   const [motion, setMotion] = useState<{ xAcceleration: number; yAcceleration: number; zAcceleration: number }>({
     xAcceleration: 0,
     yAcceleration: 0,
     zAcceleration: 0,
   });
-  // const [firstMotion, setFirstMotion] = useState(true);
+  const firstMotion = useRef(true);
 
   const [, createCarrierDataEntry] = useCreateCarrierDataEntryMutation();
   const [, createCarrier] = useCreateCarrierMutation();
   const [, createIncident] = useCreateIncidentMutation();
 
   const stopRecording = () => {
-    window.removeEventListener('devicemotion', handleMotionEvent);
     setRecording(false);
-    // setFirstMotion(true);
-    firstMotion = true;
+    firstMotion.current = true;
   };
 
   const startRecording = () => {
-    window.addEventListener('devicemotion', handleMotionEvent);
     setRecording(true);
   };
 
@@ -52,11 +47,29 @@ const Sensor = () => {
     }, 20 * 1000);
   };
 
-  const uploadData = throttle((_xAcceleration: number, _yAcceleration: number, _zAcceleration: number) => {
-    // if (firstMotion) {
-    //   firstMotion = false;
-    //   return;
-    // }
+  const updateAcc = (_xAcceleration: number, _yAcceleration: number, _zAcceleration: number) => {
+    if (firstMotion.current) {
+      firstMotion.current = false;
+      createCarrierDataEntry({
+        carrierId,
+        type: 'acceleration',
+        dataset: 'x',
+        value: `0`,
+      });
+      createCarrierDataEntry({
+        carrierId,
+        type: 'acceleration',
+        dataset: 'y',
+        value: `0`,
+      });
+      createCarrierDataEntry({
+        carrierId,
+        type: 'acceleration',
+        dataset: 'z',
+        value: `0`,
+      });
+      return;
+    }
 
     createCarrierDataEntry({
       carrierId,
@@ -82,7 +95,8 @@ const Sensor = () => {
       yAcceleration: round(_yAcceleration, 4),
       zAcceleration: round(_zAcceleration, 4),
     });
-  }, 1000 * 0.25);
+  };
+  const uploadData = throttle(updateAcc, 1000 * 0.25);
 
   const handleMotionEvent = (event: DeviceMotionEvent) => {
     if (!recording) {
@@ -110,6 +124,8 @@ const Sensor = () => {
   };
 
   useEffect(() => {
+    if (recording) window.addEventListener('devicemotion', handleMotionEvent);
+    else window.removeEventListener('devicemotion', handleMotionEvent);
     return () => window.removeEventListener('devicemotion', handleMotionEvent);
   }, [recording]);
 
@@ -121,7 +137,6 @@ const Sensor = () => {
           <p>{motion.xAcceleration}</p>
           <p>{motion.yAcceleration}</p>
           <p>{motion.zAcceleration}</p>
-          <p>{firstMotion ? 'true' : 'false'}</p>
           <Button onClick={stopRecording}>stop recording</Button>
         </>
       ) : (
