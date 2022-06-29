@@ -101,9 +101,16 @@ const Sensor = () => {
     const _yAcceleration = event?.acceleration?.y || event?.accelerationIncludingGravity?.y;
     const _zAcceleration = event?.acceleration?.z || event?.accelerationIncludingGravity?.z;
 
-    if (!_xAcceleration || !_yAcceleration || !_zAcceleration) {
-      /* alert('No motion detected. Maybe your browser is blocking the sensor or you do not have such a sensor.');
-      setRecording(false);*/
+    if (
+      _xAcceleration === null ||
+      _xAcceleration === undefined ||
+      _yAcceleration === null ||
+      _yAcceleration === undefined ||
+      _zAcceleration === null ||
+      _zAcceleration === undefined
+    ) {
+      alert('No motion detected. Maybe your browser is blocking the sensor or you do not have such a sensor.');
+      setRecording(false);
       return;
     }
     uploadData(_xAcceleration, _yAcceleration, _zAcceleration);
