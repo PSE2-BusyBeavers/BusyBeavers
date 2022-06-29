@@ -1,6 +1,7 @@
 import useCarrierDatas from '@src/hooks/useCarrierDatas';
 import { ApexOptions } from 'apexcharts';
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
 
 const AccelerationData = ({ carrierId }: { carrierId: number }) => {
@@ -14,107 +15,119 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
       name: 'X Beschleunigung',
       data: x
         .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
-        .concat({ y: 0, x: dayjs().valueOf() }),
+        .concat({ x: dayjs().valueOf(), y: 0 }),
     },
     {
       name: 'Y Beschleunigung',
       data: y
         .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
-        .concat({ y: 0, x: dayjs().valueOf() }),
+        .concat({ x: dayjs().valueOf(), y: 0 }),
     },
   ];
 
-  const options: ApexOptions = {
-    chart: {
-      id: 'chart2',
-      type: 'line',
-      height: 230,
-      toolbar: {
-        autoSelected: 'pan',
-        show: false,
-      },
-      animations: {
-        enabled: true,
-        easing: 'linear',
-        dynamicAnimation: {
-          speed: 1000,
+  const options = useMemo<ApexOptions>(
+    () => ({
+      chart: {
+        id: 'chart2',
+        type: 'line',
+        height: 230,
+        toolbar: {
+          autoSelected: 'pan',
+          show: false,
+        },
+        animations: {
+          enabled: true,
+          easing: 'linear',
+          dynamicAnimation: {
+            speed: 1000,
+          },
         },
       },
-    },
-    colors: ['#FAA916', '#4BB3FD'],
-    stroke: {
-      width: 3,
-      curve: 'smooth',
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    fill: {
-      opacity: 1,
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      type: 'datetime',
-      labels: {
-        datetimeUTC: false,
+      colors: ['#FAA916', '#4BB3FD'],
+      stroke: {
+        width: 3,
+        curve: 'smooth',
       },
-    },
-    yaxis: {
-      labels: {
-        formatter: (val) => val.toFixed(0),
-      },
-      title: {
-        text: 'Beschleunigung in m/s²',
-      },
-    },
-  };
-
-  const optionsLine: ApexOptions = {
-    chart: {
-      id: 'chart1',
-      height: 130,
-      type: 'area',
-      brush: {
-        target: 'chart2',
-        enabled: true,
-      },
-      selection: {
-        enabled: true,
-        xaxis: {
-          min: dayjs().subtract(30, 'minute').valueOf(),
-          max: dayjs().valueOf(),
-        },
-      },
-    },
-    legend: {
-      show: false,
-    },
-    colors: ['#FAA916', '#4BB3FD'],
-    fill: {
-      type: 'gradient',
-      gradient: {
-        opacityFrom: 0.91,
-        opacityTo: 0.1,
-      },
-    },
-    xaxis: {
-      type: 'datetime',
-      tooltip: {
+      dataLabels: {
         enabled: false,
       },
-      labels: {
-        datetimeUTC: false,
+      fill: {
+        opacity: 1,
       },
-    },
-    yaxis: {
-      tickAmount: 2,
-      labels: {
-        formatter: (val) => val.toFixed(0),
+      markers: {
+        size: 0,
       },
-    },
-  };
+      xaxis: {
+        type: 'datetime',
+        labels: {
+          datetimeUTC: false,
+        },
+      },
+      yaxis: {
+        labels: {
+          formatter: (val) => val.toFixed(0),
+        },
+        title: {
+          text: 'Beschleunigung in m/s²',
+        },
+      },
+    }),
+    [],
+  );
+
+  const optionsLine = useMemo<ApexOptions>(
+    () => ({
+      chart: {
+        id: 'chart1',
+        height: 130,
+        type: 'area',
+        brush: {
+          target: 'chart2',
+          enabled: true,
+        },
+        selection: {
+          enabled: true,
+          xaxis: {
+            min: dayjs().subtract(3, 'minute').valueOf(),
+            max: dayjs().valueOf(),
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#FAA916', '#4BB3FD'],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          opacityFrom: 0.91,
+          opacityTo: 0.1,
+        },
+      },
+      xaxis: {
+        type: 'datetime',
+        // tickAmount: 100,
+        min: dayjs()
+          .subtract(60 * 4, 'minute')
+          .valueOf(),
+        max: new Date().getTime(),
+        tickAmount: 6,
+        tooltip: {
+          enabled: false,
+        },
+        labels: {
+          datetimeUTC: false,
+        },
+      },
+      yaxis: {
+        tickAmount: 2,
+        labels: {
+          formatter: (val) => val.toFixed(0),
+        },
+      },
+    }),
+    [],
+  );
 
   return (
     <div id="wrapper">
