@@ -28,7 +28,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
       name: 'Z Beschleunigung',
       data: z
         .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
-        .concat({ y: 0, x: dayjs().valueOf() }),
+        .concat({ x: dayjs().valueOf(), y: 0 }),
     },
   ];
 
@@ -50,7 +50,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
           },
         },
       },
-      colors: ['#FAA916', '#4BB3FD'],
+      colors: ['#FAA916', '#4BB3FD', '#AABBCC'],
       stroke: {
         width: 3,
         curve: 'smooth',
@@ -95,7 +95,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
         selection: {
           enabled: true,
           xaxis: {
-            min: dayjs().subtract(3, 'minute').valueOf(),
+            min: dayjs().subtract(1, 'minute').valueOf(),
             max: dayjs().valueOf(),
           },
         },
@@ -103,7 +103,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
       legend: {
         show: false,
       },
-      colors: ['#FAA916', '#4BB3FD'],
+      colors: ['#FAA916', '#4BB3FD', '#AABBCC'],
       fill: {
         type: 'gradient',
         gradient: {
@@ -113,12 +113,8 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
       },
       xaxis: {
         type: 'datetime',
-        // tickAmount: 100,
-        min: dayjs()
-          .subtract(60 * 4, 'minute')
-          .valueOf(),
-        max: new Date().getTime(),
-        tickAmount: 6,
+        min: dayjs().subtract(10, 'minute').valueOf(),
+        max: dayjs().valueOf(),
         tooltip: {
           enabled: false,
         },
@@ -133,7 +129,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
         },
       },
     }),
-    [],
+    [rawData],
   );
 
   return (
