@@ -9,6 +9,7 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
 
   const x = rawData.filter((i) => i.dataset === 'x');
   const y = rawData.filter((i) => i.dataset === 'y');
+  const z = rawData.filter((i) => i.dataset === 'z');
 
   const series: ApexAxisChartSeries = [
     {
@@ -22,6 +23,12 @@ const AccelerationData = ({ carrierId }: { carrierId: number }) => {
       data: y
         .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
         .concat({ x: dayjs().valueOf(), y: 0 }),
+    },
+    {
+      name: 'Z Beschleunigung',
+      data: z
+        .map(({ value, created_at }) => ({ y: parseFloat(value), x: dayjs(created_at).valueOf() }))
+        .concat({ y: 0, x: dayjs().valueOf() }),
     },
   ];
 

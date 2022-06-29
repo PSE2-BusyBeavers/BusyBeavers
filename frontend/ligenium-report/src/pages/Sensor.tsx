@@ -1,20 +1,62 @@
 import { useEffect, useState } from 'react';
 
-import { useCreateCarrierDataEntryMutation } from '@src/api/client';
-import { throttle } from 'lodash';
+import {
+  useCreateCarrierDataEntryMutation,
+  useCreateCarrierMutation,
+  useCreateIncidentMutation,
+} from '@src/api/client';
+import { round, throttle } from 'lodash';
+import { Button, TextField } from '@mui/material';
 
 const Sensor = () => {
   const [recording, setRecording] = useState(false);
   const [carrierId, setCarrierId] = useState(8);
 
-  const [{ xAcceleration, yAcceleration }, setMotion] = useState({
-    xAcceleration: 0,
-    yAcceleration: 0,
-  });
+  const [motionList, setMotionList] = useState<
+    { xAcceleration: number; yAcceleration: number; zAcceleration: number }[]
+  >([]);
 
-  const [_, createCarrierDataEntry] = useCreateCarrierDataEntryMutation();
+  let xAcceleration,
+    yAcceleration,
+    zAcceleration = 0;
+  if (motionList.length > 0) {
+    xAcceleration = motionList[motionList.length - 1].xAcceleration;
+    yAcceleration = motionList[motionList.length - 1].yAcceleration;
+    zAcceleration = motionList[motionList.length - 1].zAcceleration;
+  }
+  const [, createCarrierDataEntry] = useCreateCarrierDataEntryMutation();
+  const [, createCarrier] = useCreateCarrierMutation();
+  const [, createIncident] = useCreateIncidentMutation();
 
-  const uploadData = throttle(async (_xAcceleration: number, _yAcceleration: number) => {
+  const stopRecording = () => {
+    setMotionList([]);
+    setRecording(false);
+  };
+
+  const handleStartMotion = () => {
+    if (!carrierId) return;
+    setRecording(true);
+
+    createCarrier({
+      carrier_id: carrierId,
+      customer: 'Porsche',
+      status: 'active',
+    });
+  };
+
+  const incidentSpec = () => {
+    handleStartMotion();
+    setTimeout(
+      () =>
+        createIncident({
+          carrier_id: carrierId,
+          assumption: 'Rolle defekt',
+        }),
+      20000,
+    );
+  };
+
+  const uploadData = throttle(async (_xAcceleration: number, _yAcceleration: number, _zAcceleration: number) => {
     if (!carrierId) {
       return;
     }
@@ -31,11 +73,23 @@ const Sensor = () => {
       dataset: 'y',
       value: `${_yAcceleration}`,
     });
-
-    setMotion({
-      xAcceleration: _xAcceleration,
-      yAcceleration: _yAcceleration,
+    await createCarrierDataEntry({
+      carrierId,
+      type: 'acceleration',
+      dataset: 'z',
+      value: `${_zAcceleration}`,
     });
+
+    const newList = [
+      ...motionList,
+      {
+        xAcceleration: round(_xAcceleration, 2),
+        yAcceleration: round(_yAcceleration, 2),
+        zAcceleration: round(_zAcceleration, 2),
+      },
+    ];
+
+    setMotionList(newList);
   }, 1000 * 0.25);
 
   const handleMotionEvent = (event: DeviceMotionEvent) => {
@@ -45,14 +99,21 @@ const Sensor = () => {
 
     const _xAcceleration = event?.acceleration?.x || event?.accelerationIncludingGravity?.x;
     const _yAcceleration = event?.acceleration?.y || event?.accelerationIncludingGravity?.y;
+    const _zAcceleration = event?.acceleration?.z || event?.accelerationIncludingGravity?.z;
 
-    if (!_xAcceleration || !_yAcceleration) {
+    if (
+      _xAcceleration === null ||
+      _xAcceleration === undefined ||
+      _yAcceleration === null ||
+      _yAcceleration === undefined ||
+      _zAcceleration === null ||
+      _zAcceleration === undefined
+    ) {
       alert('No motion detected. Maybe your browser is blocking the sensor or you do not have such a sensor.');
       setRecording(false);
       return;
     }
-
-    uploadData(_xAcceleration, _yAcceleration);
+    uploadData(_xAcceleration, _yAcceleration, _zAcceleration);
   };
 
   useEffect(() => {
@@ -70,28 +131,26 @@ const Sensor = () => {
       {recording ? (
         <>
           <span>We are tracking your acceleration for carrier "{carrierId}" data now!</span>
-          <p>
-            {xAcceleration}:{yAcceleration}
-          </p>
-          <button
-            onClick={() => {
-              // setCarrierId(0);
-              setRecording(false);
-            }}
-          >
-            stop recording
-          </button>
+          <p>{xAcceleration}</p>
+          <p>{yAcceleration}</p>
+          <p>{zAcceleration}</p>
+          <Button onClick={stopRecording}>stop recording</Button>
         </>
       ) : (
         <>
-          <button onClick={() => carrierId && setRecording(true)}>start recording</button>
-          <span>CarrierID</span>
-          <input
-            type="text"
+          <Button onClick={handleStartMotion} sx={{ p: 3, m: 3 }}>
+            start recording
+          </Button>
+          <TextField
+            label="Carrier ID"
+            type="number"
             placeholder="Carrier Id"
             value={carrierId}
             onChange={(event) => setCarrierId(event.target.value ? parseInt(event.target.value) : 0)}
           />
+          <Button onClick={incidentSpec} sx={{ p: 3, m: 3 }}>
+            start recording I
+          </Button>
         </>
       )}
     </div>

@@ -6513,6 +6513,30 @@ export type CreateCarrierDataEntryMutationVariables = Exact<{
 
 export type CreateCarrierDataEntryMutation = { __typename?: 'mutation_root', insert_carrier_data_one?: { __typename?: 'carrier_data', id: number } | null };
 
+export type CreateIncidentMutationVariables = Exact<{
+  carrier_id: Scalars['Int'];
+  assumption: Scalars['String'];
+}>;
+
+
+export type CreateIncidentMutation = { __typename?: 'mutation_root', insert_incident_one?: { __typename?: 'incident', id: number, carrier_id: number, assumption: string } | null };
+
+export type IncidentExistsQueryVariables = Exact<{
+  carrier_id: Scalars['Int'];
+}>;
+
+
+export type IncidentExistsQuery = { __typename?: 'query_root', incident: Array<{ __typename?: 'incident', carrier_id: number }> };
+
+export type CreateCarrierMutationVariables = Exact<{
+  carrier_id: Scalars['Int'];
+  customer: Scalars['String'];
+  status: Scalars['String'];
+}>;
+
+
+export type CreateCarrierMutation = { __typename?: 'mutation_root', insert_carrier_one?: { __typename?: 'carrier', id: number } | null };
+
 
 export const SubscribeOrdersDocument = gql`
     subscription SubscribeOrders {
@@ -6721,4 +6745,44 @@ export const CreateCarrierDataEntryDocument = gql`
 
 export function useCreateCarrierDataEntryMutation() {
   return Urql.useMutation<CreateCarrierDataEntryMutation, CreateCarrierDataEntryMutationVariables>(CreateCarrierDataEntryDocument);
+};
+export const CreateIncidentDocument = gql`
+    mutation CreateIncident($carrier_id: Int!, $assumption: String!) {
+  insert_incident_one(
+    object: {carrier_id: $carrier_id, assumption: $assumption, status: "error_detected"}
+  ) {
+    id
+    carrier_id
+    assumption
+  }
+}
+    `;
+
+export function useCreateIncidentMutation() {
+  return Urql.useMutation<CreateIncidentMutation, CreateIncidentMutationVariables>(CreateIncidentDocument);
+};
+export const IncidentExistsDocument = gql`
+    query IncidentExists($carrier_id: Int!) {
+  incident(where: {carrier_id: {_eq: $carrier_id}, status: {_neq: "closed"}}) {
+    carrier_id
+  }
+}
+    `;
+
+export function useIncidentExistsQuery(options: Omit<Urql.UseQueryArgs<IncidentExistsQueryVariables>, 'query'>) {
+  return Urql.useQuery<IncidentExistsQuery>({ query: IncidentExistsDocument, ...options });
+};
+export const CreateCarrierDocument = gql`
+    mutation CreateCarrier($carrier_id: Int!, $customer: String!, $status: String!) {
+  insert_carrier_one(
+    object: {id: $carrier_id, customer: $customer, status: $status}
+    on_conflict: {constraint: carrier_pkey, update_columns: []}
+  ) {
+    id
+  }
+}
+    `;
+
+export function useCreateCarrierMutation() {
+  return Urql.useMutation<CreateCarrierMutation, CreateCarrierMutationVariables>(CreateCarrierDocument);
 };

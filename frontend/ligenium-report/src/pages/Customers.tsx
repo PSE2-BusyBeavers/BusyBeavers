@@ -10,14 +10,14 @@ const data = [
     name: 'Porsche',
     amountCarrier: 423,
     amountMaintenance: 5,
-    lastUpdate: new Date(2022, 5, 23),
+    lastUpdate: new Date(),
   },
   {
     id: 'Mercedes',
     name: 'Mercedes',
     amountCarrier: 953,
     amountMaintenance: 12,
-    lastUpdate: new Date(2022, 5, 23),
+    lastUpdate: new Date(),
   },
   {
     id: 'VW',
