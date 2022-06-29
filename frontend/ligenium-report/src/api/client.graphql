@@ -125,3 +125,23 @@ mutation CreateCarrierDataEntry($carrierId: Int!, $type: String!, $value: String
     id
   }
 }
+
+mutation CreateIncident($carrier_id: Int!, $assumption: String!) {
+  insert_incident_one(object: {carrier_id: $carrier_id, assumption: $assumption, status: "error_detected"}) {
+    id
+    carrier_id
+    assumption
+  }
+}
+
+query IncidentExists($carrier_id: Int!) {
+  incident(where: {carrier_id: {_eq: $carrier_id}, status: {_neq: "closed"}}) {
+      carrier_id
+  }
+}
+
+mutation CreateCarrier($carrier_id: Int!, $customer: String!, $status: String!) {
+  insert_carrier_one(object: {id: $carrier_id, customer: $customer, status: $status}, on_conflict: { constraint: carrier_pkey, update_columns: [] }) {
+      id
+  }
+}
