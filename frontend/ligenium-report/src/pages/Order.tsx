@@ -1,11 +1,9 @@
-import { ArrowBack, ChevronRight, Search, Send } from '@mui/icons-material';
+import { ArrowBack, Send, ManageAccounts, Insights } from '@mui/icons-material';
 import {
   Avatar,
   Box,
   Button,
   Container,
-  Dialog,
-  DialogContent,
   Divider,
   Grid,
   ListItem,
@@ -75,7 +73,6 @@ const Order = () => {
         order: order.id,
         user: _user.id,
       });
-      console.log(_user.name);
     }
   }
 
@@ -92,6 +89,15 @@ const Order = () => {
       body: `Neuer Auftragsstatus: ${getOrderStatusLabel(status)}`,
       user: 'system',
     });
+
+    if (status === 'error_confirmed') {
+      const carrier_ids = order.incidents.map((i) => i.incident.carrier.id);
+      await _createProtocol({
+        order: order.id,
+        body: `Bitte folgende Ladungsträger bereitstellen: ${carrier_ids.join(', ')}`,
+        user: 'system',
+      });
+    }
   }
 
   const incidentColumns: GridColumns = useMemo(
@@ -115,7 +121,7 @@ const Order = () => {
           <Tooltip title="Details">
             <GridActionsCellItem
               label="Details"
-              icon={<ChevronRight />}
+              icon={<Insights />}
               onClick={() => setShowCarrierDataOfId(params.row.carrier.id as number)}
             />
           </Tooltip>,
@@ -227,6 +233,7 @@ const Order = () => {
           </Grid>
           <Box sx={{ width: '100%', height: '300px' }} pt={2}>
             <DataGrid
+              className="bg-white"
               columns={incidentColumns}
               pageSize={10}
               rows={order.incidents.flatMap((i) => i.incident)}
@@ -235,31 +242,32 @@ const Order = () => {
             />
           </Box>
           <Divider />
-          <Box sx={{ width: '100%', mt: 2 }}>
+          <Box sx={{ width: '100%', mt: 2, mb: 4 }}>
             <Typography variant="h5">Protokoll</Typography>
             <Grid sx={{ overflowY: 'auto' }}>
               {order.protocols.map((p) => (
                 <div key={p.id}>
                   <Divider variant="inset" component="li" />
-                  {p.user === 'system' ? (
-                    <>
-                      <ListItem alignItems="flex-start">
-                        <ListItemText primary={'System'} secondary={p.body} />
-                      </ListItem>
-                    </>
-                  ) : (
-                    <>
-                      <ListItem alignItems="flex-start">
-                        <ListItemAvatar>
-                          <Avatar alt={p.user} src={p.user.includes('Knauber') ? users[0].avatar : users[1].avatar} />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={p.user}
-                          secondary={<span className="whitespace-pre-wrap">{p.body}</span>}
-                        />
-                      </ListItem>
-                    </>
-                  )}
+                  <ListItem alignItems="flex-start" className="border-1 border-gray-200 bg-white mb-2 rounded-md">
+                    <ListItemAvatar>
+                      {p.user === 'system' ? (
+                        <ManageAccounts color="action" sx={{ fontSize: 40 }} />
+                      ) : (
+                        <Avatar alt={p.user} src={p.user.includes('Knauber') ? users[0].avatar : users[1].avatar} />
+                      )}
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <>
+                          <div className="flex">
+                            <span>{p.user.charAt(0).toUpperCase() + p.user.slice(1)}</span>
+                            <span className="text-sm ml-auto">{dayjs(p.created_at).format('DD.MM.YYYY HH:mm')}</span>
+                          </div>
+                        </>
+                      }
+                      secondary={<span className="whitespace-pre-wrap">{p.body}</span>}
+                    />
+                  </ListItem>
                 </div>
               ))}
             </Grid>
@@ -267,15 +275,16 @@ const Order = () => {
               (order.status !== 'closed' && order.status !== 'aborted' && (
                 <Grid>
                   <TextField
-                    sx={{ width: '100%', mt: 4 }}
+                    sx={{ width: '100%', mt: 2 }}
                     label="Neuer Protokoll-Eintrag"
+                    className="bg-white"
                     multiline
                     rows={5}
                     value={newProtocolValue}
                     onChange={(event) => setNewProtocolValue(event.target.value)}
                   />
                   <Button
-                    sx={{ my: 2 }}
+                    sx={{ mt: 1 }}
                     variant="contained"
                     startIcon={<Send />}
                     onClick={() => {

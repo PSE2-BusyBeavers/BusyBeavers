@@ -127,10 +127,11 @@ const Orders = () => {
   );
 
   return (
-    <Container sx={{ height: '100%', pt: 2 }}>
+    <Container sx={{ height: '100%', p: 2 }}>
       <DataGrid
         columns={columns}
         rows={orders}
+        className="bg-white"
         pageSize={10}
         initialState={initialState}
         onRowClick={(row) => navigate(`${row.id}`)}

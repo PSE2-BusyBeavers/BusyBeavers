@@ -1,25 +1,44 @@
 import { Box, Button, CircularProgress, Container, Tooltip } from '@mui/material';
-import { DataGrid, GridActionsCellItem, GridColumns, GridRowParams, GridSelectionModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridColumns,
+  GridInitialState,
+  GridRowParams,
+  GridSelectionModel,
+} from '@mui/x-data-grid';
 import { useMemo, useState } from 'react';
-import ControlBar from '@src/components/Incidents/ControlBar';
-import { useCreateOrderMutation, useUpdateCarrierMutation, useUpdateIncidentMutation } from '@src/api/client';
+import { useCreateOrderMutation, useUpdateIncidentMutation } from '@src/api/client';
 import useIncidents from '@src/hooks/useIncidents';
 import { useNavigate } from 'react-router-dom';
 import CarrierDataPopup from '@src/components/CarrierDataPopup';
 import { Insights } from '@mui/icons-material';
+import formatTableDate from '@src/utils/formatTableDate';
 
 const CarrierContent = () => {
   const [isLoading, incidents] = useIncidents();
   const navigate = useNavigate();
 
   const activeIncidents = incidents.filter((incident) => incident.status === 'error_detected');
-  const tabs = ['Übersicht', 'Heatmap'];
 
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
 
   const [_, createOrder] = useCreateOrderMutation();
   const [, updateIncident] = useUpdateIncidentMutation();
-  const [, updateCarrier] = useUpdateCarrierMutation();
+
+  const initialState = useMemo<GridInitialState>(
+    () => ({
+      sorting: {
+        sortModel: [
+          {
+            field: 'created_at',
+            sort: 'desc',
+          },
+        ],
+      },
+    }),
+    [],
+  );
 
   const createIncident = async () => {
     const incidentIds = selectionModel as number[];
@@ -27,16 +46,12 @@ const CarrierContent = () => {
       incidents: incidentIds.map((i) => ({ incident_id: i })),
     });
 
-    incidents.forEach((incident) => {
-      updateCarrier({
-        id: incident.carrier.id,
-        status: 'locked',
-      });
-      updateIncident({
-        id: incident.id,
+    for await (const incident of incidentIds) {
+      await updateIncident({
+        id: incident,
         status: 'in_process',
       });
-    });
+    }
 
     navigate(`./../orders/${result.data?.insert_order_one?.id}`);
   };
@@ -48,17 +63,23 @@ const CarrierContent = () => {
       {
         field: 'id',
         headerName: 'Störfallnummer',
-        flex: 0.3,
+        flex: 0.2,
       },
       {
         field: 'carrier_id',
         headerName: 'Ladungsträgernummer',
-        flex: 0.3,
+        flex: 0.2,
+      },
+      {
+        field: 'created_at',
+        headerName: 'Erstellt am',
+        flex: 0.2,
+        valueGetter: formatTableDate,
       },
       {
         field: 'assumption',
         headerName: 'Fehlervermutung',
-        flex: 0.5,
+        flex: 0.4,
       },
       {
         field: 'actions',
@@ -79,7 +100,7 @@ const CarrierContent = () => {
   );
 
   return (
-    <Container sx={{ height: '100%', pt: 2 }}>
+    <Container sx={{ pt: 2 }}>
       {showCarrierDataOfId && (
         <CarrierDataPopup
           carrierId={showCarrierDataOfId}
@@ -87,7 +108,6 @@ const CarrierContent = () => {
         />
       )}
       <Box sx={{ width: '100%', height: '80%' }}>
-        <ControlBar value={0} onChange={() => navigate('heatmap')} tabs={tabs} />
         {isLoading ? (
           <Box
             sx={{
@@ -113,7 +133,8 @@ const CarrierContent = () => {
               columns={columns}
               rows={activeIncidents}
               checkboxSelection
-              className="w-full"
+              className="w-full bg-white"
+              initialState={initialState}
               onSelectionModelChange={(newSelectionModel) => {
                 setSelectionModel(newSelectionModel);
               }}

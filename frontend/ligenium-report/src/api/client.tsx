@@ -6540,7 +6540,7 @@ export const SubscribeOrderDocument = gql`
     id
     status
     assignee
-    protocols {
+    protocols(order_by: {created_at: desc}) {
       id
       user
       body
