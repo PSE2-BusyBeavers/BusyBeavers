@@ -115,8 +115,8 @@ const Sensor = () => {
       _zAcceleration === null ||
       _zAcceleration === undefined
     ) {
-      alert('No motion detected. Maybe your browser is blocking the sensor or you do not have such a sensor.');
-      setRecording(false);
+      //  alert('No motion detected. Maybe your browser is blocking the sensor or you do not have such a sensor.');
+      //  setRecording(false);
       return;
     }
 
