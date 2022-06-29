@@ -8,58 +8,55 @@ import {
 import { round, throttle } from 'lodash';
 import { Button, TextField } from '@mui/material';
 
+let firstMotion = true;
+
 const Sensor = () => {
   const [recording, setRecording] = useState(false);
-  const [carrierId, setCarrierId] = useState(8);
+  const [carrierId, setCarrierId] = useState(0);
 
-  const [motionList, setMotionList] = useState<
-    { xAcceleration: number; yAcceleration: number; zAcceleration: number }[]
-  >([]);
+  const [motion, setMotion] = useState<{ xAcceleration: number; yAcceleration: number; zAcceleration: number }>({
+    xAcceleration: 0,
+    yAcceleration: 0,
+    zAcceleration: 0,
+  });
+  // const [firstMotion, setFirstMotion] = useState(true);
 
-  let xAcceleration,
-    yAcceleration,
-    zAcceleration = 0;
-  if (motionList.length > 0) {
-    xAcceleration = motionList[motionList.length - 1].xAcceleration;
-    yAcceleration = motionList[motionList.length - 1].yAcceleration;
-    zAcceleration = motionList[motionList.length - 1].zAcceleration;
-  }
   const [, createCarrierDataEntry] = useCreateCarrierDataEntryMutation();
   const [, createCarrier] = useCreateCarrierMutation();
   const [, createIncident] = useCreateIncidentMutation();
 
   const stopRecording = () => {
-    setMotionList([]);
+    window.removeEventListener('devicemotion', handleMotionEvent);
     setRecording(false);
+    // setFirstMotion(true);
+    firstMotion = true;
   };
 
-  const handleStartMotion = () => {
-    if (!carrierId) return;
+  const startRecording = () => {
+    window.addEventListener('devicemotion', handleMotionEvent);
     setRecording(true);
-
-    createCarrier({
-      carrier_id: carrierId,
-      customer: 'Porsche',
-      status: 'active',
-    });
   };
 
-  const incidentSpec = () => {
-    handleStartMotion();
-    setTimeout(
-      () =>
-        createIncident({
-          carrier_id: carrierId,
-          assumption: 'Rolle defekt',
-        }),
-      20000,
-    );
+  const startRecordingWithAutoIncident = () => {
+    startRecording();
+    setTimeout(async () => {
+      await createCarrier({
+        carrier_id: carrierId,
+        customer: 'Porsche',
+        status: 'active',
+      });
+      await createIncident({
+        carrier_id: carrierId,
+        assumption: 'Rolle defekt',
+      });
+    }, 20 * 1000);
   };
 
-  const uploadData = throttle(async (_xAcceleration: number, _yAcceleration: number, _zAcceleration: number) => {
-    if (!carrierId) {
-      return;
-    }
+  const uploadData = throttle((_xAcceleration: number, _yAcceleration: number, _zAcceleration: number) => {
+    // if (firstMotion) {
+    //   firstMotion = false;
+    //   return;
+    // }
 
     createCarrierDataEntry({
       carrierId,
@@ -73,27 +70,22 @@ const Sensor = () => {
       dataset: 'y',
       value: `${_yAcceleration}`,
     });
-    await createCarrierDataEntry({
+    createCarrierDataEntry({
       carrierId,
       type: 'acceleration',
       dataset: 'z',
       value: `${_zAcceleration}`,
     });
 
-    const newList = [
-      ...motionList,
-      {
-        xAcceleration: round(_xAcceleration, 2),
-        yAcceleration: round(_yAcceleration, 2),
-        zAcceleration: round(_zAcceleration, 2),
-      },
-    ];
-
-    setMotionList(newList);
+    setMotion({
+      xAcceleration: round(_xAcceleration, 4),
+      yAcceleration: round(_yAcceleration, 4),
+      zAcceleration: round(_zAcceleration, 4),
+    });
   }, 1000 * 0.25);
 
   const handleMotionEvent = (event: DeviceMotionEvent) => {
-    if (!recording || !carrierId) {
+    if (!recording) {
       return;
     }
 
@@ -113,16 +105,11 @@ const Sensor = () => {
       setRecording(false);
       return;
     }
+
     uploadData(_xAcceleration, _yAcceleration, _zAcceleration);
   };
 
   useEffect(() => {
-    if (recording) {
-      window.addEventListener('devicemotion', handleMotionEvent);
-    } else {
-      window.removeEventListener('devicemotion', handleMotionEvent);
-    }
-
     return () => window.removeEventListener('devicemotion', handleMotionEvent);
   }, [recording]);
 
@@ -131,14 +118,15 @@ const Sensor = () => {
       {recording ? (
         <>
           <span>We are tracking your acceleration for carrier "{carrierId}" data now!</span>
-          <p>{xAcceleration}</p>
-          <p>{yAcceleration}</p>
-          <p>{zAcceleration}</p>
+          <p>{motion.xAcceleration}</p>
+          <p>{motion.yAcceleration}</p>
+          <p>{motion.zAcceleration}</p>
+          <p>{firstMotion ? 'true' : 'false'}</p>
           <Button onClick={stopRecording}>stop recording</Button>
         </>
       ) : (
         <>
-          <Button onClick={handleStartMotion} sx={{ p: 3, m: 3 }}>
+          <Button onClick={() => !!carrierId && startRecording()} sx={{ p: 3, m: 3 }}>
             start recording
           </Button>
           <TextField
@@ -146,10 +134,10 @@ const Sensor = () => {
             type="number"
             placeholder="Carrier Id"
             value={carrierId}
-            onChange={(event) => setCarrierId(event.target.value ? parseInt(event.target.value) : 0)}
+            onChange={(event) => setCarrierId(parseInt(event.target.value))}
           />
-          <Button onClick={incidentSpec} sx={{ p: 3, m: 3 }}>
-            start recording I
+          <Button onClick={() => !!carrierId && startRecordingWithAutoIncident()} sx={{ p: 3, m: 3 }}>
+            start recording +
           </Button>
         </>
       )}
